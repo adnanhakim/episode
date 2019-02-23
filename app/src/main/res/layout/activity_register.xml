@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeRegisterHeader"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/colorAccent">
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/relativeRegisterHeader"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tvLoginHeader"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/gravity"
+            android:gravity="center"
+            android:text="Click here to register"
+            android:textAllCaps="false"
+            android:textColor="@color/colorAccent"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tvRegisterHeader"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/gravity"
+            android:gravity="center"
+            android:text="Click here to login"
+            android:textAllCaps="false"
+            android:textColor="@color/colorAccent"
+            android:textSize="20dp" />
+
+        <RelativeLayout
+            android:id="@+id/relativeLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible">
+
+            <EditText
+                android:id="@+id/etLoginEmail"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/lane"
+                android:hint="Enter your email id"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/etLoginPassword"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etLoginEmail"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/lane"
+                android:hint="Enter your password"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etLoginPassword"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_style_1"
+                android:fontFamily="@font/gravitybook"
+                android:text="Login"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="invisible">
+
+            <EditText
+                android:id="@+id/etRegisterName"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lane"
+                android:hint="Enter your full name" />
+
+            <EditText
+                android:id="@+id/etRegisterEmail"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etRegisterName"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/lane"
+                android:hint="Enter your email id"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/etRegisterPassword"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etRegisterEmail"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/lane"
+                android:hint="Enter your password"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etRegisterPassword"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_style_1"
+                android:fontFamily="@font/gravitybook"
+                android:text="Register"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <com.google.android.gms.common.SignInButton
+            android:layout_centerHorizontal="true"
+            android:id="@+id/btnGoogleSignIn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

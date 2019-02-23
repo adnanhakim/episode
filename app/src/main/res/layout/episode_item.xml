@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_centerInParent="true">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="40dp">
+
+            <RelativeLayout
+                android:id="@+id/relativeEpisodeCard"
+                android:layout_width="match_parent"
+                android:layout_height="150dp">
+
+                <ImageView
+                    android:id="@+id/ivEpisodePhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/colorWhite"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/loading_screen"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvEpisodeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/tvEpisodeOverview"
+                android:layout_marginBottom="10dp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/gravitybook"
+                android:text="Episode Name"
+                android:textColor="@color/colorWhite"
+                android:textSize="18dp"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/tvEpisodeOverview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeEpisodeCard"
+                android:fontFamily="@font/lane"
+                android:text="Episode Overview"
+                android:textSize="15dp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

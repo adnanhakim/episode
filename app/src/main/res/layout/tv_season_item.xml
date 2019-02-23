@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <ImageView
+        android:background="@color/colorAccent"
+        android:id="@+id/ivSeasonPoster"
+        android:layout_width="80dp"
+        android:layout_height="120dp" />
+
+    <TextView
+        android:textColor="@color/colorBlack"
+        android:textSize="18dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/ivSeasonPoster"
+        android:fontFamily="@font/gravitybook"
+        android:text="Title"
+        android:id="@+id/tvSeasonTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:textSize="16dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/tvSeasonTitle"
+        android:layout_toRightOf="@id/ivSeasonPoster"
+        android:fontFamily="@font/lane"
+        android:text="Aired on: Date"
+        android:id="@+id/tvSeasonAired"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textSize="16dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/tvSeasonAired"
+        android:layout_toRightOf="@id/ivSeasonPoster"
+        android:fontFamily="@font/lane"
+        android:text="No of episodes: 13"
+        android:id="@+id/tvSeasonEpisodes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

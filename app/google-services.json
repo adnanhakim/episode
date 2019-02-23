@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1334923011",
+    "firebase_url": "https://episode-f826b.firebaseio.com",
+    "project_id": "episode-f826b",
+    "storage_bucket": "episode-f826b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1334923011:android:9718bf123f1cab1e",
+        "android_client_info": {
+          "package_name": "com.adnanhakim.episode"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1334923011-3jhu6ra85ksogs1nab3mkva0rn49h467.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdWntThotgu8EmOMTd-dAdc_DBErFgzSg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

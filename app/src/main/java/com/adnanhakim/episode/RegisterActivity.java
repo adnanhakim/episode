@@ -37,6 +37,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
@@ -210,6 +213,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void saveName(String name, String uid) {
+        List<Favourite> favourites = new ArrayList<>();
         User user = new User(name, 0);
         databaseReference.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -218,6 +222,16 @@ public class RegisterActivity extends AppCompatActivity {
                     Log.d(TAG, "onComplete: Database updated");
                 } else {
                     Log.d(TAG, "onComplete: Database not updated");
+                }
+            }
+        });
+        databaseReference.child("favouriteList").setValue(favourites).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()) {
+                    Log.d(TAG, "onComplete: Favourites added");
+                } else {
+                    Log.d(TAG, "onComplete: Favourites not added");
                 }
             }
         });

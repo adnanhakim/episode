@@ -1,6 +1,8 @@
 package com.adnanhakim.episode;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,7 +18,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     // Favourites list
-    public static List<TVSeries> favouritesList = new ArrayList<>();
+    public static List<Favourite> favouritesList = new ArrayList<>();
 
     // URL
     public static final String API_KEY = "7f1c5b6bcdc0417095c1df13c485f647";
@@ -76,5 +78,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    public static List<Favourite> getFavourites(String uid) {
+        favouritesList = new ArrayList<>();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(uid);
+        return favouritesList;
     }
 }

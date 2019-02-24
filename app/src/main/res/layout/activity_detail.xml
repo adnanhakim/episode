@@ -20,7 +20,7 @@
             android:background="@color/colorWhite"
             app:contentScrim="@color/colorWhite"
             app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleMarginStart="32dp"
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
             app:layout_scrollFlags="exitUntilCollapsed|scroll"
             app:title="@string/app_name">
@@ -40,6 +40,7 @@
 
             </androidx.appcompat.widget.Toolbar>
 
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -54,25 +55,38 @@
             android:id="@+id/relativeMain"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="15dp">
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp">
 
             <TextView
                 android:id="@+id/tvDetailsStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/keepcalm"
+                android:layout_marginTop="17dp"
+                android:textStyle="bold"
+                android:fontFamily="@font/gravitybook"
                 android:text="Status"
                 android:textColor="@color/colorBlack"
                 android:textSize="18dp" />
 
+            <ImageButton
+                android:id="@+id/ibDetailsFavourite"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:background="@null"
+                android:src="@drawable/ic_not_favorite" />
+
             <View
                 android:id="@+id/view1"
-                android:layout_below="@+id/tvDetailsStatus"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorGrey"
                 android:layout_width="match_parent"
-                android:layout_height="1dp" />
+                android:layout_height="1dp"
+                android:layout_below="@+id/ibDetailsFavourite"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/colorGrey" />
 
             <RelativeLayout
                 android:id="@+id/relativeDetails"
@@ -99,12 +113,12 @@
 
             <View
                 android:id="@+id/view2"
-                android:layout_below="@+id/relativeDetails"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="20dp"
-                android:background="@color/colorGrey"
                 android:layout_width="match_parent"
-                android:layout_height="1dp" />
+                android:layout_height="1dp"
+                android:layout_below="@+id/relativeDetails"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/colorGrey" />
 
             <TextView
                 android:id="@+id/tvDetailsSeason"

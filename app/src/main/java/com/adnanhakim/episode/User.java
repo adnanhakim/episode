@@ -1,12 +1,13 @@
 package com.adnanhakim.episode;
 
+import java.util.List;
+
 public class User {
 
-    String name;
-    int favourites;
+    private String name;
+    private int favourites;
 
     public User() {
-
     }
 
     public User(String name, int favourites) {
@@ -21,4 +22,5 @@ public class User {
     public int getFavourites() {
         return favourites;
     }
+
 }

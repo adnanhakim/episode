@@ -23,10 +23,11 @@
             android:layout_height="100dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="150dp"
-            android:background="@drawable/iv_profile_dp_design"
-            android:src="@drawable/layer_list_dp" />
+            android:background="@drawable/iv_profile"
+            android:src="@drawable/layer_list_1"/>
 
         <TextView
+            android:id="@+id/tvProfileName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="130dp"
@@ -37,6 +38,7 @@
             android:textSize="20dp" />
 
         <TextView
+            android:id="@+id/tvProfileFavourites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"

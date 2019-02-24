@@ -26,8 +26,8 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.ViewHolder
     public SeasonAdapter(List<Season> seasons, Context context) {
         this.seasons = seasons;
         this.context = context;
-        requestOptions = new RequestOptions().centerCrop()
-                .placeholder(R.drawable.loading_screen).error(R.drawable.loading_screen);
+        requestOptions = new RequestOptions().centerCrop();
+                //.placeholder(R.drawable.loading).error(R.drawable.loading);
     }
 
     @NonNull

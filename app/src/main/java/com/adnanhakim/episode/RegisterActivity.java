@@ -65,9 +65,10 @@ public class RegisterActivity extends AppCompatActivity {
         firebaseUser = firebaseAuth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        if (firebaseUser == null) {
+        if (firebaseUser != null) {
             // directly go to main page
             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+            finish();
         }
 
         tvLoginHeader.setOnClickListener(new View.OnClickListener() {
@@ -209,7 +210,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void saveName(String name, String uid) {
-        databaseReference.child("users").child(uid).child("name").setValue(name).addOnCompleteListener(new OnCompleteListener<Void>() {
+        User user = new User(name, 0);
+        databaseReference.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()) {

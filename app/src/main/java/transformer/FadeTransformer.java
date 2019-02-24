@@ -10,6 +10,6 @@ public class FadeTransformer implements ViewPager.PageTransformer {
     public void transformPage(@NonNull View page, float position) {
         final float normalizedposition = Math.abs(Math.abs(position) - 1);
         page.setAlpha(normalizedposition);
-        
+
     }
 }

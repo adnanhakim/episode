@@ -98,7 +98,7 @@
                     android:id="@+id/ivDetailsPoster"
                     android:layout_width="100dp"
                     android:layout_height="150dp"
-                    android:background="@color/colorAccent" />
+                    android:background="@drawable/poster_design" />
 
                 <TextView
                     android:id="@+id/tvDetailsOverview"

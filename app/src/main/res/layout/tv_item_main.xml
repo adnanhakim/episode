@@ -14,7 +14,7 @@
         android:id="@+id/ivCardPoster"
         android:layout_width="100dp"
         android:layout_height="150dp"
-        android:background="@color/colorWhite"
+        android:background="@drawable/poster_design"
         grid:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="0dp" />
 

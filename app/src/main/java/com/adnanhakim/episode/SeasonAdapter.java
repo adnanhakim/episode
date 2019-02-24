@@ -2,6 +2,7 @@ package com.adnanhakim.episode;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,6 +81,11 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.ViewHolder
             tvTitle = itemView.findViewById(R.id.tvSeasonTitle);
             tvDate = itemView.findViewById(R.id.tvSeasonAired);
             tvEpisodes = itemView.findViewById(R.id.tvSeasonEpisodes);
+
+            //Poster Corners
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ivPoster.setClipToOutline(true);
+            }
         }
     }
 }

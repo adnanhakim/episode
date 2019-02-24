@@ -2,6 +2,7 @@ package com.adnanhakim.episode;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,6 +100,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             tvTitle = itemView.findViewById(R.id.tvCardTitle);
             tvOverview = itemView.findViewById(R.id.tvCardOverview);
             ivPoster = itemView.findViewById(R.id.ivCardPoster);
+
+            //Poster Corners
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ivPoster.setClipToOutline(true);
+            }
         }
     }
 }

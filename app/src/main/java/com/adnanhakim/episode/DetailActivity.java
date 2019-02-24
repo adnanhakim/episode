@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -157,6 +158,11 @@ public class DetailActivity extends AppCompatActivity {
         seasonRecycler = findViewById(R.id.seasonRecyclerView);
         relativeLayout = findViewById(R.id.relativeMain);
         relativeLayout.setVisibility(View.INVISIBLE);
+
+        //Poster Corners
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ivPoster.setClipToOutline(true);
+        }
 
         // Initialize typefaces
         keepcalm = ResourcesCompat.getFont(this, R.font.keepcalm_font);

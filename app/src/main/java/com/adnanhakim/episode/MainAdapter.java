@@ -50,9 +50,16 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean isFavourited;
+                if(MainActivity.favouritesId.contains(tv.getId())){
+                    isFavourited = true;
+                } else {
+                    isFavourited = false;
+                }
                 Intent intent = new Intent(context, DetailActivity.class);
                 intent.putExtra("ID", tv.getId());
                 intent.putExtra("TITLE", tv.getTitle());
+                intent.putExtra("BOOLEAN", isFavourited);
                 v.getContext().startActivity(intent);
             }
         });

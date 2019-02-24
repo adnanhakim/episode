@@ -66,6 +66,7 @@ public class DetailActivity extends AppCompatActivity {
 
     // Variables
     public static final String TAG = "DetailsActivity: ";
+    private boolean isFavourited;
     private int seriesId;
     private String seriesTitle;
     private List<Season> seasonList;
@@ -82,6 +83,7 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         seriesId = intent.getIntExtra("ID", 000000);
         seriesTitle = intent.getStringExtra("TITLE");
+        isFavourited = intent.getBooleanExtra("BOOLEAN", false);
         setUpCollapsingToolbar(seriesTitle);
         //nestedScrollView.scrollTo(0, 0);
         seasonRecycler.setFocusable(false);
@@ -89,13 +91,19 @@ public class DetailActivity extends AppCompatActivity {
         seasonList = new ArrayList<>();
         getDetails(seriesId);
 
+        if(isFavourited == true) {
+            ibFavourites.setImageResource(R.drawable.ic_favorite);
+        } else {
+            ibFavourites.setImageResource(R.drawable.ic_not_favorite);
+        }
+
         // For favourites
         ibFavourites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Favourite favourite = new Favourite(seriesId, seriesTitle, posterURL);
                 if (!MainActivity.favouritesList.contains(favourite)) {
-                    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                    final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                     DatabaseReference databaseReference =
                             FirebaseDatabase.getInstance().getReference(firebaseAuth.getUid()).child("favouriteList");
                     databaseReference.child("" + seriesId).setValue(favourite).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -104,6 +112,7 @@ public class DetailActivity extends AppCompatActivity {
                             if(task.isSuccessful()) {
                                 Log.d(TAG, "onComplete: " + favourite.getTitle() + " added to favourites");
                                 Toast.makeText(DetailActivity.this, favourite.getTitle() + " added to favourites", Toast.LENGTH_SHORT).show();
+                                MainActivity.getFavourites(firebaseAuth.getUid());
                                 ibFavourites.setImageResource(R.drawable.ic_favorite);
                             }
                         }
@@ -113,6 +122,8 @@ public class DetailActivity extends AppCompatActivity {
                             Log.e(TAG, "onFailure: Failed: " + e.getMessage());
                         }
                     });
+                } else {
+                    // Delete
                 }
             }
         });

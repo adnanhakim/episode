@@ -5,6 +5,9 @@ public class Favourite {
     private int id;
     private String title, imageURL;
 
+    public Favourite() {
+    }
+
     public Favourite(int id, String title, String imageURL) {
         this.id = id;
         this.title = title;

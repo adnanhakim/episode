@@ -29,10 +29,9 @@
                     android:id="@+id/ivEpisodePhoto"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:layout_centerHorizontal="true"
                     android:background="@color/colorWhite"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/loading_screen"/>
+                    android:src="@drawable/loading_screen" />
 
             </RelativeLayout>
 
@@ -43,7 +42,7 @@
                 android:layout_above="@id/tvEpisodeOverview"
                 android:layout_marginBottom="10dp"
                 android:layout_marginStart="10dp"
-                android:fontFamily="@font/gravitybook"
+                android:fontFamily="@font/keepcalm"
                 android:text="Episode Name"
                 android:textColor="@color/colorWhite"
                 android:textSize="18dp"/>
@@ -54,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/relativeEpisodeCard"
-                android:fontFamily="@font/lane"
+                android:fontFamily="@font/modernsans"
                 android:text="Episode Overview"
                 android:textSize="15dp" />
 

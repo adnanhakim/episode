@@ -48,7 +48,7 @@ public class DetailActivity extends AppCompatActivity {
     private RelativeLayout relativeLayout;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private NestedScrollView nestedScrollView;
-    private Typeface gravity;
+    private Typeface keepcalm;
     private TextView tvStatus, tvOverview;
     private ImageView ivPoster, ivBackdrop;
     private RecyclerView seasonRecycler;
@@ -92,7 +92,7 @@ public class DetailActivity extends AppCompatActivity {
         relativeLayout.setVisibility(View.INVISIBLE);
 
         // Initialize typefaces
-        gravity = ResourcesCompat.getFont(this, R.font.gravity_book);
+        keepcalm = ResourcesCompat.getFont(this, R.font.keepcalm_font);
 
         // Initialize Volley
         requestQueue = Volley.newRequestQueue(this);
@@ -100,8 +100,8 @@ public class DetailActivity extends AppCompatActivity {
 
     private void setUpCollapsingToolbar(String title) {
         collapsingToolbarLayout.setTitle(title);
-        collapsingToolbarLayout.setExpandedTitleTypeface(gravity);
-        collapsingToolbarLayout.setCollapsedTitleTypeface(gravity);
+        collapsingToolbarLayout.setExpandedTitleTypeface(keepcalm);
+        collapsingToolbarLayout.setCollapsedTitleTypeface(keepcalm);
         collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorWhite));
         collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorGold));
     }

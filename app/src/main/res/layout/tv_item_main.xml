@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/ivCardPoster"
         android:layout_marginLeft="10dp"
-        android:fontFamily="@font/gravitybook"
+        android:fontFamily="@font/keepcalm"
         android:text="Title"
         android:textColor="@color/colorBlack"
         android:textSize="18dp" />
@@ -39,7 +39,7 @@
         android:layout_below="@id/tvCardTitle"
         android:layout_marginLeft="10dp"
         android:ellipsize="end"
-        android:fontFamily="@font/lane"
+        android:fontFamily="@font/modernsans"
         android:maxLines="5"
         android:text="Overview"
         android:textSize="15dp" />

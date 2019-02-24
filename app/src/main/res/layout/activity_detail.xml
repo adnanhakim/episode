@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/ivDetailsPoster"
-                    android:fontFamily="@font/lane"
+                    android:fontFamily="@font/modernsans"
                     android:text="overview" />
 
             </RelativeLayout>

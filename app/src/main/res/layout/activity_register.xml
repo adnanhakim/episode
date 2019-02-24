@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:fontFamily="@font/gravity"
+            android:fontFamily="@font/keepcalm"
             android:gravity="center"
             android:text="Click here to register"
             android:textAllCaps="false"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:fontFamily="@font/gravity"
+            android:fontFamily="@font/keepcalm"
             android:gravity="center"
             android:text="Click here to login"
             android:textAllCaps="false"
@@ -59,7 +59,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/lane"
+                android:fontFamily="@font/modernsans"
                 android:hint="Enter your email id"
                 android:inputType="textEmailAddress" />
 
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/etLoginEmail"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/lane"
+                android:fontFamily="@font/modernsans"
                 android:hint="Enter your password"
                 android:inputType="textPassword" />
 
@@ -98,7 +98,7 @@
                 android:id="@+id/etRegisterName"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/lane"
+                android:fontFamily="@font/modernsans"
                 android:hint="Enter your full name" />
 
             <EditText
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/etRegisterName"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/lane"
+                android:fontFamily="@font/modernsans"
                 android:hint="Enter your email id"
                 android:inputType="textEmailAddress" />
 
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/etRegisterEmail"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/lane"
+                android:fontFamily="@font/modernsans"
                 android:hint="Enter your password"
                 android:inputType="textPassword" />
 

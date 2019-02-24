@@ -102,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
                     for(int i = 0; i<favouritesList.size(); i++) {
                         favouritesId.add(favouritesList.get(i).getId());
                     }
+                    for(int i = 0; i<favouritesList.size(); i++) {
+                        Log.d(TAG, "onDataChange: " + favouritesList.get(i).getTitle());
+                    }
                 } else {
                     Log.d(TAG, "onDataChange: Favourites do not exist");
                 }

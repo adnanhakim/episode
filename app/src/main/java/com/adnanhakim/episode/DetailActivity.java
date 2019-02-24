@@ -91,7 +91,7 @@ public class DetailActivity extends AppCompatActivity {
         seasonList = new ArrayList<>();
         getDetails(seriesId);
 
-        if(isFavourited == true) {
+        if (isFavourited == true) {
             ibFavourites.setImageResource(R.drawable.ic_favorite);
         } else {
             ibFavourites.setImageResource(R.drawable.ic_not_favorite);
@@ -102,20 +102,21 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final Favourite favourite = new Favourite(seriesId, seriesTitle, posterURL);
-                if (!MainActivity.favouritesList.contains(favourite)) {
-                    final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                    DatabaseReference databaseReference =
-                            FirebaseDatabase.getInstance().getReference(firebaseAuth.getUid());
-                    DatabaseReference favReference = databaseReference.child("favouriteList");
+                final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                DatabaseReference databaseReference =
+                        FirebaseDatabase.getInstance().getReference(firebaseAuth.getUid());
+                DatabaseReference favReference = databaseReference.child("favouriteList");
+                if (isFavourited == false) {
+                    // To add favourites
                     favReference.child("" + seriesId).setValue(favourite).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()) {
-                                Log.d(TAG, "onComplete: " + favourite.getTitle() + " added to favourites");
-                                Toast.makeText(DetailActivity.this, favourite.getTitle() + " added to favourites", Toast.LENGTH_SHORT).show();
-                                MainActivity.getFavourites(firebaseAuth.getUid());
-                                ibFavourites.setImageResource(R.drawable.ic_favorite);
-                            }
+                            Log.d(TAG, "onComplete: " + favourite.getTitle() + " added to favourites");
+                            Toast.makeText(DetailActivity.this, favourite.getTitle() + " added to favourites", Toast.LENGTH_SHORT).show();
+                            MainActivity.getFavourites(firebaseAuth.getUid());
+                            isFavourited = true;
+                            ibFavourites.setImageResource(R.drawable.ic_favorite);
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -125,6 +126,21 @@ public class DetailActivity extends AppCompatActivity {
                     });
                 } else {
                     // Delete
+                    favReference.child("" + favourite.getId()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Log.d(TAG, "onComplete: " + favourite.getTitle() + " removed from favourites");
+                            Toast.makeText(DetailActivity.this, favourite.getTitle() + " removed from favourites", Toast.LENGTH_SHORT).show();
+                            MainActivity.getFavourites(firebaseAuth.getUid());
+                            isFavourited = false;
+                            ibFavourites.setImageResource(R.drawable.ic_not_favorite);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e(TAG, "onFailure: Failed: " + e.getMessage());
+                        }
+                    });
                 }
             }
         });

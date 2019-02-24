@@ -24,7 +24,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="150dp"
             android:background="@drawable/iv_profile"
-            android:src="@drawable/layer_list_1"/>
+            android:src="@drawable/layer_list_1" />
 
         <TextView
             android:id="@+id/tvProfileName"
@@ -38,11 +38,13 @@
             android:textSize="20dp" />
 
         <TextView
+            android:textColor="@color/colorBlack"
             android:id="@+id/tvProfileFavourites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="260dp"
+            android:fontFamily="@font/gravitybook"
             android:text="25 Favourites"
             android:textSize="17dp" />
 
@@ -55,12 +57,13 @@
         android:padding="20dp">
 
         <TextView
+            android:id="@+id/tvProfileEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/keepcalm"
+            android:fontFamily="@font/gravitybook"
             android:text="Email: test@gmail.com"
             android:textColor="@color/colorBlack"
-            android:textSize="20dp" />
+            android:textSize="16dp" />
 
     </RelativeLayout>
 

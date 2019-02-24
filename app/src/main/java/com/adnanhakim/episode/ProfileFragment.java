@@ -29,7 +29,7 @@ public class ProfileFragment extends Fragment {
     // UI Elements
     private View view;
     private ImageView ivProfileDp, ivProfileCover;
-    private TextView tvProfileName, tvProfileFavourites;
+    private TextView tvProfileName, tvProfileFavourites, tvProfileEmail;
 
     // Firebase variables
     private FirebaseAuth firebaseAuth;
@@ -50,6 +50,7 @@ public class ProfileFragment extends Fragment {
         ivProfileCover = view.findViewById(R.id.ivProfileCover);
         tvProfileName = view.findViewById(R.id.tvProfileName);
         tvProfileFavourites = view.findViewById(R.id.tvProfileFavourites);
+        tvProfileEmail = view.findViewById(R.id.tvProfileEmail);
 
         // To make the image view circular
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -69,7 +70,8 @@ public class ProfileFragment extends Fragment {
                 Log.d(TAG, "onDataChange: Successfully retrieved data");
                 User user = dataSnapshot.getValue(User.class);
                 tvProfileName.setText(user.getName());
-                tvProfileFavourites.setText(user.getFavourites() + " Favourites");
+                tvProfileFavourites.setText(MainActivity.favouritesList.size() + " Favourites");
+                tvProfileEmail.setText("Email: " + firebaseAuth.getCurrentUser().getEmail());
             }
 
             @Override

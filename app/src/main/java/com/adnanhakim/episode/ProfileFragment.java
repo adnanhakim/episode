@@ -61,7 +61,7 @@ public class ProfileFragment extends Fragment {
         Log.d(TAG, "getUserData: Fetching user data...");
         firebaseAuth = FirebaseAuth.getInstance();
         String uid = firebaseAuth.getUid();
-        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(uid);
+        databaseReference = FirebaseDatabase.getInstance().getReference(uid);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override

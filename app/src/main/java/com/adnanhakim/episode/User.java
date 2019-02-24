@@ -5,6 +5,10 @@ public class User {
     String name;
     int favourites;
 
+    public User() {
+
+    }
+
     public User(String name, int favourites) {
         this.name = name;
         this.favourites = favourites;

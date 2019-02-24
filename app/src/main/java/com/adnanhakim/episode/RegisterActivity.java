@@ -65,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
         firebaseUser = firebaseAuth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        if (firebaseUser != null) {
+        if (firebaseUser == null) {
             // directly go to main page
             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
         }
@@ -155,6 +155,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 if(firebaseUser.isEmailVerified()) {
                                     Log.d(TAG, "onComplete: Signed in successfully");
                                     startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                    finish();
                                 } else {
                                     Log.d(TAG, "onComplete: Email not verified");
                                     Toast.makeText(RegisterActivity.this, "Email is not verified", Toast.LENGTH_SHORT).show();
@@ -187,6 +188,7 @@ public class RegisterActivity extends AppCompatActivity {
         etRegisterPassword = findViewById(R.id.etRegisterPassword);
         btnRegister = findViewById(R.id.btnRegister);
 
+        // Google Sign-in
         googleSignIn = findViewById(R.id.btnGoogleSignIn);
     }
 

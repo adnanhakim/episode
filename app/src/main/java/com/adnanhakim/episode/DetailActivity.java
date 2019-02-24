@@ -1,5 +1,6 @@
 package com.adnanhakim.episode;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
@@ -11,9 +12,11 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -22,7 +25,13 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +62,7 @@ public class DetailActivity extends AppCompatActivity {
     private ImageView ivPoster, ivBackdrop;
     private RecyclerView seasonRecycler;
     private SeasonAdapter seasonAdapter;
+    private ImageButton ibFavourites;
 
     // Variables
     public static final String TAG = "DetailsActivity: ";
@@ -78,6 +88,34 @@ public class DetailActivity extends AppCompatActivity {
 
         seasonList = new ArrayList<>();
         getDetails(seriesId);
+
+        // For favourites
+        ibFavourites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Favourite favourite = new Favourite(seriesId, seriesTitle, posterURL);
+                if (!MainActivity.favouritesList.contains(favourite)) {
+                    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                    DatabaseReference databaseReference =
+                            FirebaseDatabase.getInstance().getReference(firebaseAuth.getUid()).child("favouriteList");
+                    databaseReference.child("" + seriesId).setValue(favourite).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()) {
+                                Log.d(TAG, "onComplete: " + favourite.getTitle() + " added to favourites");
+                                Toast.makeText(DetailActivity.this, favourite.getTitle() + " added to favourites", Toast.LENGTH_SHORT).show();
+                                ibFavourites.setImageResource(R.drawable.ic_favorite);
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e(TAG, "onFailure: Failed: " + e.getMessage());
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void initialize() {
@@ -86,6 +124,7 @@ public class DetailActivity extends AppCompatActivity {
         ivBackdrop = findViewById(R.id.ivDetailsBackDrop);
         ivPoster = findViewById(R.id.ivDetailsPoster);
         tvStatus = findViewById(R.id.tvDetailsStatus);
+        ibFavourites = findViewById(R.id.ibDetailsFavourite);
         tvOverview = findViewById(R.id.tvDetailsOverview);
         seasonRecycler = findViewById(R.id.seasonRecyclerView);
         relativeLayout = findViewById(R.id.relativeMain);

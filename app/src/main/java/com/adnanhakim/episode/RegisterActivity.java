@@ -213,7 +213,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void saveName(String name, String uid) {
-        List<Favourite> favourites = new ArrayList<>();
         User user = new User(name, 0);
         databaseReference.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -225,7 +224,8 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-        databaseReference.child("favouriteList").setValue(favourites).addOnCompleteListener(new OnCompleteListener<Void>() {
+        /*DatabaseReference favouritesRef = databaseReference.child("favouriteList");
+        favouritesRef.setValue("null").addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()) {
@@ -234,6 +234,6 @@ public class RegisterActivity extends AppCompatActivity {
                     Log.d(TAG, "onComplete: Favourites not added");
                 }
             }
-        });
+        });*/
     }
 }

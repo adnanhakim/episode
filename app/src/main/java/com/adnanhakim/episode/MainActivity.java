@@ -1,8 +1,12 @@
 package com.adnanhakim.episode;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -10,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
@@ -38,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         // To select trending fragment as main fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerMain,
                 new TrendingFragment()).commit();
+        getFavourites(FirebaseAuth.getInstance().getUid());
         bottomNavigationView.getMenu().getItem(1).setChecked(true);
 
         setUpBottomNavigation();
@@ -54,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 Fragment selectedFragment = null;
 
                 Fragment fragment = getSupportFragmentManager().findFragmentByTag("TRENDING");
-                if(fragment != null && fragment.isVisible()) {
+                if (fragment != null && fragment.isVisible()) {
                     // Scroll to top of recycler view
 
                 }
@@ -80,9 +86,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public static List<Favourite> getFavourites(String uid) {
+    public static void getFavourites(String uid) {
         favouritesList = new ArrayList<>();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(uid);
-        return favouritesList;
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(uid).child("favouritesList");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Log.d(TAG, "onDataChange: Favourites exists");
+                } else {
+                    Log.d(TAG, "onDataChange: Favourites do not exist");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

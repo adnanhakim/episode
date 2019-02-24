@@ -3,6 +3,7 @@ package com.adnanhakim.episode;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
+import transformer.FadeTransformer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -106,6 +107,8 @@ public class EpisodeActivity extends AppCompatActivity {
         episodeAdapter = new EpisodeAdapter(episodes, EpisodeActivity.this);
         viewPager.setAdapter(episodeAdapter);
         viewPager.setPadding(130, 32, 130, 0);
+        viewPager.setPageTransformer(true, new FadeTransformer());
+        viewPager.setPageMargin(40);
         Log.d(TAG, "onCreate: List having " + episodes.size() + " results");
     }
 }

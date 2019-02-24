@@ -105,8 +105,9 @@ public class DetailActivity extends AppCompatActivity {
                 if (!MainActivity.favouritesList.contains(favourite)) {
                     final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                     DatabaseReference databaseReference =
-                            FirebaseDatabase.getInstance().getReference(firebaseAuth.getUid()).child("favouriteList");
-                    databaseReference.child("" + seriesId).setValue(favourite).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            FirebaseDatabase.getInstance().getReference(firebaseAuth.getUid());
+                    DatabaseReference favReference = databaseReference.child("favouriteList");
+                    favReference.child("" + seriesId).setValue(favourite).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()) {

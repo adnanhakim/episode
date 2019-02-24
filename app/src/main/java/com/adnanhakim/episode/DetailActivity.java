@@ -165,8 +165,7 @@ public class DetailActivity extends AppCompatActivity {
         tvStatus.setText(status);
         tvOverview.setText(overview);
 
-        RequestOptions option = new RequestOptions().centerCrop().placeholder(R.drawable.loading_screen)
-                .error(R.drawable.loading_screen);
+        RequestOptions option = new RequestOptions().centerCrop();
         Glide.with(DetailActivity.this).load(posterURL).apply(option).into(ivPoster);
         Glide.with(DetailActivity.this).load(backdropURL).apply(option).into(ivBackdrop);
 

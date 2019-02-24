@@ -19,25 +19,26 @@
         tools:layout_editor_absoluteY="0dp" />
 
     <TextView
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/ivCardPoster"
         android:id="@+id/tvCardTitle"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/ivCardPoster"
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
-        android:fontFamily="@font/keepcalm"
+        android:layout_toRightOf="@id/ivCardPoster"
+        android:fontFamily="@font/gravitybook"
         android:text="Title"
         android:textColor="@color/colorBlack"
-        android:textSize="18dp" />
+        android:textSize="18dp"
+        android:textStyle="bold" />
 
     <TextView
-        android:layout_toRightOf="@id/ivCardPoster"
         android:id="@+id/tvCardOverview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvCardTitle"
         android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/ivCardPoster"
         android:ellipsize="end"
         android:fontFamily="@font/modernsans"
         android:maxLines="5"

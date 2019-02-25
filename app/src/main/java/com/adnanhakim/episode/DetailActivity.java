@@ -59,7 +59,7 @@ public class DetailActivity extends AppCompatActivity {
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private NestedScrollView nestedScrollView;
     private Typeface keepcalm;
-    private TextView tvStatus, tvOverview;
+    private TextView tvNetworks, tvOverview;
     private ImageView ivPoster, ivBackdrop;
     private RecyclerView seasonRecycler;
     private SeasonAdapter seasonAdapter;
@@ -120,7 +120,7 @@ public class DetailActivity extends AppCompatActivity {
                             isFavourited = true;
                             ibFavourites.setImageResource(R.drawable.ic_favorite);
 
-                            if(intentActivity.equals("PROFILE")) {
+                            if (intentActivity.equals("PROFILE")) {
                                 ProfileFragment.adapter.notifyDataSetChanged();
                             }
 
@@ -142,7 +142,7 @@ public class DetailActivity extends AppCompatActivity {
                             isFavourited = false;
                             ibFavourites.setImageResource(R.drawable.ic_not_favorite);
 
-                            if(intentActivity.equals("PROFILE")) {
+                            if (intentActivity.equals("PROFILE")) {
                                 ProfileFragment.adapter.notifyDataSetChanged();
                             }
 
@@ -163,7 +163,7 @@ public class DetailActivity extends AppCompatActivity {
         nestedScrollView = findViewById(R.id.nestedSVDetails);
         ivBackdrop = findViewById(R.id.ivDetailsBackDrop);
         ivPoster = findViewById(R.id.ivDetailsPoster);
-        tvStatus = findViewById(R.id.tvDetailsStatus);
+        tvNetworks = findViewById(R.id.tvDetailsNetwork);
         ibFavourites = findViewById(R.id.ibDetailsFavourite);
         tvOverview = findViewById(R.id.tvDetailsOverview);
         seasonRecycler = findViewById(R.id.seasonRecyclerView);
@@ -191,7 +191,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     // UI Variables
-    private String backdropURL, posterURL, status, overview;
+    private String backdropURL, posterURL, networks = "", overview;
     int tvId;
 
     private void getDetails(final int seriesId) {
@@ -205,11 +205,20 @@ public class DetailActivity extends AppCompatActivity {
                     Log.d(TAG, "onResponse: Details found");
                     backdropURL = IMAGE_URL + response.getString("backdrop_path");
                     posterURL = IMAGE_URL + response.getString("poster_path");
-                    status = response.getString("status");
                     overview = response.getString("overview");
 
+                    // To get networks
+                    JSONArray networkArray = response.getJSONArray("networks");
+                    for (int i = 0; i < networkArray.length(); i++) {
+                        JSONObject networkObject = networkArray.getJSONObject(i);
+                        if (i == 0) {
+                            networks = networks + networkObject.getString("name");
+                        } else {
+                            networks = networks + ", " + networkObject.getString("name");
+                        }
+                    }
+
                     // To get season details
-                    Log.d(TAG, "onResponse: Hello");
                     JSONArray seasons = response.getJSONArray("seasons");
                     for (int i = 0; i < seasons.length(); i++) {
                         JSONObject object = seasons.getJSONObject(i);
@@ -222,6 +231,7 @@ public class DetailActivity extends AppCompatActivity {
                         Season season = new Season(tvId, id, episodes, title, formatDate(date), imageURL, seasonNo);
                         seasonList.add(season);
                     }
+
                 } catch (JSONException e) {
                     Log.e(TAG, "onResponse: Exception: " + e.getMessage());
                 }
@@ -246,7 +256,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void fillDetails() {
-        tvStatus.setText(status);
+        tvNetworks.setText(networks);
         tvOverview.setText(overview);
 
         RequestOptions option = new RequestOptions().centerCrop();
@@ -274,6 +284,10 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if(intentActivity.equals("PROFILE")) {
+            startActivity(new Intent(DetailActivity.this, MainActivity.class));
+            this.finish();
+        }
         super.onBackPressed();
         this.finish();
     }

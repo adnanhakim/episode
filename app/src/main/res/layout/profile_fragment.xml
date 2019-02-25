@@ -106,6 +106,20 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="10dp" />
 
+            <Button
+                android:id="@+id/btnProfileLogout"
+                android:layout_width="300dp"
+                android:layout_below="@id/favouriteRecyclerView"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_style_1"
+                android:fontFamily="@font/gravitybook"
+                android:text="Logout"
+                android:layout_marginBottom="15dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
+
         </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>

@@ -60,13 +60,13 @@
             android:paddingBottom="15dp">
 
             <TextView
-                android:id="@+id/tvDetailsStatus"
+                android:id="@+id/tvDetailsNetwork"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="17dp"
                 android:textStyle="bold"
                 android:fontFamily="@font/gravitybook"
-                android:text="Status"
+                android:text="Networks"
                 android:textColor="@color/colorBlack"
                 android:textSize="18dp" />
 

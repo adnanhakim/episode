@@ -18,7 +18,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:fontFamily="@font/keepcalm"
+                android:fontFamily="@font/gravitybook"
+                android:textStyle="bold"
                 android:text="EPISODE"
                 android:textColor="@color/colorGold"
                 android:textSize="20dp" />

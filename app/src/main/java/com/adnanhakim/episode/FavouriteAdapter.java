@@ -1,5 +1,6 @@
 package com.adnanhakim.episode;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -51,6 +52,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
                 intent.putExtra("BOOLEAN", true);
                 intent.putExtra("ACTIVITY", "PROFILE");
                 v.getContext().startActivity(intent);
+                ((Activity) context).finish();
             }
         });
     }

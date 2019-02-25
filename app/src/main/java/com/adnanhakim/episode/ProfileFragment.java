@@ -1,11 +1,13 @@
 package com.adnanhakim.episode;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,13 +37,13 @@ public class ProfileFragment extends Fragment {
     private TextView tvProfileName, tvProfileFavourites;
     private CardView cvFavourites;
     private RecyclerView recyclerView;
+    private Button btnLogout;
 
     // Adapters
     public static FavouriteAdapter adapter;
 
     // Firebase variables
     private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
     private DatabaseReference databaseReference;
 
     @Nullable
@@ -51,6 +53,18 @@ public class ProfileFragment extends Fragment {
         init();
         getUserData();
         setUpRecyclerView();
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Logging out...");
+                firebaseAuth.signOut();
+                getActivity().finish();
+                startActivity(new Intent(getActivity(), RegisterActivity.class));
+            }
+        });
+
         return view;
     }
 
@@ -62,6 +76,7 @@ public class ProfileFragment extends Fragment {
         cvFavourites = view.findViewById(R.id.cvFavourites);
         tvProfileFavourites = view.findViewById(R.id.tvProfileFavourites);
         recyclerView = view.findViewById(R.id.favouriteRecyclerView);
+        btnLogout = view.findViewById(R.id.btnProfileLogout);
 
         // To hide all data until data is fetched
         tvProfileName.setVisibility(View.INVISIBLE);

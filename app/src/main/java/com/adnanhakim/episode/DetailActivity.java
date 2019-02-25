@@ -69,7 +69,7 @@ public class DetailActivity extends AppCompatActivity {
     public static final String TAG = "DetailsActivity: ";
     private boolean isFavourited;
     private int seriesId;
-    private String seriesTitle;
+    private String seriesTitle, intentActivity;
     private List<Season> seasonList;
 
 
@@ -81,10 +81,12 @@ public class DetailActivity extends AppCompatActivity {
         initialize();
 
         // To get movie title and id from intent and set it to header
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         seriesId = intent.getIntExtra("ID", 000000);
         seriesTitle = intent.getStringExtra("TITLE");
         isFavourited = intent.getBooleanExtra("BOOLEAN", false);
+        intentActivity = intent.getStringExtra("ACTIVITY");
+
         setUpCollapsingToolbar(seriesTitle);
         //nestedScrollView.scrollTo(0, 0);
         seasonRecycler.setFocusable(false);
@@ -118,6 +120,10 @@ public class DetailActivity extends AppCompatActivity {
                             isFavourited = true;
                             ibFavourites.setImageResource(R.drawable.ic_favorite);
 
+                            if(intentActivity.equals("PROFILE")) {
+                                ProfileFragment.adapter.notifyDataSetChanged();
+                            }
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -135,6 +141,11 @@ public class DetailActivity extends AppCompatActivity {
                             MainActivity.getFavourites(firebaseAuth.getUid());
                             isFavourited = false;
                             ibFavourites.setImageResource(R.drawable.ic_not_favorite);
+
+                            if(intentActivity.equals("PROFILE")) {
+                                ProfileFragment.adapter.notifyDataSetChanged();
+                            }
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

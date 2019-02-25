@@ -20,7 +20,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ProfileFragment extends Fragment {
 
@@ -29,7 +32,12 @@ public class ProfileFragment extends Fragment {
     // UI Elements
     private View view;
     private ImageView ivProfileDp, ivProfileCover;
-    private TextView tvProfileName, tvProfileFavourites, tvProfileEmail;
+    private TextView tvProfileName, tvProfileFavourites;
+    private CardView cvFavourites;
+    private RecyclerView recyclerView;
+
+    // Adapters
+    public static FavouriteAdapter adapter;
 
     // Firebase variables
     private FirebaseAuth firebaseAuth;
@@ -42,15 +50,22 @@ public class ProfileFragment extends Fragment {
         view = inflater.inflate(R.layout.profile_fragment, container, false);
         init();
         getUserData();
+        setUpRecyclerView();
         return view;
     }
 
     private void init() {
+        // Find view by ids
         ivProfileDp = view.findViewById(R.id.ivProfileDp);
         ivProfileCover = view.findViewById(R.id.ivProfileCover);
         tvProfileName = view.findViewById(R.id.tvProfileName);
+        cvFavourites = view.findViewById(R.id.cvFavourites);
         tvProfileFavourites = view.findViewById(R.id.tvProfileFavourites);
-        tvProfileEmail = view.findViewById(R.id.tvProfileEmail);
+        recyclerView = view.findViewById(R.id.favouriteRecyclerView);
+
+        // To hide all data until data is fetched
+        tvProfileName.setVisibility(View.INVISIBLE);
+        cvFavourites.setVisibility(View.INVISIBLE);
 
         // To make the image view circular
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -70,8 +85,9 @@ public class ProfileFragment extends Fragment {
                 Log.d(TAG, "onDataChange: Successfully retrieved data");
                 User user = dataSnapshot.getValue(User.class);
                 tvProfileName.setText(user.getName());
-                tvProfileFavourites.setText(MainActivity.favouritesList.size() + " Favourites");
-                tvProfileEmail.setText("Email: " + firebaseAuth.getCurrentUser().getEmail());
+                tvProfileFavourites.setText("" + MainActivity.favouritesList.size());
+                tvProfileName.setVisibility(View.VISIBLE);
+                cvFavourites.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -80,5 +96,12 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getActivity(), "Data not retrieved", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setUpRecyclerView() {
+        Log.d(TAG, "setUpRecyclerView: Setting up recycler view...");
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
+        adapter = new FavouriteAdapter(MainActivity.favouritesList, getContext());
+        recyclerView.setAdapter(adapter);
     }
 }

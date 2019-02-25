@@ -61,6 +61,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                 intent.putExtra("ID", tv.getId());
                 intent.putExtra("TITLE", tv.getTitle());
                 intent.putExtra("BOOLEAN", isFavourited);
+                intent.putExtra("ACTIVITY", "MAIN");
                 v.getContext().startActivity(intent);
             }
         });

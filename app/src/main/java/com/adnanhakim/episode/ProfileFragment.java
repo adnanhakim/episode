@@ -34,7 +34,7 @@ public class ProfileFragment extends Fragment {
     // UI Elements
     private View view;
     private ImageView ivProfileDp, ivProfileCover;
-    private TextView tvProfileName;
+    private TextView tvProfileName, tvProfileNoFavs;
     private RecyclerView recyclerView;
     private Button btnLogout;
 
@@ -74,6 +74,7 @@ public class ProfileFragment extends Fragment {
         tvProfileName = view.findViewById(R.id.tvProfileName);
         recyclerView = view.findViewById(R.id.favouriteRecyclerView);
         btnLogout = view.findViewById(R.id.btnProfileLogout);
+        tvProfileNoFavs = view.findViewById(R.id.tvProfileNoFavourite);
 
         // To hide all data until data is fetched
         tvProfileName.setVisibility(View.INVISIBLE);
@@ -113,5 +114,12 @@ public class ProfileFragment extends Fragment {
         adapter = new FavouriteAdapter(MainActivity.favouritesList, getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
+        if(MainActivity.favouritesList.size() == 0) {
+            tvProfileNoFavs.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.INVISIBLE);
+        } else {
+            tvProfileNoFavs.setVisibility(View.INVISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 }

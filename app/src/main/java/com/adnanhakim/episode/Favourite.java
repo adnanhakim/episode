@@ -3,15 +3,16 @@ package com.adnanhakim.episode;
 public class Favourite {
 
     private int id;
-    private String title, imageURL;
+    private String title, posterURL, backdropURL;
 
     public Favourite() {
     }
 
-    public Favourite(int id, String title, String imageURL) {
+    public Favourite(int id, String title, String posterURL, String backdropURL) {
         this.id = id;
         this.title = title;
-        this.imageURL = imageURL;
+        this.posterURL = posterURL;
+        this.backdropURL = backdropURL;
     }
 
     public int getId() {
@@ -22,8 +23,11 @@ public class Favourite {
         return title;
     }
 
-    public String getImageURL() {
-        return imageURL;
+    public String getPosterURL() {
+        return posterURL;
     }
 
+    public String getBackdropURL() {
+        return backdropURL;
+    }
 }

@@ -62,22 +62,21 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         init();
-
+        showRegister();
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
+
         if (firebaseUser != null && firebaseUser.isEmailVerified() == true) {
             // directly go to main page
             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+            Log.d(TAG, "onCreate: Firebase user" + firebaseUser.getEmail());
             finish();
-        }
-        else if(firebaseUser != null && firebaseUser.isEmailVerified() == false) {
+        } else if(firebaseUser != null) {
             showLogin();
         }
-        else
-            showRegister();
 
         tvLoginHeader.setOnClickListener(new View.OnClickListener() {
             @Override

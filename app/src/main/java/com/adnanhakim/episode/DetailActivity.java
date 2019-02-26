@@ -104,7 +104,7 @@ public class DetailActivity extends AppCompatActivity {
         ibFavourites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Favourite favourite = new Favourite(seriesId, seriesTitle, posterURL);
+                final Favourite favourite = new Favourite(seriesId, seriesTitle, posterURL, backdropURL);
                 final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 DatabaseReference databaseReference =
                         FirebaseDatabase.getInstance().getReference(firebaseAuth.getUid());

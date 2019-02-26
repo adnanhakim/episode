@@ -38,7 +38,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        String imageURL = favouriteList.get(position).getImageURL();
+        String imageURL = favouriteList.get(position).getPosterURL();
 
         // Putting images into imageView
         Glide.with(context).load(imageURL).apply(requestOptions).into(holder.ivPoster);

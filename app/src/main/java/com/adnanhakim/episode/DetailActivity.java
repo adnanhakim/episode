@@ -59,7 +59,7 @@ public class DetailActivity extends AppCompatActivity {
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private NestedScrollView nestedScrollView;
     private Typeface keepcalm;
-    private TextView tvNetworks, tvOverview;
+    private TextView tvNetworks, tvOverview, tvStatus, tvGenres, tvRuntime;
     private ImageView ivPoster, ivBackdrop;
     private RecyclerView seasonRecycler;
     private SeasonAdapter seasonAdapter;
@@ -165,7 +165,10 @@ public class DetailActivity extends AppCompatActivity {
         ivPoster = findViewById(R.id.ivDetailsPoster);
         tvNetworks = findViewById(R.id.tvDetailsNetwork);
         ibFavourites = findViewById(R.id.ibDetailsFavourite);
+        tvStatus = findViewById(R.id.tvDetailsStatus);
         tvOverview = findViewById(R.id.tvDetailsOverview);
+        tvGenres = findViewById(R.id.tvDetailsGenres);
+        tvRuntime = findViewById(R.id.tvDetailsRuntime);
         seasonRecycler = findViewById(R.id.seasonRecyclerView);
         relativeLayout = findViewById(R.id.relativeMain);
         relativeLayout.setVisibility(View.INVISIBLE);
@@ -191,7 +194,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     // UI Variables
-    private String backdropURL, posterURL, networks = "", overview;
+    private String backdropURL, posterURL, networks = "", overview, status, genres = "", runtime;
     int tvId;
 
     private void getDetails(final int seriesId) {
@@ -206,6 +209,11 @@ public class DetailActivity extends AppCompatActivity {
                     backdropURL = IMAGE_URL + response.getString("backdrop_path");
                     posterURL = IMAGE_URL + response.getString("poster_path");
                     overview = response.getString("overview");
+                    status = response.getString("status");
+
+                    // To get runtime
+                    JSONArray runtimeArray = response.getJSONArray("episode_run_time");
+                    runtime = runtimeArray.get(0) + " minutes";
 
                     // To get networks
                     JSONArray networkArray = response.getJSONArray("networks");
@@ -215,6 +223,17 @@ public class DetailActivity extends AppCompatActivity {
                             networks = networks + networkObject.getString("name");
                         } else {
                             networks = networks + ", " + networkObject.getString("name");
+                        }
+                    }
+
+                    // To get genres
+                    JSONArray genreArray = response.getJSONArray("genres");
+                    for(int i=0; i< genreArray.length(); i++) {
+                        JSONObject genreObject = genreArray.getJSONObject(i);
+                        if(i==0) {
+                            genres = genres + genreObject.getString("name");
+                        } else {
+                            genres = genres + ", " + genreObject.getString("name");
                         }
                     }
 
@@ -258,6 +277,9 @@ public class DetailActivity extends AppCompatActivity {
     private void fillDetails() {
         tvNetworks.setText(networks);
         tvOverview.setText(overview);
+        tvStatus.setText(status);
+        tvGenres.setText(genres);
+        tvRuntime.setText(runtime);
 
         RequestOptions option = new RequestOptions().centerCrop();
         Glide.with(DetailActivity.this).load(posterURL).apply(option).into(ivPoster);

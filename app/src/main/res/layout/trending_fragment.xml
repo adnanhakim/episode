@@ -15,9 +15,10 @@
             android:layout_marginRight="15dp">
 
             <TextView
+                android:id="@+id/tvTrendingHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
                 android:fontFamily="@font/gravitybook"
                 android:textStyle="bold"
                 android:text="EPISODE"
@@ -31,6 +32,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@id/toolbarTrending"
         android:id="@+id/trendingRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/toolbarTrending"
+        android:id="@+id/searchRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

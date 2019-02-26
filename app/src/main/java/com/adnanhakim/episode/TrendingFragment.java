@@ -1,9 +1,14 @@
 package com.adnanhakim.episode;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,10 +17,15 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -36,18 +46,21 @@ public class TrendingFragment extends Fragment {
     // URL
     private String URL = "https://api.themoviedb.org/3/trending/tv/day?api_key=7f1c5b6bcdc0417095c1df13c485f647";
     private final String IMAGE_URL = "https://image.tmdb.org/t/p/w500";
-    private JsonObjectRequest request;
+    private JsonObjectRequest request, searchRequest;
     private RequestQueue requestQueue;
 
     // UI Elements
+    private Toolbar toolbar;
     private View view;
-    private RecyclerView recyclerView;
-    private MainAdapter adapter;
+    private TextView tvHeader;
+    private RecyclerView recyclerView, searchRecyclerView;
+    private MainAdapter adapter, searchAdapter;
     private LinearLayoutManager layoutManager;
+
 
     // Variables
     private static final String TAG = "TrendingFragment";
-    private List<TVSeries> tvSeries;
+    private List<TVSeries> tvSeries, searchItems;
     private Boolean isScrolling = false;
     private int currentPage = 0, totalPages = 99999;
     private int visibleItems, totalItems, scrolledOutItems;
@@ -60,7 +73,15 @@ public class TrendingFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.trending_fragment, container, false);
+        setHasOptionsMenu(true);
+
+        // Init
+        toolbar = view.findViewById(R.id.toolbarTrending);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        tvHeader = view.findViewById(R.id.tvTrendingHeader);
         recyclerView = view.findViewById(R.id.trendingRecyclerView);
+        searchRecyclerView = view.findViewById(R.id.searchRecyclerView);
+
         adapter = new MainAdapter(tvSeries, getContext());
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recyclerView.setAdapter(adapter);
@@ -146,5 +167,99 @@ public class TrendingFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main_search, menu);
+
+        MenuItem item = menu.findItem(R.id.menuMainSearch);
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setQueryHint("Search for a show");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (!newText.equals("")) {
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    searchRecyclerView.setVisibility(View.VISIBLE);
+                    searchShow(newText);
+                } else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    searchRecyclerView.setVisibility(View.INVISIBLE);
+                }
+                return false;
+            }
+        });
+
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvHeader.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                tvHeader.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void searchShow(String newText) {
+        // Search query
+        // https://api.themoviedb.org/3/search/tv?api_key=7f1c5b6bcdc0417095c1df13c485f647&language=en-US&query=The%20flash&page=1
+        // Base url + /search/movie?api_key= + api key + &query= + query + &page=1
+        // Every space must be replaced by %20
+        searchItems = new ArrayList<>();
+        String query = newText.replace(" ", "%20");
+        String url = "https://api.themoviedb.org/3/search/tv?api_key=7f1c5b6bcdc0417095c1df13c485f647&language=en-US&query="
+                + query + "&page=1";
+
+        searchRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray results = response.getJSONArray("results");
+                    for (int i = 0; i < results.length(); i++) {
+                        JSONObject tvShow = results.getJSONObject(i);
+                        int id = tvShow.getInt("id");
+                        String title = tvShow.getString("original_name");
+                        String overview = tvShow.getString("overview");
+                        String imageURL = IMAGE_URL + tvShow.getString("poster_path");
+
+                        TVSeries tvSeries = new TVSeries(id, title, overview, imageURL);
+                        searchItems.add(tvSeries);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                setUpSearchRecyclerView(searchItems);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+
+        //requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(searchRequest);
+    }
+
+    private void setUpSearchRecyclerView(List<TVSeries> searchItems) {
+        searchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        searchAdapter = new MainAdapter(searchItems, getContext());
+        searchRecyclerView.setAdapter(searchAdapter);
     }
 }

@@ -81,7 +81,10 @@ public class EpisodeActivity extends AppCompatActivity {
                         String date = object.getString("air_date");
                         String title = object.getString("name");
                         String overview = object.getString("overview");
-                        int rating = object.getInt("vote_average");
+                        double voteAverage = object.getDouble("vote_average");
+                        // To get upto 1 decimal place
+                        double rating = Double.valueOf(String.format("%.2f", voteAverage));
+                        Log.d(TAG, "onResponse: Rating: " + rating);
                         String path = IMAGE_URL + object.getString("still_path");
                         Episode episode = new Episode(no, DetailActivity.formatDate(date), title, overview, rating, path);
                         episodes.add(episode);

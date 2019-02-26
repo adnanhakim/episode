@@ -2,10 +2,11 @@ package com.adnanhakim.episode;
 
 public class Episode {
 
-    private int no, rating;
+    private int no;
+    private double rating;
     private String date, title, overview, imageURL;
 
-    public Episode(int no,String date, String title, String overview,int rating, String imageURL) {
+    public Episode(int no, String date, String title, String overview, double rating, String imageURL) {
         this.no = no;
         this.date = date;
         this.title = title;
@@ -18,7 +19,7 @@ public class Episode {
         return no;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 

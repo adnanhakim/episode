@@ -39,7 +39,7 @@
                 android:id="@+id/tvEpisodeTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/tvEpisodeOverview"
+                android:layout_above="@id/tvEpisodeDate"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/gravitybook"
@@ -49,14 +49,39 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvEpisodeOverview"
+                android:id="@+id/tvEpisodeDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/relativeEpisodeCard"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/gravitybook"
+                android:text="12th September 2018"
+                android:textColor="@color/colorBlack"
+                android:textStyle=""
+                android:textSize="17dp" />
+
+            <TextView
+                android:id="@+id/tvEpisodeRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeEpisodeCard"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@drawable/ic_star"
+                android:fontFamily="@font/gravitybook"
+                android:text="8.9"
+                android:textColor="@color/colorBlack"
+                android:textSize="17dp" />
+
+            <TextView
+                android:id="@+id/tvEpisodeOverview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvEpisodeDate"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/modernsans"
                 android:text="Episode Overview"
-                android:textSize="15dp" />
+                android:textSize="14dp" />
 
         </RelativeLayout>
 

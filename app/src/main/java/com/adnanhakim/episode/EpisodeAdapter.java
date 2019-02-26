@@ -44,14 +44,18 @@ public class EpisodeAdapter extends PagerAdapter {
         View view = LayoutInflater.from(context).inflate(R.layout.episode_item, container, false);
 
         ImageView ivPhoto;
-        TextView tvTitle, tvOverview;
+        TextView tvTitle, tvOverview, tvDate, tvRating;
 
         ivPhoto = view.findViewById(R.id.ivEpisodePhoto);
         tvTitle = view.findViewById(R.id.tvEpisodeTitle);
         tvOverview = view.findViewById(R.id.tvEpisodeOverview);
+        tvDate = view.findViewById(R.id.tvEpisodeDate);
+        tvRating = view.findViewById(R.id.tvEpisodeRating);
 
-        tvTitle.setText(episodes.get(position).getTitle());
+        tvTitle.setText(episodes.get(position).getNo() + ": " + episodes.get(position).getTitle());
         tvOverview.setText(episodes.get(position).getOverview());
+        tvDate.setText(episodes.get(position).getDate());
+        tvRating.setText(String.valueOf(episodes.get(position).getRating()));
         Glide.with(context).load(episodes.get(position).getImageURL()).apply(requestOptions).into(ivPhoto);
 
         container.addView(view, 0);

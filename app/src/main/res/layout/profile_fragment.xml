@@ -49,38 +49,57 @@
             </RelativeLayout>
 
             <TextView
-                android:layout_marginTop="20dp"
                 android:id="@+id/tvProfileFavShows"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/relativeProfileCover"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/keepcalm"
                 android:text="Favourite Shows"
                 android:textColor="@color/colorBlack"
                 android:textSize="20dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/favouriteRecyclerView"
+            <RelativeLayout
+                android:id="@+id/relativeProfileRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvProfileFavShows"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_below="@id/tvProfileFavShows">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/favouriteRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="10dp" />
+
+                <TextView
+                    android:id="@+id/tvProfileNoFavourite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/gravitybook"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="You don't have any favourite shows"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="17dp" />
+
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/btnProfileLogout"
                 android:layout_width="300dp"
-                android:layout_below="@id/favouriteRecyclerView"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/relativeProfileRecycler"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
                 android:background="@drawable/button_style_1"
                 android:fontFamily="@font/gravitybook"
                 android:text="Logout"
-                android:layout_marginBottom="15dp"
-                android:layout_centerHorizontal="true"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold" />
 

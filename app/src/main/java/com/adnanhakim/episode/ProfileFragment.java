@@ -34,8 +34,7 @@ public class ProfileFragment extends Fragment {
     // UI Elements
     private View view;
     private ImageView ivProfileDp, ivProfileCover;
-    private TextView tvProfileName, tvProfileFavourites;
-    private CardView cvFavourites;
+    private TextView tvProfileName;
     private RecyclerView recyclerView;
     private Button btnLogout;
 
@@ -73,14 +72,11 @@ public class ProfileFragment extends Fragment {
         ivProfileDp = view.findViewById(R.id.ivProfileDp);
         ivProfileCover = view.findViewById(R.id.ivProfileCover);
         tvProfileName = view.findViewById(R.id.tvProfileName);
-        cvFavourites = view.findViewById(R.id.cvFavourites);
-        tvProfileFavourites = view.findViewById(R.id.tvProfileFavourites);
         recyclerView = view.findViewById(R.id.favouriteRecyclerView);
         btnLogout = view.findViewById(R.id.btnProfileLogout);
 
         // To hide all data until data is fetched
         tvProfileName.setVisibility(View.INVISIBLE);
-        cvFavourites.setVisibility(View.INVISIBLE);
 
         // To make the image view circular
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -100,9 +96,7 @@ public class ProfileFragment extends Fragment {
                 Log.d(TAG, "onDataChange: Successfully retrieved data");
                 User user = dataSnapshot.getValue(User.class);
                 tvProfileName.setText(user.getName());
-                tvProfileFavourites.setText("" + MainActivity.favouritesList.size());
                 tvProfileName.setVisibility(View.VISIBLE);
-                cvFavourites.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -118,5 +112,6 @@ public class ProfileFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
         adapter = new FavouriteAdapter(MainActivity.favouritesList, getContext());
         recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
     }
 }

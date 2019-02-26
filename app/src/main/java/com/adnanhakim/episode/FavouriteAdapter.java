@@ -3,6 +3,7 @@ package com.adnanhakim.episode;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +71,11 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
             super(itemView);
 
             ivPoster = itemView.findViewById(R.id.ivFavouritePoster);
+
+            //Poster Corners
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ivPoster.setClipToOutline(true);
+            }
         }
     }
 }

@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -19,6 +21,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +34,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ProfileFragment extends Fragment {
 
     private static final String TAG = "ProfileFragment";
+    private RequestOptions requestOptions;
 
     // UI Elements
     private View view;
@@ -51,6 +56,7 @@ public class ProfileFragment extends Fragment {
         view = inflater.inflate(R.layout.profile_fragment, container, false);
         init();
         getUserData();
+        Glide.with(getContext()).load(MainActivity.favouritesList.get(getRandomBackdrop()).getBackdropURL()).into(ivProfileCover);
         setUpRecyclerView();
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -65,6 +71,12 @@ public class ProfileFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private int getRandomBackdrop() {
+        Random random = new Random();
+        int size = MainActivity.favouritesList.size();
+        return random.nextInt(size - 1);
     }
 
     private void init() {
@@ -122,4 +134,6 @@ public class ProfileFragment extends Fragment {
             recyclerView.setVisibility(View.VISIBLE);
         }
     }
+
+
 }

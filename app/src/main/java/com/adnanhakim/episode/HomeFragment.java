@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment {
         getJSONRequest();
     }
 
-    private String backdropURL, showName, episodeName, networks = "";
+    private String backdropURL, showName, episodeName, airDate, networks = "";
     private int episodeNo, seasonNo;
     int tvId;
 
@@ -99,9 +99,11 @@ public class HomeFragment extends Fragment {
                         episodeName = nextEpisodeToAir.getString("name");
                         episodeNo = nextEpisodeToAir.getInt("episode_number");
                         seasonNo = nextEpisodeToAir.getInt("season_number");
+                        airDate = nextEpisodeToAir.getString("air_date");
 
-                        Home home = new Home(seasonNo, episodeNo, showName, networks, episodeName, backdropURL);
+                        Home home = new Home(seasonNo, episodeNo, showName, networks, episodeName, backdropURL, airDate);
                         homeList.add(home);
+                        networks = "";
 
                     } catch (JSONException e) {
                         Log.e(TAG, "onResponse: Exception: " + e.getMessage());

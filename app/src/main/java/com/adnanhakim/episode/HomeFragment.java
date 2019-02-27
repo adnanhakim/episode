@@ -114,7 +114,6 @@ public class HomeFragment extends Fragment {
                     Log.d(TAG, "onErrorResponse: Error: " + error.toString());
                 }
             });
-            Log.d(TAG,"Fucked Up");
             requestQueue.add(homeRequest);
         }
     }

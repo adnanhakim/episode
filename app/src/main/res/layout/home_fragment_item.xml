@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp"
+    android:paddingRight="10dp">
+
+    <RelativeLayout
+        android:id="@+id/RelativeCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivHomeBackdrop"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/tvShowName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Show Name"
+            android:fontFamily="@font/gravitybook"
+            android:textColor="@color/colorWhite"
+            android:textSize="17dp" />
+
+        <RelativeLayout
+            android:id="@+id/RelativeNetwork"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvNetworks"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gravitybook"
+                android:padding="10dp"
+                android:text="Networks"
+                android:textColor="@color/colorWhite"
+                android:textSize="17dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RelativeSeasonEpisodeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvSeasonEpisode"
+                android:layout_marginTop="85dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:fontFamily="@font/keepcalm"
+                android:text="Season|Episode"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tvEpisodeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EpisodeName"
+                android:textSize="17dp"
+                android:fontFamily="@font/gravitybook"
+                android:textColor="@color/colorWhite"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="117dp"
+                />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

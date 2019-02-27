@@ -44,13 +44,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.episodeName.setText(home.getEpisodeName());
         holder.showName.setText(home.getShowName());
         if(home.getEpisodeNo() < 10 && home.getSeasonNo() >= 10)
-            holder.seasonEpisode.setText("S" + home.getSeasonNo() + "|E0" + home.getEpisodeNo());
+            holder.seasonEpisode.setText("S" + home.getSeasonNo() + " | E0" + home.getEpisodeNo());
         else if(home.getEpisodeNo() >= 10 && home.getSeasonNo() < 10)
-            holder.seasonEpisode.setText("S0" + home.getSeasonNo() + "|E" + home.getEpisodeNo());
+            holder.seasonEpisode.setText("S0" + home.getSeasonNo() + " | E" + home.getEpisodeNo());
         else if(home.getEpisodeNo() < 10 && home.getSeasonNo() < 10)
-            holder.seasonEpisode.setText("S0" + home.getSeasonNo() + "|E0" + home.getEpisodeNo());
+            holder.seasonEpisode.setText("S0" + home.getSeasonNo() + " | E0" + home.getEpisodeNo());
         else
-            holder.seasonEpisode.setText("S" + home.getSeasonNo() + "|E" + home.getEpisodeNo());
+            holder.seasonEpisode.setText("S" + home.getSeasonNo() + " | E" + home.getEpisodeNo());
 
         holder.networks.setText(home.getNetworks());
         Glide.with(context).load(home.getBackdropPath()).apply(requestOptions).into(holder.backDrop);

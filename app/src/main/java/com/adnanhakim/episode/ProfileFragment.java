@@ -59,9 +59,10 @@ public class ProfileFragment extends Fragment {
 
         // To get random background as cover
         requestOptions = new RequestOptions().centerCrop();
-        Glide.with(getContext()).load(MainActivity.favouritesList.get(getRandomBackdrop()).getBackdropURL())
-                .apply(requestOptions).into(ivProfileCover);
-
+        /*if (MainActivity.favouritesList.size() != 0) {
+            Glide.with(getContext()).load(MainActivity.favouritesList.get(getRandomBackdrop()).getBackdropURL())
+                    .apply(requestOptions).into(ivProfileCover);
+        }*/
         setUpRecyclerView();
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -131,7 +132,7 @@ public class ProfileFragment extends Fragment {
         adapter = new FavouriteAdapter(MainActivity.favouritesList, getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        if(MainActivity.favouritesList.size() == 0) {
+        if (MainActivity.favouritesList.size() == 0) {
             tvProfileNoFavs.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.INVISIBLE);
         } else {

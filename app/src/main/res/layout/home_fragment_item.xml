@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingLeft="10dp"
-    android:paddingTop="10dp"
-    android:paddingRight="10dp">
+    android:paddingLeft="12dp"
+    android:paddingTop="12dp"
+    android:paddingRight="12dp">
 
     <RelativeLayout
         android:id="@+id/RelativeCard"
@@ -14,10 +14,13 @@
         <ImageView
             android:id="@+id/ivHomeBackdrop"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="170dp"
             android:background="@color/colorAccent" />
 
         <TextView
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/translucent_background"
             android:id="@+id/tvShowName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,7 +28,7 @@
             android:text="Show Name"
             android:fontFamily="@font/gravitybook"
             android:textColor="@color/colorWhite"
-            android:textSize="17dp" />
+            android:textSize="12dp" />
 
         <RelativeLayout
             android:id="@+id/RelativeNetwork"
@@ -52,7 +55,7 @@
 
             <TextView
                 android:id="@+id/tvSeasonEpisode"
-                android:layout_marginTop="85dp"
+                android:layout_marginTop="105dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
@@ -70,7 +73,7 @@
                 android:fontFamily="@font/gravitybook"
                 android:textColor="@color/colorWhite"
                 android:paddingLeft="10dp"
-                android:layout_marginTop="117dp"
+                android:layout_marginTop="137dp"
                 />
 
         </RelativeLayout>

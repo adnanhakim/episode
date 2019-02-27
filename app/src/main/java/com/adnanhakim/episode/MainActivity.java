@@ -40,11 +40,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+        getFavourites(FirebaseAuth.getInstance().getUid());
 
         // To select trending fragment as main fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerMain,
                 new TrendingFragment()).commit();
-        getFavourites(FirebaseAuth.getInstance().getUid());
+
         bottomNavigationView.getMenu().getItem(1).setChecked(true);
 
         setUpBottomNavigation();

@@ -39,7 +39,6 @@ public class HomeFragment extends Fragment {
     private View view;
     private RecyclerView homeRecyclerView;
     private HomeAdapter homeAdapter;
-    private LinearLayoutManager layoutManager;
 
     //Variables
     public static final String TAG = "HomeFragment";
@@ -49,8 +48,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.home_fragment, container, false);
-
-
 
         homeRecyclerView = view.findViewById(R.id.homeRecyclerView);
 
@@ -64,15 +61,11 @@ public class HomeFragment extends Fragment {
         getJSONRequest();
     }
 
-    private String backdropURL, showName, episodeName, airDate, networks = "";
-    private int episodeNo, seasonNo;
-    int tvId;
-
     private void getJSONRequest() {
         Log.d(TAG, "" + MainActivity.favouritesId.size());
         requestQueue = Volley.newRequestQueue(getActivity());
         for (int i = 0; i < MainActivity.favouritesId.size(); i++) {
-            tvId = MainActivity.favouritesId.get(i);
+            int tvId = MainActivity.favouritesId.get(i);
             String URL = BASE_URL + tvId + REMAINING_URL;
             Log.d(TAG, "getDetails: Requesting details for URL: " + URL);
             homeRequest = new JsonObjectRequest(URL, null, new Response.Listener<JSONObject>() {
@@ -80,10 +73,11 @@ public class HomeFragment extends Fragment {
                 public void onResponse(JSONObject response) {
                     try {
                         Log.d(TAG, "onResponse: Details found");
-                        backdropURL = IMAGE_URL + response.getString("backdrop_path");
-                        showName = response.getString("name");
+                        String backdropURL = IMAGE_URL + response.getString("backdrop_path");
+                        String showName = response.getString("name");
 
                         // To get networks
+                        String networks = "";
                         JSONArray networkArray = response.getJSONArray("networks");
                         for (int i = 0; i < networkArray.length(); i++) {
                             JSONObject networkObject = networkArray.getJSONObject(i);
@@ -96,15 +90,13 @@ public class HomeFragment extends Fragment {
 
                         // To get season details
                         JSONObject nextEpisodeToAir = response.getJSONObject("next_episode_to_air");
-                        episodeName = nextEpisodeToAir.getString("name");
-                        episodeNo = nextEpisodeToAir.getInt("episode_number");
-                        seasonNo = nextEpisodeToAir.getInt("season_number");
-                        airDate = nextEpisodeToAir.getString("air_date");
+                        String episodeName = nextEpisodeToAir.getString("name");
+                        int episodeNo = nextEpisodeToAir.getInt("episode_number");
+                        int seasonNo = nextEpisodeToAir.getInt("season_number");
+                        String airDate = nextEpisodeToAir.getString("air_date");
 
                         Home home = new Home(seasonNo, episodeNo, showName, networks, episodeName, backdropURL, airDate);
                         homeList.add(home);
-                        networks = "";
-
                     } catch (JSONException e) {
                         Log.e(TAG, "onResponse: Exception: " + e.getMessage());
                     }

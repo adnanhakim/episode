@@ -33,6 +33,12 @@
                     android:scaleType="centerCrop"
                     android:src="@color/colorAccent" />
 
+                <ImageView
+                    android:background="@drawable/gradient"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp" />
+
             </RelativeLayout>
 
             <TextView

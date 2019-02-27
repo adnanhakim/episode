@@ -1,84 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="12dp"
     android:paddingTop="12dp"
     android:paddingRight="12dp">
 
-    <RelativeLayout
-        android:id="@+id/RelativeCard"
+    <ImageView
+        android:id="@+id/ivHomeBackdrop"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="170dp"
+        android:background="@drawable/poster_design"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/ivHomeBackdrop"
-            android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:background="@drawable/poster_design" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:src="@drawable/gradient"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/tvShowName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="7dp"
-            android:layout_marginTop="7dp"
-            android:background="@drawable/translucent_background"
-            android:fontFamily="@font/gravitybook"
-            android:padding="10dp"
-            android:text="Show Name"
-            android:textColor="@color/colorWhite"
-            android:textSize="12dp" />
+    <TextView
+        android:id="@+id/tvShowName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/translucent_background"
+        android:fontFamily="@font/gravitybook"
+        android:padding="10dp"
+        android:text="Show Name"
+        android:textColor="@color/colorWhite"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="@+id/ivHomeBackdrop"
+        app:layout_constraintTop_toTopOf="@+id/ivHomeBackdrop" />
 
-        <RelativeLayout
-            android:id="@+id/RelativeNetwork"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tvAirDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/translucent_background"
+        android:fontFamily="@font/gravitybook"
+        android:padding="10dp"
+        android:text="AirDate"
+        android:textColor="@color/colorWhite"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/ivHomeBackdrop"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="7dp"
-                android:layout_marginTop="7dp"
-                android:id="@+id/tvAirDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/translucent_background"
-                android:padding="10dp"
-                android:text="AirDate"
-                android:textColor="@color/colorWhite"
-                android:textSize="12dp" />
+    <TextView
+        android:id="@+id/tvSeasonEpisode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="27dp"
+        android:fontFamily="@font/keepcalm"
+        android:text="Season|Episode"
+        android:textColor="@color/colorWhite"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        </RelativeLayout>
+    <TextView
+        android:id="@+id/tvEpisodeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvSeasonEpisode"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/gravitybook"
+        android:text="EpisodeName"
+        android:textColor="@color/colorWhite"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <RelativeLayout
-            android:id="@+id/RelativeSeasonEpisodeName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tvSeasonEpisode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="113dp"
-                android:fontFamily="@font/keepcalm"
-                android:paddingLeft="10dp"
-                android:text="Season|Episode"
-                android:textColor="@color/colorWhite"
-                android:textSize="18dp" />
-
-            <TextView
-                android:layout_below="@id/tvSeasonEpisode"
-                android:id="@+id/tvEpisodeName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gravitybook"
-                android:paddingLeft="10dp"
-                android:text="EpisodeName"
-                android:textColor="@color/colorWhite"
-                android:textSize="14dp" />
-
-        </RelativeLayout>
-
-    </RelativeLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -56,7 +56,12 @@ public class ProfileFragment extends Fragment {
         view = inflater.inflate(R.layout.profile_fragment, container, false);
         init();
         getUserData();
-        Glide.with(getContext()).load(MainActivity.favouritesList.get(getRandomBackdrop()).getBackdropURL()).into(ivProfileCover);
+
+        // To get random background as cover
+        requestOptions = new RequestOptions().centerCrop();
+        Glide.with(getContext()).load(MainActivity.favouritesList.get(getRandomBackdrop()).getBackdropURL())
+                .apply(requestOptions).into(ivProfileCover);
+
         setUpRecyclerView();
 
         firebaseAuth = FirebaseAuth.getInstance();

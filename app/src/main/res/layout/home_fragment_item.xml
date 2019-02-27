@@ -15,18 +15,18 @@
             android:id="@+id/ivHomeBackdrop"
             android:layout_width="match_parent"
             android:layout_height="170dp"
-            android:background="@color/colorAccent" />
+            android:background="@drawable/poster_design" />
 
         <TextView
-            android:layout_marginStart="7dp"
-            android:layout_marginTop="7dp"
-            android:background="@drawable/translucent_background"
             android:id="@+id/tvShowName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/translucent_background"
+            android:fontFamily="@font/gravitybook"
             android:padding="10dp"
             android:text="Show Name"
-            android:fontFamily="@font/gravitybook"
             android:textColor="@color/colorWhite"
             android:textSize="12dp" />
 
@@ -36,15 +36,17 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tvNetworks"
                 android:layout_alignParentRight="true"
+                android:layout_marginEnd="7dp"
+                android:layout_marginTop="7dp"
+                android:id="@+id/tvAirDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gravitybook"
+                android:background="@drawable/translucent_background"
                 android:padding="10dp"
-                android:text="Networks"
+                android:text="AirDate"
                 android:textColor="@color/colorWhite"
-                android:textSize="17dp" />
+                android:textSize="12dp" />
 
         </RelativeLayout>
 
@@ -55,37 +57,25 @@
 
             <TextView
                 android:id="@+id/tvSeasonEpisode"
-                android:layout_marginTop="105dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
+                android:layout_marginTop="113dp"
                 android:fontFamily="@font/keepcalm"
+                android:paddingLeft="10dp"
                 android:text="Season|Episode"
                 android:textColor="@color/colorWhite"
-                android:textSize="20dp" />
+                android:textSize="18dp" />
 
             <TextView
-                android:id="@+id/tvAirDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/tvSeasonEpisode"
-                android:textColor="@color/colorWhite"
-                android:text="AirDate"
-                android:layout_marginTop="85dp"
-                android:paddingLeft="10dp"
-                android:textSize="20dp"/>
-
-            <TextView
+                android:layout_below="@id/tvSeasonEpisode"
                 android:id="@+id/tvEpisodeName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="EpisodeName"
-                android:textSize="17dp"
                 android:fontFamily="@font/gravitybook"
-                android:textColor="@color/colorWhite"
                 android:paddingLeft="10dp"
-                android:layout_marginTop="137dp"
-                />
+                android:text="EpisodeName"
+                android:textColor="@color/colorWhite"
+                android:textSize="14dp" />
 
         </RelativeLayout>
 

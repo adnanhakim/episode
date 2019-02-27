@@ -53,7 +53,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         else
             holder.seasonEpisode.setText("S" + home.getSeasonNo() + " | E" + home.getEpisodeNo());
 
-        holder.networks.setText(home.getNetworks());
         Glide.with(context).load(home.getBackdropPath()).apply(requestOptions).into(holder.backDrop);
     }
 
@@ -64,7 +63,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView episodeName, showName, seasonEpisode, networks, airDate;
+        public TextView episodeName, showName, seasonEpisode, airDate;
         public ImageView backDrop;
 
         public ViewHolder(@NonNull View itemView) {
@@ -73,7 +72,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             episodeName = itemView.findViewById(R.id.tvEpisodeName);
             showName = itemView.findViewById(R.id.tvShowName);
             seasonEpisode = itemView.findViewById(R.id.tvSeasonEpisode);
-            networks = itemView.findViewById(R.id.tvNetworks);
             backDrop = itemView.findViewById(R.id.ivHomeBackdrop);
             airDate = itemView.findViewById(R.id.tvAirDate);
 

@@ -43,7 +43,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
         holder.episodeName.setText(home.getEpisodeName());
         holder.showName.setText(home.getShowName());
-        holder.airDate.setText(home.getAirDate().substring(0,9));
+        holder.airDate.setText(home.getAirDate());
         if(home.getEpisodeNo() < 10 && home.getSeasonNo() >= 10)
             holder.seasonEpisode.setText("S" + home.getSeasonNo() + " | E0" + home.getEpisodeNo());
         else if(home.getEpisodeNo() >= 10 && home.getSeasonNo() < 10)

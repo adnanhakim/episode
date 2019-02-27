@@ -177,11 +177,11 @@ public class HomeFragment extends Fragment {
         }
         dayDifferenceInt = Integer.parseInt(dayDifference);
         if(dayDifferenceInt == 0)
-            return "Today    ";
-        else if(dayDifferenceInt < 7)
-            return ("This Week" + dayDifference);
+            return "Today";
+        else if(dayDifferenceInt == 1)
+            return "Tomorrow";
         else
-            return ("Later    " + dayDifference);
+            return (dayDifference + " Days");
     }
 
 }

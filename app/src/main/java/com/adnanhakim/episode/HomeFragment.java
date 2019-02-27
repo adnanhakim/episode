@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -121,6 +123,14 @@ public class HomeFragment extends Fragment {
     private void setUpRecyclerView() {
         Log.d(TAG, "setUpRecyclerView: There are " + homeList.size() + " seasons");
         homeAdapter = new HomeAdapter(homeList, getActivity());
+
+        Collections.sort(homeList, new Comparator<Home>() {
+            @Override
+            public int compare(Home o1, Home o2) {
+                return o1.getAirDate().compareTo(o2.getAirDate());
+            }
+        });
+
         homeRecyclerView.setAdapter(homeAdapter);
         homeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
@@ -175,6 +185,7 @@ public class HomeFragment extends Fragment {
         } catch (Exception exception) {
             Log.e("DIDN'T WORK", "exception " + exception);
         }
+        /*
         dayDifferenceInt = Integer.parseInt(dayDifference);
         if(dayDifferenceInt == 0)
             return "Today";
@@ -182,6 +193,8 @@ public class HomeFragment extends Fragment {
             return "Tomorrow";
         else
             return (dayDifference + " Days");
+        */
+        return dayDifference;
     }
 
 }

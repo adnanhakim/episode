@@ -1,5 +1,6 @@
 package com.adnanhakim.episode;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +17,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -95,7 +101,7 @@ public class HomeFragment extends Fragment {
                         int seasonNo = nextEpisodeToAir.getInt("season_number");
                         String airDate = nextEpisodeToAir.getString("air_date");
 
-                        Home home = new Home(seasonNo, episodeNo, showName, networks, episodeName, backdropURL, airDate);
+                        Home home = new Home(seasonNo, episodeNo, showName, networks, episodeName, backdropURL, getDateDifference(airDate));
                         homeList.add(home);
                     } catch (JSONException e) {
                         Log.e(TAG, "onResponse: Exception: " + e.getMessage());
@@ -117,6 +123,65 @@ public class HomeFragment extends Fragment {
         homeAdapter = new HomeAdapter(homeList, getActivity());
         homeRecyclerView.setAdapter(homeAdapter);
         homeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    // Date Format: MM/dd/yyyy
+    private static String changeDateFormat(String oldDate) {
+        String oldDateFormat = "yyyy-MM-dd";
+        String newDateFormat = "MM/dd/yyyy";
+        String newDate;
+        SimpleDateFormat sdf = new SimpleDateFormat(oldDateFormat);
+        try {
+            Date date = sdf.parse(oldDate);
+            sdf.applyPattern(newDateFormat);
+            newDate = sdf.format(date);
+            return newDate;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private String getDateDifference(String airDate) {
+        String dayDifference = "";
+        int dayDifferenceInt;
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            Date date = new Date();
+
+
+            //Dates to compare
+            String CurrentDate =  formatter.format(date);
+            String FinalDate = changeDateFormat(airDate);
+
+            Date date1;
+            Date date2;
+
+            SimpleDateFormat dates = new SimpleDateFormat("MM/dd/yyyy");
+
+            //Setting dates
+            date1 = dates.parse(CurrentDate);
+            date2 = dates.parse(FinalDate);
+
+            //Comparing dates
+            long difference = Math.abs(date1.getTime() - date2.getTime());
+            long differenceDates = difference / (24 * 60 * 60 * 1000);
+
+            //Convert long to String
+            dayDifference = Long.toString(differenceDates);
+
+            Log.e("HERE","HERE: " + dayDifference);
+
+        } catch (Exception exception) {
+            Log.e("DIDN'T WORK", "exception " + exception);
+        }
+        dayDifferenceInt = Integer.parseInt(dayDifference);
+        if(dayDifferenceInt == 0)
+            return "Today    ";
+        else if(dayDifferenceInt < 7)
+            return ("This Week" + dayDifference);
+        else
+            return ("Later    " + dayDifference);
     }
 
 }

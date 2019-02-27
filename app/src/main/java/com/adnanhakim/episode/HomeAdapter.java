@@ -43,6 +43,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
         holder.episodeName.setText(home.getEpisodeName());
         holder.showName.setText(home.getShowName());
+        holder.airDate.setText(home.getAirDate().substring(0,9));
         if(home.getEpisodeNo() < 10 && home.getSeasonNo() >= 10)
             holder.seasonEpisode.setText("S" + home.getSeasonNo() + " | E0" + home.getEpisodeNo());
         else if(home.getEpisodeNo() >= 10 && home.getSeasonNo() < 10)
@@ -63,7 +64,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView episodeName, showName, seasonEpisode, networks;
+        public TextView episodeName, showName, seasonEpisode, networks, airDate;
         public ImageView backDrop;
 
         public ViewHolder(@NonNull View itemView) {
@@ -74,6 +75,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             seasonEpisode = itemView.findViewById(R.id.tvSeasonEpisode);
             networks = itemView.findViewById(R.id.tvNetworks);
             backDrop = itemView.findViewById(R.id.ivHomeBackdrop);
+            airDate = itemView.findViewById(R.id.tvAirDate);
 
             //Poster Corners
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

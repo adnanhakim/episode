@@ -59,10 +59,16 @@ public class ProfileFragment extends Fragment {
 
         // To get random background as cover
         requestOptions = new RequestOptions().centerCrop();
-        /*if (MainActivity.favouritesList.size() != 0) {
+
+        if (MainActivity.favouritesList.size() >= 2) {
             Glide.with(getContext()).load(MainActivity.favouritesList.get(getRandomBackdrop()).getBackdropURL())
                     .apply(requestOptions).into(ivProfileCover);
-        }*/
+        }
+        else if(MainActivity.favouritesList.size() == 1) {
+            Glide.with(getContext()).load(MainActivity.favouritesList.get(0).getBackdropURL())
+                    .apply(requestOptions).into(ivProfileCover);
+        }
+
         setUpRecyclerView();
 
         firebaseAuth = FirebaseAuth.getInstance();

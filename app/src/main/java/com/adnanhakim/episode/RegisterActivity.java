@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -49,7 +51,12 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView tvLoginHeader, tvRegisterHeader;
     private EditText etLoginEmail, etLoginPassword, etRegisterName, etRegisterEmail, etRegisterPassword;
     private Button btnLogin, btnRegister;
+
+    // Google Sign In
     private SignInButton googleSignIn;
+    private GoogleSignInClient mGoogleSignInClient;
+    private int RC_SIGN_IN = 0;
+    private FirebaseAuth mAuth;
 
     // Firebase Variables
     private FirebaseAuth firebaseAuth;
@@ -68,13 +75,12 @@ public class RegisterActivity extends AppCompatActivity {
         firebaseUser = firebaseAuth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
-
         if (firebaseUser != null && firebaseUser.isEmailVerified() == true) {
             // directly go to main page
             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
             Log.d(TAG, "onCreate: Firebase user" + firebaseUser.getEmail());
             finish();
-        } else if(firebaseUser != null) {
+        } else if (firebaseUser != null) {
             showLogin();
         }
 
@@ -158,9 +164,9 @@ public class RegisterActivity extends AppCompatActivity {
                     firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()) {
+                            if (task.isSuccessful()) {
                                 firebaseUser = firebaseAuth.getCurrentUser();
-                                if(firebaseUser.isEmailVerified()) {
+                                if (firebaseUser.isEmailVerified()) {
                                     Log.d(TAG, "onComplete: Signed in successfully");
                                     startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                                     finish();
@@ -176,6 +182,29 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     });
                 }
+            }
+        });
+
+
+        // <----------------- Google Sign In --------------------->
+        mAuth = FirebaseAuth.getInstance();
+
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                //.requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken("1334923011-sqs5e74sg1aui1c06iq974tr9iasi0n6.apps.googleusercontent.com")
+                .requestEmail()
+                .build();
+
+        // Build a GoogleSignInClient with the options specified by gso.
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        googleSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signIn();
             }
         });
     }
@@ -221,23 +250,79 @@ public class RegisterActivity extends AppCompatActivity {
         databaseReference.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     Log.d(TAG, "onComplete: Database updated");
                 } else {
                     Log.d(TAG, "onComplete: Database not updated");
                 }
             }
         });
-        /*DatabaseReference favouritesRef = databaseReference.child("favouriteList");
-        favouritesRef.setValue("null").addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()) {
-                    Log.d(TAG, "onComplete: Favourites added");
-                } else {
-                    Log.d(TAG, "onComplete: Favourites not added");
-                }
+    }
+
+    // <---------- Google Sign In -------------->
+    private void signIn() {
+        Log.d(TAG, "signIn: Clicked Google Sign In");
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.e(TAG, "Google sign in failed: " + e.getMessage(), e);
+                // ...
             }
-        });*/
+        }
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Toast.makeText(RegisterActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
+    private void updateUI(FirebaseUser user) {
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+        if (acct != null) {
+            String personName = acct.getDisplayName();
+            String personGivenName = acct.getGivenName();
+            String personFamilyName = acct.getFamilyName();
+            String personEmail = acct.getEmail();
+            String personId = acct.getId();
+            Uri personPhoto = acct.getPhotoUrl();
+
+            Toast.makeText(this, "Welcome " + personName, Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+            this.finish();
+        }
     }
 }

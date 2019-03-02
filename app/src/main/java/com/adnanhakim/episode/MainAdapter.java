@@ -52,7 +52,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 boolean isFavourited;
-                if(MainActivity.favouritesId.contains(tv.getId())){
+                if(SplashScreenActivity.favouritesId.contains(tv.getId())){
                     isFavourited = true;
                 } else {
                     isFavourited = false;

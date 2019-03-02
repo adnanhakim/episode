@@ -23,8 +23,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     // Favourites list
-    public static List<Favourite> favouritesList;
-    public static List<Integer> favouritesId;
+    // public static List<Favourite> favouritesList;
+    // public static List<Integer> favouritesId;
 
     // URL
     public static final String API_KEY = "7f1c5b6bcdc0417095c1df13c485f647";
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        getFavourites(FirebaseAuth.getInstance().getUid());
+        //getFavourites(FirebaseAuth.getInstance().getUid());
 
         // To select trending fragment as main fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerMain,
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public static void getFavourites(String uid) {
+    /*public static void getFavourites(String uid) {
         favouritesId = new ArrayList<>();
         favouritesList = new ArrayList<>();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(uid).child("favouriteList");
@@ -116,5 +116,5 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
 }

@@ -60,12 +60,12 @@ public class ProfileFragment extends Fragment {
         // To get random background as cover
         requestOptions = new RequestOptions().centerCrop();
 
-        if (MainActivity.favouritesList.size() >= 2) {
-            Glide.with(getContext()).load(MainActivity.favouritesList.get(getRandomBackdrop()).getBackdropURL())
+        if (SplashScreenActivity.favouritesList.size() >= 2) {
+            Glide.with(getContext()).load(SplashScreenActivity.favouritesList.get(getRandomBackdrop()).getBackdropURL())
                     .apply(requestOptions).into(ivProfileCover);
         }
-        else if(MainActivity.favouritesList.size() == 1) {
-            Glide.with(getContext()).load(MainActivity.favouritesList.get(0).getBackdropURL())
+        else if(SplashScreenActivity.favouritesList.size() == 1) {
+            Glide.with(getContext()).load(SplashScreenActivity.favouritesList.get(0).getBackdropURL())
                     .apply(requestOptions).into(ivProfileCover);
         }
 
@@ -87,7 +87,7 @@ public class ProfileFragment extends Fragment {
 
     private int getRandomBackdrop() {
         Random random = new Random();
-        int size = MainActivity.favouritesList.size();
+        int size = SplashScreenActivity.favouritesList.size();
         return random.nextInt(size - 1);
     }
 
@@ -135,10 +135,10 @@ public class ProfileFragment extends Fragment {
     private void setUpRecyclerView() {
         Log.d(TAG, "setUpRecyclerView: Setting up recycler view...");
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
-        adapter = new FavouriteAdapter(MainActivity.favouritesList, getContext());
+        adapter = new FavouriteAdapter(SplashScreenActivity.favouritesList, getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        if (MainActivity.favouritesList.size() == 0) {
+        if (SplashScreenActivity.favouritesList.size() == 0) {
             tvProfileNoFavs.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.INVISIBLE);
         } else {

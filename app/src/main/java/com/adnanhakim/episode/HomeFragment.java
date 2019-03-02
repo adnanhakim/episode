@@ -70,10 +70,11 @@ public class HomeFragment extends Fragment {
     }
 
     private void getJSONRequest() {
-        Log.d(TAG, "" + MainActivity.favouritesId.size());
+        //Log.d(TAG, "" + SplashScreenActivity.favouritesId.size());
+        Log.d(TAG, "getJSONRequest: Checking for null pointer");
         requestQueue = Volley.newRequestQueue(getActivity());
-        for (int i = 0; i < MainActivity.favouritesId.size(); i++) {
-            int tvId = MainActivity.favouritesId.get(i);
+        for (int i = 0; i < SplashScreenActivity.favouritesList.size(); i++) {
+            int tvId = SplashScreenActivity.favouritesId.get(i);
             String URL = BASE_URL + tvId + REMAINING_URL;
             Log.d(TAG, "getDetails: Requesting details for URL: " + URL);
             homeRequest = new JsonObjectRequest(URL, null, new Response.Listener<JSONObject>() {

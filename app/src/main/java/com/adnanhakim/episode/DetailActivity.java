@@ -116,7 +116,7 @@ public class DetailActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             Log.d(TAG, "onComplete: " + favourite.getTitle() + " added to favourites");
                             Toast.makeText(DetailActivity.this, favourite.getTitle() + " added to favourites", Toast.LENGTH_SHORT).show();
-                            MainActivity.getFavourites(firebaseAuth.getUid());
+                            SplashScreenActivity.getFavourites(DetailActivity.this, firebaseAuth.getUid());
                             isFavourited = true;
                             ibFavourites.setImageResource(R.drawable.ic_favorite);
 
@@ -138,7 +138,7 @@ public class DetailActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             Log.d(TAG, "onComplete: " + favourite.getTitle() + " removed from favourites");
                             Toast.makeText(DetailActivity.this, favourite.getTitle() + " removed from favourites", Toast.LENGTH_SHORT).show();
-                            MainActivity.getFavourites(firebaseAuth.getUid());
+                            SplashScreenActivity.getFavourites(DetailActivity.this, firebaseAuth.getUid());
                             isFavourited = false;
                             ibFavourites.setImageResource(R.drawable.ic_not_favorite);
 

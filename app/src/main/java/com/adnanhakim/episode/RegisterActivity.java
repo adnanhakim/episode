@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SubscriptionPlan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -168,7 +169,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 firebaseUser = firebaseAuth.getCurrentUser();
                                 if (firebaseUser.isEmailVerified()) {
                                     Log.d(TAG, "onComplete: Signed in successfully");
-                                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                    startActivity(new Intent(RegisterActivity.this, SplashScreenActivity.class));
                                     finish();
                                 } else {
                                     Log.d(TAG, "onComplete: Email not verified");

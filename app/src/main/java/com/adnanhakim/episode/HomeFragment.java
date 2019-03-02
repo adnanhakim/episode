@@ -112,6 +112,9 @@ public class HomeFragment extends Fragment {
                             }
                         }
 
+                        // Date Difference Calculations
+                        String nextAirDateStr = "", lastAirDateStr = "";
+
                         // To get last episode details
                         JSONObject lastEpisodeToAir = response.getJSONObject("last_episode_to_air");
                         String lastEpisodeName = lastEpisodeToAir.getString("name");
@@ -119,27 +122,7 @@ public class HomeFragment extends Fragment {
                         int lastEpisodeSeasonNo = lastEpisodeToAir.getInt("season_number");
                         String lastAirDate = lastEpisodeToAir.getString("air_date");
 
-                        // To get next episode details
-                        JSONObject nextEpisodeToAir = response.getJSONObject("next_episode_to_air");
-                        String nextEpisodeName = nextEpisodeToAir.getString("name");
-                        int nextEpisodeEpisodeNo = nextEpisodeToAir.getInt("episode_number");
-                        int nextEpisodeSeasonNo = nextEpisodeToAir.getInt("season_number");
-                        String nextAirDate = nextEpisodeToAir.getString("air_date");
-
-
                         int lastAirDateInt = getDateDifference(lastAirDate);
-                        int nextAirDateInt = getDateDifference(nextAirDate);
-
-                        Log.d(TAG, "onResponse: Date Check: " + showName + " LastAirDate-" + lastAirDateInt + "NextAirDate-" + nextAirDateInt);
-
-                        // Date Difference Calculations
-                        String nextAirDateStr = "", lastAirDateStr = "";
-                        if (nextAirDateInt >= 0 && nextAirDateInt < 10)
-                            nextAirDateStr = "00" + nextAirDateInt;
-                        else if (nextAirDateInt >= 10 && nextAirDateInt < 100)
-                            nextAirDateStr = "0" + nextAirDateInt;
-                        else
-                            nextAirDateStr = "" + nextAirDateInt;
 
                         if (lastAirDateInt >= 0 && lastAirDateInt < 10)
                             lastAirDateStr = "00" + lastAirDateInt;
@@ -148,15 +131,36 @@ public class HomeFragment extends Fragment {
                         else
                             lastAirDateStr = "" + lastAirDateInt;
 
-
                         // Check if Air Dates are between -365 & 365
-                        if (nextAirDateInt < 365) {
-                            Home nextHome = new Home(nextEpisodeSeasonNo, nextEpisodeEpisodeNo, nextAirDateInt, showName, networks, nextEpisodeName, backdropURL, nextAirDateStr);
-                            nextHomeList.add(nextHome);
-                        }
                         if (lastAirDateInt < 365) {
                             Home lastHome = new Home(lastEpisodeSeasonNo, lastEpisodeEpisodeNo, lastAirDateInt, showName, networks, lastEpisodeName, backdropURL, lastAirDateStr);
                             lastHomeList.add(lastHome);
+                        }
+
+                        // To get next episode details
+                        JSONObject nextEpisodeToAir = response.getJSONObject("next_episode_to_air");
+                        String nextEpisodeName = nextEpisodeToAir.getString("name");
+                        int nextEpisodeEpisodeNo = nextEpisodeToAir.getInt("episode_number");
+                        int nextEpisodeSeasonNo = nextEpisodeToAir.getInt("season_number");
+                        String nextAirDate = nextEpisodeToAir.getString("air_date");
+
+                        int nextAirDateInt = getDateDifference(nextAirDate);
+
+                        Log.d(TAG, "onResponse: Date Check: " + showName + " LastAirDate-" + lastAirDateInt + "NextAirDate-" + nextAirDateInt);
+
+
+                        if (nextAirDateInt >= 0 && nextAirDateInt < 10)
+                            nextAirDateStr = "00" + nextAirDateInt;
+                        else if (nextAirDateInt >= 10 && nextAirDateInt < 100)
+                            nextAirDateStr = "0" + nextAirDateInt;
+                        else
+                            nextAirDateStr = "" + nextAirDateInt;
+
+
+
+                        if (nextAirDateInt < 365) {
+                            Home nextHome = new Home(nextEpisodeSeasonNo, nextEpisodeEpisodeNo, nextAirDateInt, showName, networks, nextEpisodeName, backdropURL, nextAirDateStr);
+                            nextHomeList.add(nextHome);
                         }
                     } catch (JSONException e) {
                         Log.e(TAG, "onResponse: Exception: " + e.getMessage());

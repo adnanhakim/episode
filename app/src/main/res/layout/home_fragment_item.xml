@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="170dp"
     android:layout_marginLeft="12dp"
     android:layout_marginTop="12dp"
     android:layout_marginRight="12dp"
     app:cardCornerRadius="10dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -18,19 +18,13 @@
             android:id="@+id/ivHomeBackdrop"
             android:layout_width="match_parent"
             android:layout_height="170dp"
-            android:background="@color/colorAccent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:background="@color/colorAccent" />
 
         <ImageView
+            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:src="@drawable/gradient"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:src="@drawable/gradient" />
 
         <TextView
             android:id="@+id/tvShowName"
@@ -43,9 +37,7 @@
             android:padding="10dp"
             android:text="Show Name"
             android:textColor="@color/colorWhite"
-            android:textSize="12dp"
-            app:layout_constraintStart_toStartOf="@+id/ivHomeBackdrop"
-            app:layout_constraintTop_toTopOf="@+id/ivHomeBackdrop" />
+            android:textSize="12dp" />
 
         <TextView
             android:id="@+id/tvAirDate"
@@ -59,11 +51,10 @@
             android:padding="10dp"
             android:text="AirDate"
             android:textColor="@color/colorWhite"
-            android:textSize="12dp"
-            app:layout_constraintEnd_toEndOf="@+id/ivHomeBackdrop"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="12dp" />
 
         <TextView
+            android:layout_marginTop="110dp"
             android:id="@+id/tvSeasonEpisode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,27 +62,22 @@
             android:fontFamily="@font/keepcalm"
             android:text="Season|Episode"
             android:textColor="@color/colorWhite"
-            android:textSize="18dp"
-            app:layout_constraintBottom_toTopOf="@+id/tvEpisodeName"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/tvEpisodeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvSeasonEpisode"
+            android:layout_marginTop="140dp"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="10dp"
             android:fontFamily="@font/gravitybook"
             android:maxLines="2"
             android:text="EpisodeName"
             android:textColor="@color/colorWhite"
-            android:textSize="14dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:textSize="14dp"/>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
 
 

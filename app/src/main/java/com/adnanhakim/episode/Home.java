@@ -1,12 +1,13 @@
 package com.adnanhakim.episode;
 
 public class Home {
-    private int seasonNo, episodeNo;
+    private int episodeSeasonNo, episodeEpisodeNo, airDateInt;
     private String showName, networks, episodeName, backdropPath, airDate;
 
-    public Home(int seasonNo, int episodeNo, String showName, String networks, String episodeName, String backdropPath, String airDate) {
-        this.seasonNo = seasonNo;
-        this.episodeNo = episodeNo;
+    public Home(int episodeSeasonNo, int episodeEpisodeNo, int airDateInt, String showName, String networks, String episodeName, String backdropPath, String airDate) {
+        this.episodeSeasonNo = episodeSeasonNo;
+        this.episodeEpisodeNo = episodeEpisodeNo;
+        this.airDateInt = airDateInt;
         this.showName = showName;
         this.networks = networks;
         this.episodeName = episodeName;
@@ -14,12 +15,16 @@ public class Home {
         this.airDate = airDate;
     }
 
-    public int getSeasonNo() {
-        return seasonNo;
+    public int getEpisodeSeasonNo() {
+        return episodeSeasonNo;
     }
 
-    public int getEpisodeNo() {
-        return episodeNo;
+    public int getEpisodeEpisodeNo() {
+        return episodeEpisodeNo;
+    }
+
+    public int getAirDateInt() {
+        return airDateInt;
     }
 
     public String getShowName() {

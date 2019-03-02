@@ -1,11 +1,13 @@
 package com.adnanhakim.episode;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -45,19 +47,20 @@ public class HomeFragment extends Fragment {
 
     // UI Elements
     private View view;
-    private RecyclerView homeRecyclerView;
+    private RecyclerView homeNextRecyclerView, homeLastRecyclerView;
+    private RelativeLayout homeRelative, homeLastRelative, homeNextRelative;
     private HomeAdapter homeAdapter;
 
     //Variables
     public static final String TAG = "HomeFragment";
-    private List<Home> homeList;
+    private List<Home> nextHomeList, lastHomeList;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.home_fragment, container, false);
 
-        homeRecyclerView = view.findViewById(R.id.homeRecyclerView);
+        init();
 
         return view;
     }
@@ -65,7 +68,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        homeList = new ArrayList<>();
+        lastHomeList = new ArrayList<>();
+        nextHomeList = new ArrayList<>();
         getJSONRequest();
     }
 
@@ -97,19 +101,57 @@ public class HomeFragment extends Fragment {
                             }
                         }
 
-                        // To get season details
-                        JSONObject nextEpisodeToAir = response.getJSONObject("next_episode_to_air");
-                        String episodeName = nextEpisodeToAir.getString("name");
-                        int episodeNo = nextEpisodeToAir.getInt("episode_number");
-                        int seasonNo = nextEpisodeToAir.getInt("season_number");
-                        String airDate = nextEpisodeToAir.getString("air_date");
+                        // To get last episode details
+                        JSONObject lastEpisodeToAir = response.getJSONObject("last_episode_to_air");
+                        String lastEpisodeName = lastEpisodeToAir.getString("name");
+                        int lastEpisodeEpisodeNo = lastEpisodeToAir.getInt("episode_number");
+                        int lastEpisodeSeasonNo = lastEpisodeToAir.getInt("season_number");
+                        String lastAirDate = lastEpisodeToAir.getString("air_date");
 
-                        Home home = new Home(seasonNo, episodeNo, showName, networks, episodeName, backdropURL, getDateDifference(airDate));
-                        homeList.add(home);
+                        // To get next episode details
+                        JSONObject nextEpisodeToAir = response.getJSONObject("next_episode_to_air");
+                        String nextEpisodeName = nextEpisodeToAir.getString("name");
+                        int nextEpisodeEpisodeNo = nextEpisodeToAir.getInt("episode_number");
+                        int nextEpisodeSeasonNo = nextEpisodeToAir.getInt("season_number");
+                        String nextAirDate = nextEpisodeToAir.getString("air_date");
+
+
+                        int lastAirDateInt = getDateDifference(lastAirDate);
+                        int nextAirDateInt = getDateDifference(nextAirDate);
+
+                        Log.d(TAG, "onResponse: Date Check: " + showName + " LastAirDate-" + lastAirDateInt + "NextAirDate-" + nextAirDateInt);
+
+                        // Date Difference Calculations
+                        String nextAirDateStr = "", lastAirDateStr = "";
+                        if (nextAirDateInt >= 0 && nextAirDateInt < 10)
+                            nextAirDateStr = "00" + nextAirDateInt;
+                        else if (nextAirDateInt >= 10 && nextAirDateInt < 100)
+                            nextAirDateStr = "0" + nextAirDateInt;
+                        else
+                            nextAirDateStr = "" + nextAirDateInt;
+
+                        if (lastAirDateInt >= 0 && lastAirDateInt < 10)
+                            lastAirDateStr = "00" + lastAirDateInt;
+                        else if (lastAirDateInt >= 10 && lastAirDateInt < 100)
+                            lastAirDateStr = "0" + lastAirDateInt;
+                        else
+                            lastAirDateStr = "" + lastAirDateInt;
+
+
+                        // Check if Air Dates are between -365 & 365
+                        if (nextAirDateInt < 365) {
+                            Home nextHome = new Home(nextEpisodeSeasonNo, nextEpisodeEpisodeNo, nextAirDateInt, showName, networks, nextEpisodeName, backdropURL, nextAirDateStr);
+                            nextHomeList.add(nextHome);
+                        }
+                        if(lastAirDateInt < 365) {
+                            Home lastHome = new Home(lastEpisodeSeasonNo, lastEpisodeEpisodeNo, lastAirDateInt, showName, networks, lastEpisodeName, backdropURL, lastAirDateStr);
+                            lastHomeList.add(lastHome);
+                        }
                     } catch (JSONException e) {
                         Log.e(TAG, "onResponse: Exception: " + e.getMessage());
                     }
-                    setUpRecyclerView();
+                    setUpLastRecyclerView();
+                    setUpNextRecyclerView();
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -121,19 +163,59 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void setUpRecyclerView() {
-        Log.d(TAG, "setUpRecyclerView: There are " + homeList.size() + " seasons");
-        homeAdapter = new HomeAdapter(homeList, getActivity());
+    private void setUpLastRecyclerView() {
+        Log.d(TAG, "setUpLastRecyclerView: There are " + lastHomeList.size() + " seasons");
+        homeAdapter = new HomeAdapter(lastHomeList, getActivity());
 
-        Collections.sort(homeList, new Comparator<Home>() {
+        Collections.sort(lastHomeList, new Comparator<Home>() {
             @Override
             public int compare(Home o1, Home o2) {
+
                 return o1.getAirDate().compareTo(o2.getAirDate());
             }
         });
 
-        homeRecyclerView.setAdapter(homeAdapter);
-        homeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        homeLastRecyclerView.setAdapter(homeAdapter);
+        homeLastRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        checkList();
+    }
+
+    private void setUpNextRecyclerView() {
+        Log.d(TAG, "setUpNextRecyclerView: There are " + nextHomeList.size() + " seasons");
+        homeAdapter = new HomeAdapter(nextHomeList, getActivity());
+
+        Collections.sort(nextHomeList, new Comparator<Home>() {
+            @Override
+            public int compare(Home o1, Home o2) {
+
+                return o1.getAirDate().compareTo(o2.getAirDate());
+            }
+        });
+
+        homeNextRecyclerView.setAdapter(homeAdapter);
+        homeNextRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            homeNextRecyclerView.setFocusable(View.FOCUSABLE);
+        }
+        checkList();
+    }
+
+    private void checkList() {
+        if(lastHomeList.size() == 0 && nextHomeList.size() == 0)
+            homeRelative.setVisibility(View.INVISIBLE);
+        else {
+            homeRelative.setVisibility(View.VISIBLE);
+
+            if(lastHomeList.size() == 0 && nextHomeList.size() != 0)
+                homeLastRelative.setVisibility(View.INVISIBLE);
+            else if(lastHomeList.size() != 0 && nextHomeList.size() == 0)
+                homeNextRelative.setVisibility(View.INVISIBLE);
+            else {
+                homeLastRelative.setVisibility(View.VISIBLE);
+                homeNextRelative.setVisibility(View.VISIBLE);
+            }
+
+        }
     }
 
     // Date Format: MM/dd/yyyy
@@ -153,7 +235,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private String getDateDifference(String airDate) {
+    private int getDateDifference(String airDate) {
         String dayDifference = "";
         int dayDifferenceInt;
         try {
@@ -162,7 +244,7 @@ public class HomeFragment extends Fragment {
 
 
             //Dates to compare
-            String CurrentDate =  formatter.format(date);
+            String CurrentDate = formatter.format(date);
             String FinalDate = changeDateFormat(airDate);
 
             Date date1;
@@ -181,21 +263,23 @@ public class HomeFragment extends Fragment {
             //Convert long to String
             dayDifference = Long.toString(differenceDates);
 
-            Log.e("HERE","HERE: " + dayDifference);
+            Log.e("HERE", "HERE: " + dayDifference);
 
         } catch (Exception exception) {
             Log.e("DIDN'T WORK", "exception " + exception);
         }
-        /*
+
         dayDifferenceInt = Integer.parseInt(dayDifference);
-        if(dayDifferenceInt == 0)
-            return "Today";
-        else if(dayDifferenceInt == 1)
-            return "Tomorrow";
-        else
-            return (dayDifference + " Days");
-        */
-        return dayDifference;
+
+        return dayDifferenceInt;
+    }
+
+    private void init() {
+        homeNextRecyclerView = view.findViewById(R.id.homeNextRecyclerView);
+        homeLastRecyclerView = view.findViewById(R.id.homeLastRecyclerView);
+        homeRelative = view.findViewById(R.id.homeRelative);
+        homeLastRelative = view.findViewById(R.id.homeLastRelative);
+        homeNextRelative = view.findViewById(R.id.homeNextRelative);
     }
 
 }

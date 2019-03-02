@@ -44,21 +44,21 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.episodeName.setText(home.getEpisodeName());
         holder.showName.setText(home.getShowName());
 
-        if(home.getAirDate().equals("0"))
+        if(home.getAirDate().equals("000"))
             holder.airDate.setText("Today");
-        else if(home.getAirDate().equals("1"))
+        else if(home.getAirDate().equals("001"))
             holder.airDate.setText("Tomorrow");
         else
-            holder.airDate.setText(home.getAirDate() + " Days");
+            holder.airDate.setText(home.getAirDateInt() + " Days");
 
-        if(home.getEpisodeNo() < 10 && home.getSeasonNo() >= 10)
-            holder.seasonEpisode.setText("S" + home.getSeasonNo() + " | E0" + home.getEpisodeNo());
-        else if(home.getEpisodeNo() >= 10 && home.getSeasonNo() < 10)
-            holder.seasonEpisode.setText("S0" + home.getSeasonNo() + " | E" + home.getEpisodeNo());
-        else if(home.getEpisodeNo() < 10 && home.getSeasonNo() < 10)
-            holder.seasonEpisode.setText("S0" + home.getSeasonNo() + " | E0" + home.getEpisodeNo());
+        if(home.getEpisodeEpisodeNo() < 10 && home.getEpisodeSeasonNo() >= 10)
+            holder.seasonEpisode.setText("S" + home.getEpisodeSeasonNo() + " | E0" + home.getEpisodeEpisodeNo());
+        else if(home.getEpisodeEpisodeNo() >= 10 && home.getEpisodeSeasonNo() < 10)
+            holder.seasonEpisode.setText("S0" + home.getEpisodeSeasonNo() + " | E" + home.getEpisodeEpisodeNo());
+        else if(home.getEpisodeEpisodeNo() < 10 && home.getEpisodeSeasonNo() < 10)
+            holder.seasonEpisode.setText("S0" + home.getEpisodeSeasonNo() + " | E0" + home.getEpisodeEpisodeNo());
         else
-            holder.seasonEpisode.setText("S" + home.getSeasonNo() + " | E" + home.getEpisodeNo());
+            holder.seasonEpisode.setText("S" + home.getEpisodeSeasonNo() + " | E" + home.getEpisodeEpisodeNo());
 
         Glide.with(context).load(home.getBackdropPath()).apply(requestOptions).into(holder.backDrop);
     }

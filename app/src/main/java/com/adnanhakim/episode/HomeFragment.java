@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -49,6 +50,7 @@ public class HomeFragment extends Fragment {
     private View view;
     private RecyclerView homeNextRecyclerView, homeLastRecyclerView;
     private RelativeLayout homeRelative, homeLastRelative, homeNextRelative;
+    private TextView tvNextEpisode;
     private HomeAdapter homeAdapter;
 
     //Variables
@@ -59,9 +61,9 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.home_fragment, container, false);
-
         init();
-
+        homeLastRelative.setVisibility(View.INVISIBLE);
+        homeNextRelative.setVisibility(View.INVISIBLE);
         return view;
     }
 
@@ -71,6 +73,15 @@ public class HomeFragment extends Fragment {
         lastHomeList = new ArrayList<>();
         nextHomeList = new ArrayList<>();
         getJSONRequest();
+    }
+
+    private void init() {
+        homeNextRecyclerView = view.findViewById(R.id.homeNextRecyclerView);
+        homeLastRecyclerView = view.findViewById(R.id.homeLastRecyclerView);
+        homeRelative = view.findViewById(R.id.homeRelative);
+        homeLastRelative = view.findViewById(R.id.homeLastRelative);
+        homeNextRelative = view.findViewById(R.id.homeNextRelative);
+        tvNextEpisode = view.findViewById(R.id.tvNextEpisode);
     }
 
     private void getJSONRequest() {
@@ -143,7 +154,7 @@ public class HomeFragment extends Fragment {
                             Home nextHome = new Home(nextEpisodeSeasonNo, nextEpisodeEpisodeNo, nextAirDateInt, showName, networks, nextEpisodeName, backdropURL, nextAirDateStr);
                             nextHomeList.add(nextHome);
                         }
-                        if(lastAirDateInt < 365) {
+                        if (lastAirDateInt < 365) {
                             Home lastHome = new Home(lastEpisodeSeasonNo, lastEpisodeEpisodeNo, lastAirDateInt, showName, networks, lastEpisodeName, backdropURL, lastAirDateStr);
                             lastHomeList.add(lastHome);
                         }
@@ -177,7 +188,9 @@ public class HomeFragment extends Fragment {
 
         homeLastRecyclerView.setAdapter(homeAdapter);
         homeLastRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        checkList();
+        if (lastHomeList.size() != 0)
+            homeLastRelative.setVisibility(View.VISIBLE);
+        //checkList();
     }
 
     private void setUpNextRecyclerView() {
@@ -195,20 +208,22 @@ public class HomeFragment extends Fragment {
         homeNextRecyclerView.setAdapter(homeAdapter);
         homeNextRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            homeNextRecyclerView.setFocusable(View.FOCUSABLE);
+            tvNextEpisode.setFocusable(true);
         }
-        checkList();
+        if (nextHomeList.size() != 0)
+            homeNextRelative.setVisibility(View.VISIBLE);
+        //checkList();
     }
 
     private void checkList() {
-        if(lastHomeList.size() == 0 && nextHomeList.size() == 0)
+        if (lastHomeList.size() == 0 && nextHomeList.size() == 0)
             homeRelative.setVisibility(View.INVISIBLE);
         else {
             homeRelative.setVisibility(View.VISIBLE);
 
-            if(lastHomeList.size() == 0 && nextHomeList.size() != 0)
+            if (lastHomeList.size() == 0 && nextHomeList.size() != 0)
                 homeLastRelative.setVisibility(View.INVISIBLE);
-            else if(lastHomeList.size() != 0 && nextHomeList.size() == 0)
+            else if (lastHomeList.size() != 0 && nextHomeList.size() == 0)
                 homeNextRelative.setVisibility(View.INVISIBLE);
             else {
                 homeLastRelative.setVisibility(View.VISIBLE);
@@ -274,12 +289,5 @@ public class HomeFragment extends Fragment {
         return dayDifferenceInt;
     }
 
-    private void init() {
-        homeNextRecyclerView = view.findViewById(R.id.homeNextRecyclerView);
-        homeLastRecyclerView = view.findViewById(R.id.homeLastRecyclerView);
-        homeRelative = view.findViewById(R.id.homeRelative);
-        homeLastRelative = view.findViewById(R.id.homeLastRelative);
-        homeNextRelative = view.findViewById(R.id.homeNextRelative);
-    }
 
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="160dp"
+    android:layout_height="265dp"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/ivCastPhoto"
+        android:layout_width="150dp"
+        android:layout_height="225dp"
+        android:background="@drawable/poster_design" />
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="35dp"
+        android:background="@drawable/gradient" />
+
+    <TextView
+        android:id="@+id/tvCastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="190dp"
+        android:layout_marginEnd="10dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/keepcalm"
+        android:text="Name"
+        android:textColor="@color/colorWhite"
+        android:textSize="17dp" />
+
+    <TextView
+        android:id="@+id/tvCastCharacter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivCastPhoto"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/gravitybook"
+        android:text="Character"
+        android:textColor="@color/colorBlack"
+        android:textSize="15dp" />
+
+</RelativeLayout>

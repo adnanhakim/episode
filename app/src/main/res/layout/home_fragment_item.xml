@@ -60,7 +60,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="112dp"
             android:fontFamily="@font/keepcalm"
-            android:text="Season|Episode"
+            android:text="Season | Episode"
             android:textColor="@color/colorWhite"
             android:textSize="18dp" />
 

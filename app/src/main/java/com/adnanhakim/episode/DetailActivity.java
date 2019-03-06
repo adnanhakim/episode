@@ -51,7 +51,7 @@ public class DetailActivity extends AppCompatActivity {
     private final String BASE_URL = "https://api.themoviedb.org/3/tv/";
     private final String REMAINING_URL = "?api_key=7f1c5b6bcdc0417095c1df13c485f647&language=en-US";
     private final String IMAGE_URL = "https://image.tmdb.org/t/p/w500";
-    private JsonObjectRequest detailsRequest;
+    private JsonObjectRequest detailsRequest, castRequest;
     private RequestQueue requestQueue;
 
     // UI Elements
@@ -61,8 +61,9 @@ public class DetailActivity extends AppCompatActivity {
     private Typeface keepcalm;
     private TextView tvNetworks, tvOverview, tvStatus, tvGenres, tvRuntime;
     private ImageView ivPoster, ivBackdrop;
-    private RecyclerView seasonRecycler;
+    private RecyclerView seasonRecycler, castRecycler;
     private SeasonAdapter seasonAdapter;
+    private CastAdapter castAdapter;
     private ImageButton ibFavourites;
 
     // Variables
@@ -71,6 +72,7 @@ public class DetailActivity extends AppCompatActivity {
     private int seriesId;
     private String seriesTitle, intentActivity;
     private List<Season> seasonList;
+    private List<Cast> castList;
 
 
     @Override
@@ -90,9 +92,12 @@ public class DetailActivity extends AppCompatActivity {
         setUpCollapsingToolbar(seriesTitle);
         //nestedScrollView.scrollTo(0, 0);
         seasonRecycler.setFocusable(false);
+        castRecycler.setFocusable(false);
 
         seasonList = new ArrayList<>();
+        castList = new ArrayList<>();
         getDetails(seriesId);
+        getCast(seriesId);
 
         if (isFavourited == true) {
             ibFavourites.setImageResource(R.drawable.ic_favorite);
@@ -170,6 +175,7 @@ public class DetailActivity extends AppCompatActivity {
         tvGenres = findViewById(R.id.tvDetailsGenres);
         tvRuntime = findViewById(R.id.tvDetailsRuntime);
         seasonRecycler = findViewById(R.id.seasonRecyclerView);
+        castRecycler = findViewById(R.id.castRecyclerView);
         relativeLayout = findViewById(R.id.relativeMain);
         relativeLayout.setVisibility(View.INVISIBLE);
 
@@ -255,7 +261,7 @@ public class DetailActivity extends AppCompatActivity {
                     Log.e(TAG, "onResponse: Exception: " + e.getMessage());
                 }
                 fillDetails();
-                setUpRecyclerView();
+                setUpSeasonRecyclerView();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -267,8 +273,8 @@ public class DetailActivity extends AppCompatActivity {
         requestQueue.add(detailsRequest);
     }
 
-    private void setUpRecyclerView() {
-        Log.d(TAG, "setUpRecyclerView: There are " + seasonList.size() + " seasons");
+    private void setUpSeasonRecyclerView() {
+        Log.d(TAG, "setUpSeasonRecyclerView: There are " + seasonList.size() + " seasons");
         seasonAdapter = new SeasonAdapter(seasonList, DetailActivity.this);
         seasonRecycler.setAdapter(seasonAdapter);
         seasonRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -286,6 +292,46 @@ public class DetailActivity extends AppCompatActivity {
         Glide.with(DetailActivity.this).load(backdropURL).apply(option).into(ivBackdrop);
 
         relativeLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void getCast(int seriesId) {
+        tvId = seriesId;
+        String url = "https://api.themoviedb.org/3/tv/" + seriesId + "/credits?api_key=" + API_KEY + "&language=en-US";
+        Log.d(TAG, "getCast: Requesting cast details...");
+        castRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    Log.d(TAG, "onResponse: Got cast");
+                    JSONArray castArray = response.getJSONArray("cast");
+                    for(int i=0; i<castArray.length(); i++) {
+                        JSONObject castObject = castArray.getJSONObject(i);
+                        String name = castObject.getString("name");
+                        String character = castObject.getString("character");
+                        String imageURL = IMAGE_URL + castObject.getString("profile_path");
+                        Cast cast = new Cast(name, character, imageURL);
+                        castList.add(cast);
+                    }
+                } catch (JSONException e) {
+                    Log.e(TAG, "onResponse: JSONException: " + e.getMessage());
+                }
+                setUpCastRecyclerView();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "onErrorResponse: Cast not received: " + error.toString());
+            }
+        });
+        requestQueue.add(castRequest);
+    }
+
+    private void setUpCastRecyclerView() {
+        Log.d(TAG, "setUpCastRecyclerView: There are " + castList.size() + " casts");
+        castAdapter = new CastAdapter(castList, DetailActivity.this);
+        castRecycler.setAdapter(castAdapter);
+        castRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        castRecycler.setHasFixedSize(true);
     }
 
     public static String formatDate(String oldDate) {

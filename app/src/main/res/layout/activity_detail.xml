@@ -197,6 +197,31 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvDetailsSeason" />
 
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/seasonRecyclerView"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/colorGrey" />
+
+            <TextView
+                android:id="@+id/tvDetailsCast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view4"
+                android:fontFamily="@font/keepcalm"
+                android:text="Cast"
+                android:textColor="@color/colorBlack"
+                android:textSize="18dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/castRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvDetailsCast" />
+
         </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>

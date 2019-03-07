@@ -154,7 +154,6 @@ public class HomeFragment extends Fragment {
                             nextAirDateStr = "" + nextAirDateInt;
 
 
-
                         if (nextAirDateInt < 365) {
                             Home nextHome = new Home(nextEpisodeSeasonNo, nextEpisodeEpisodeNo, nextAirDateInt, showName, networks, nextEpisodeName, backdropURL, nextAirDateStr);
                             nextHomeList.add(nextHome);
@@ -163,7 +162,7 @@ public class HomeFragment extends Fragment {
                         Log.e(TAG, "onResponse: Exception: " + e.getMessage());
                     }
                     setUpLastRecyclerView();
-                    setUpNextRecyclerView();
+                    //setUpNextRecyclerView();
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -192,6 +191,7 @@ public class HomeFragment extends Fragment {
         if (lastHomeList.size() != 0)
             homeLastRelative.setVisibility(View.VISIBLE);
         //checkList();
+        setUpNextRecyclerView();
     }
 
     private void setUpNextRecyclerView() {
@@ -201,7 +201,6 @@ public class HomeFragment extends Fragment {
         Collections.sort(nextHomeList, new Comparator<Home>() {
             @Override
             public int compare(Home o1, Home o2) {
-
                 return o1.getAirDate().compareTo(o2.getAirDate());
             }
         });
@@ -213,7 +212,8 @@ public class HomeFragment extends Fragment {
         }
         if (nextHomeList.size() != 0)
             homeNextRelative.setVisibility(View.VISIBLE);
-        //checkList();
+
+        homeNextRelative.requestFocus();
     }
 
     private void checkList() {

@@ -49,7 +49,6 @@ public class RegisterActivity extends AppCompatActivity {
     // Firebase Variables
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
-    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
     @Override
@@ -305,16 +304,7 @@ public class RegisterActivity extends AppCompatActivity {
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
         if (acct != null) {
             String personName = acct.getDisplayName();
-            String personGivenName = acct.getGivenName();
-            String personFamilyName = acct.getFamilyName();
-            String personEmail = acct.getEmail();
-            String personId = acct.getId();
-            String personPhoto = acct.getPhotoUrl().toString();
-
             saveName(personName, firebaseAuth.getUid());
-
-            Toast.makeText(this, "Welcome " + personName, Toast.LENGTH_SHORT).show();
-
         }
     }
 }

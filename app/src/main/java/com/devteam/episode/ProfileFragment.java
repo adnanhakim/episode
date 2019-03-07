@@ -15,6 +15,10 @@ import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,6 +53,7 @@ public class ProfileFragment extends Fragment {
     // Firebase variables
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Nullable
     @Override
@@ -60,11 +65,20 @@ public class ProfileFragment extends Fragment {
         // To get random background as cover
         requestOptions = new RequestOptions().centerCrop();
 
+        final GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(getActivity());
+        if (googleSignInAccount != null) {
+            Glide.with(getContext()).load(googleSignInAccount.getPhotoUrl()).apply(requestOptions).into(ivProfileDp);
+        }
+
+        // To make the image view circular
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ivProfileDp.setClipToOutline(true);
+        }
+
         if (SplashScreenActivity.favouritesList.size() >= 2) {
             Glide.with(getContext()).load(SplashScreenActivity.favouritesList.get(getRandomBackdrop()).getBackdropURL())
                     .apply(requestOptions).into(ivProfileCover);
-        }
-        else if(SplashScreenActivity.favouritesList.size() == 1) {
+        } else if (SplashScreenActivity.favouritesList.size() == 1) {
             Glide.with(getContext()).load(SplashScreenActivity.favouritesList.get(0).getBackdropURL())
                     .apply(requestOptions).into(ivProfileCover);
         }
@@ -76,12 +90,21 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: Logging out...");
-                firebaseAuth.signOut();
+                if (googleSignInAccount != null) {
+                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .requestIdToken("1334923011-sqs5e74sg1aui1c06iq974tr9iasi0n6.apps.googleusercontent.com")
+                            .requestEmail()
+                            .build();
+                    mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+                    mGoogleSignInClient.signOut();
+                    firebaseAuth.signOut();
+                } else {
+                    firebaseAuth.signOut();
+                }
                 getActivity().finish();
                 startActivity(new Intent(getActivity(), RegisterActivity.class));
             }
         });
-
         return view;
     }
 
@@ -103,11 +126,6 @@ public class ProfileFragment extends Fragment {
 
         // To hide all data until data is fetched
         tvProfileName.setVisibility(View.INVISIBLE);
-
-        // To make the image view circular
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ivProfileDp.setClipToOutline(true);
-        }
     }
 
     private void getUserData() {
@@ -147,6 +165,4 @@ public class ProfileFragment extends Fragment {
             recyclerView.setVisibility(View.VISIBLE);
         }
     }
-
-
 }

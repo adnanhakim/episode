@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -37,6 +38,7 @@ public class ProfileFragment extends Fragment {
     private RequestOptions requestOptions;
 
     // UI Elements
+    private Toolbar toolbar;
     private View view;
     private ImageView ivProfileDp, ivProfileCover;
     private TextView tvProfileName, tvProfileNoFavs;
@@ -93,6 +95,7 @@ public class ProfileFragment extends Fragment {
 
     private void init() {
         // Find view by ids
+        //toolbar = view.findViewById(R.id.profileToolbar);
         ivProfileDp = view.findViewById(R.id.ivProfileDp);
         ivProfileCover = view.findViewById(R.id.ivProfileCover);
         tvProfileName = view.findViewById(R.id.tvProfileName);

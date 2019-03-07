@@ -1,4 +1,4 @@
-package com.adnanhakim.episode;
+package com.devteam.episode;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

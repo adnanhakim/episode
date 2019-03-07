@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.adnanhakim.episode">
+    package="com.devteam.episode">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,19 +11,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashScreenActivity">
+        <activity android:name="com.devteam.episode.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity">
+        <activity android:name="com.devteam.episode.RegisterActivity">
 
         </activity>
-        <activity android:name=".EpisodeActivity" />
-        <activity android:name=".DetailActivity" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name="com.devteam.episode.EpisodeActivity" />
+        <activity android:name="com.devteam.episode.DetailActivity" />
+        <activity android:name="com.devteam.episode.MainActivity"></activity>
 
     </application>
 

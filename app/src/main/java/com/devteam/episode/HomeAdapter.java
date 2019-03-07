@@ -1,4 +1,4 @@
-package com.adnanhakim.episode;
+package com.devteam.episode;
 
 import android.content.Context;
 import android.os.Build;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;

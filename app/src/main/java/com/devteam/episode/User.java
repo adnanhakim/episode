@@ -1,6 +1,4 @@
-package com.adnanhakim.episode;
-
-import java.util.List;
+package com.devteam.episode;
 
 public class User {
 

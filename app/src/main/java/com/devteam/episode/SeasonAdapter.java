@@ -1,4 +1,4 @@
-package com.adnanhakim.episode;
+package com.devteam.episode;
 
 import android.content.Context;
 import android.content.Intent;

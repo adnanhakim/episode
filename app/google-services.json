@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1334923011:android:9718bf123f1cab1e",
+        "mobilesdk_app_id": "1:1334923011:android:1789f11edb7d4ad4",
         "android_client_info": {
-          "package_name": "com.adnanhakim.episode"
+          "package_name": "com.devteam.episode"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "1334923011-crlft7i1dms8og7bplo072o62i507faa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.devteam.episode",
+            "certificate_hash": "822c978684d48886d4916bf453f60e7f24801bcc"
+          }
+        },
         {
           "client_id": "1334923011-sqs5e74sg1aui1c06iq974tr9iasi0n6.apps.googleusercontent.com",
           "client_type": 3
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1334923011-sqs5e74sg1aui1c06iq974tr9iasi0n6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

@@ -1,4 +1,4 @@
-package com.adnanhakim.episode;
+package com.devteam.episode;
 
 public class Home {
     private int episodeSeasonNo, episodeEpisodeNo, airDateInt;

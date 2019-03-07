@@ -322,7 +322,9 @@ public class RegisterActivity extends AppCompatActivity {
             String personFamilyName = acct.getFamilyName();
             String personEmail = acct.getEmail();
             String personId = acct.getId();
-            Uri personPhoto = acct.getPhotoUrl();
+            String personPhoto = acct.getPhotoUrl().toString();
+
+            saveName(personName, firebaseAuth.getUid());
 
             Toast.makeText(this, "Welcome " + personName, Toast.LENGTH_SHORT).show();
 

@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "1334923011-m17is6asejtkoc0hdg8oi23582kgmkau.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.devteam.episode",
+            "certificate_hash": "857843f42a17f301f4693f2f446c3de195a9355c"
+          }
+        },
+        {
           "client_id": "1334923011-sqs5e74sg1aui1c06iq974tr9iasi0n6.apps.googleusercontent.com",
           "client_type": 3
         }

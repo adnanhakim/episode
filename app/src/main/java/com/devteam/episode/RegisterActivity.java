@@ -27,8 +27,11 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -233,6 +236,23 @@ public class RegisterActivity extends AppCompatActivity {
         relativeLogin.setVisibility(View.INVISIBLE);
     }
 
+    private void checkUserIfExists(final String name, final String uid) {
+        databaseReference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists()) {
+                    Log.d(TAG, "onDataChange: User doesn't exists, saving in database...");
+                    saveName(name, uid);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d(TAG, "onCancelled: Database error: " + databaseError.getMessage());
+            }
+        });
+    }
+
     private void saveName(String name, String uid) {
         User user = new User(name, 0);
         databaseReference.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -304,7 +324,7 @@ public class RegisterActivity extends AppCompatActivity {
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
         if (acct != null) {
             String personName = acct.getDisplayName();
-            saveName(personName, firebaseAuth.getUid());
+            checkUserIfExists(personName, firebaseAuth.getUid());
         }
     }
 }

@@ -3,12 +3,14 @@ package com.devteam.episode;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +44,8 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView tvLoginHeader, tvRegisterHeader;
     private EditText etLoginEmail, etLoginPassword, etRegisterName, etRegisterEmail, etRegisterPassword;
     private Button btnLogin, btnRegister;
+    private ProgressBar registerProgressBar;
+    private ProgressDialog progressDialog;
 
     // Google Sign In
     private SignInButton googleSignIn;
@@ -60,6 +64,8 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         init();
         showRegister();
+
+        progressDialog = new ProgressDialog(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -218,6 +224,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Google Sign-in
         googleSignIn = findViewById(R.id.btnGoogleSignIn);
+
+        //Progress Bar
+        registerProgressBar = findViewById(R.id.registerProgressBar);
     }
 
     private void showLogin() {
@@ -281,6 +290,10 @@ public class RegisterActivity extends AppCompatActivity {
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            //Start Progress
+            progressDialog.setCancelable(false);
+            progressDialog.setMessage("Signing you in...");
+            progressDialog.show();
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
@@ -321,6 +334,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser user) {
+        //End Progress
+        progressDialog.dismiss();
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
         if (acct != null) {
             String personName = acct.getDisplayName();

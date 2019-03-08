@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,15 +35,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.regex.Pattern;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
 
+    private static final Pattern PASSWORD_PATTERN =
+            Pattern.compile("^" +
+                    "(?=.*[0-9])" +     // at least one number
+                    "(?=.*[a-z])" +     // at least one lowercase letter
+                    "(?=.*[A-Z])" +     // at least one uppercase letter
+                    "(?=\\S+$)" +       // no white spaces
+                    ".{8,}" +           // minimum 8 characters
+                    "$");
+
     // UI Elements
     private RelativeLayout relativeLogin, relativeRegister;
-    private TextView tvLoginHeader, tvRegisterHeader;
-    private EditText etLoginEmail, etLoginPassword, etRegisterName, etRegisterEmail, etRegisterPassword;
-    private Button btnLogin, btnRegister;
+    private TextInputLayout tilLoginEmail, tilLoginPassword, tilRegisterName, tilRegisterEmail, tilRegisterPassword;
+    private Button btnLogin, btnRegister, btnLoginInstead, btnRegisterInstead;
 
     // Google Sign In
     private SignInButton googleSignIn;
@@ -74,14 +86,14 @@ public class RegisterActivity extends AppCompatActivity {
             showLogin();
         }
 
-        tvLoginHeader.setOnClickListener(new View.OnClickListener() {
+        btnRegisterInstead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showRegister();
             }
         });
 
-        tvRegisterHeader.setOnClickListener(new View.OnClickListener() {
+        btnLoginInstead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showLogin();
@@ -92,17 +104,12 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: Clicked Register");
-                final String name = etRegisterName.getText().toString().trim();
-                String email = etRegisterEmail.getText().toString().trim();
-                String password = etRegisterPassword.getText().toString().trim();
+                final String name = tilRegisterName.getEditText().getText().toString().trim();
+                String email = tilRegisterEmail.getEditText().getText().toString().trim();
+                String password = tilRegisterPassword.getEditText().getText().toString().trim();
+                String context = "Register";
 
-                if (name.equals("") || email.equals("") || password.equals("")) {
-                    Log.d(TAG, "onClick: All/Some fields blank");
-                    Toast.makeText(RegisterActivity.this, "Enter all the details", Toast.LENGTH_SHORT).show();
-                } else if (password.length() < 8) {
-                    Log.d(TAG, "onClick: Password less than 8 characters");
-                    Toast.makeText(RegisterActivity.this, "Password must be minimum 8 characters", Toast.LENGTH_SHORT).show();
-                } else {
+                if (validateName(context, name) & validateEmail(context, email) & validatePassword(context, password)) {
                     Log.d(TAG, "onClick: All details entered");
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -136,6 +143,8 @@ public class RegisterActivity extends AppCompatActivity {
                             Log.e(TAG, "onFailure: Exception: " + e.toString());
                         }
                     });
+                } else {
+                    Log.d(TAG, "onClick: All/Some fields blank");
                 }
             }
         });
@@ -144,13 +153,11 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: Clicked Login");
-                String email = etLoginEmail.getText().toString().trim();
-                String password = etLoginPassword.getText().toString().trim();
+                String email = tilLoginEmail.getEditText().getText().toString().trim();
+                String password = tilLoginPassword.getEditText().getText().toString().trim();
+                String context = "Login";
 
-                if (email.equals("") || password.equals("")) {
-                    Log.d(TAG, "onClick: All/Some fields blank");
-                    Toast.makeText(RegisterActivity.this, "Enter all the details", Toast.LENGTH_SHORT).show();
-                } else {
+                if (validateEmail(context, email) & validatePassword(context, password)) {
                     firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -171,6 +178,8 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         }
                     });
+                } else {
+                    Log.d(TAG, "onClick: All/Some fields blank");
                 }
             }
         });
@@ -203,44 +212,103 @@ public class RegisterActivity extends AppCompatActivity {
     private void init() {
         // Login elements
         relativeLogin = findViewById(R.id.relativeLogin);
-        tvLoginHeader = findViewById(R.id.tvLoginHeader);
-        etLoginEmail = findViewById(R.id.etLoginEmail);
-        etLoginPassword = findViewById(R.id.etLoginPassword);
+        tilLoginEmail = findViewById(R.id.tilLoginEmail);
+        tilLoginPassword = findViewById(R.id.tilLoginPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        btnRegisterInstead = findViewById(R.id.btnRegisterInstead);
 
         // Register elements
         relativeRegister = findViewById(R.id.relativeRegister);
-        tvRegisterHeader = findViewById(R.id.tvRegisterHeader);
-        etRegisterName = findViewById(R.id.etRegisterName);
-        etRegisterEmail = findViewById(R.id.etRegisterEmail);
-        etRegisterPassword = findViewById(R.id.etRegisterPassword);
+        tilRegisterName = findViewById(R.id.tilRegisterName);
+        tilRegisterEmail = findViewById(R.id.tilRegisterEmail);
+        tilRegisterPassword = findViewById(R.id.tilRegisterPassword);
         btnRegister = findViewById(R.id.btnRegister);
+        btnLoginInstead = findViewById(R.id.btnLoginInstead);
 
         // Google Sign-in
         googleSignIn = findViewById(R.id.btnGoogleSignIn);
     }
 
+    private boolean validateName(String context, String name) {
+        if (name.isEmpty() && context.equals("Register")) {
+            tilRegisterName.setError("Field cannot be empty");
+            return false;
+        } else {
+            tilRegisterName.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validateEmail(String context, String email) {
+        if (context.equals("Login")) {
+            if (email.isEmpty()) {
+                tilLoginEmail.setError("Field cannot be empty");
+                return false;
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                tilLoginEmail.setError("Not a valid email address");
+                return false;
+            } else {
+                tilLoginEmail.setError(null);
+                return true;
+            }
+        } else {
+            if (email.isEmpty()) {
+                tilRegisterEmail.setError("Field cannot be empty");
+                return false;
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                tilRegisterEmail.setError("Not a valid email address");
+                return false;
+            } else {
+                tilRegisterEmail.setError(null);
+                return true;
+            }
+        }
+    }
+
+    private boolean validatePassword(String context, String password) {
+        if (context.equals("Login")) {
+            if (password.isEmpty()) {
+                tilLoginPassword.setError("Field cannot be empty");
+                return false;
+            } else {
+                tilLoginPassword.setError(null);
+                return true;
+            }
+        } else {
+            if (password.isEmpty()) {
+                tilRegisterPassword.setError("Field cannot be empty");
+                return false;
+            } else if (!PASSWORD_PATTERN.matcher(password).matches()) {
+                tilRegisterPassword.setError("Password must contain a lowercase, uppercase and a number");
+                return false;
+            } else {
+                tilRegisterPassword.setError(null);
+                return true;
+            }
+        }
+    }
+
     private void showLogin() {
-        tvLoginHeader.setVisibility(View.VISIBLE);
+        btnRegisterInstead.setVisibility(View.VISIBLE);
         relativeLogin.setVisibility(View.VISIBLE);
 
-        tvRegisterHeader.setVisibility(View.INVISIBLE);
-        relativeRegister.setVisibility(View.INVISIBLE);
+        btnLoginInstead.setVisibility(View.GONE);
+        relativeRegister.setVisibility(View.GONE);
     }
 
     private void showRegister() {
-        tvRegisterHeader.setVisibility(View.VISIBLE);
+        btnLoginInstead.setVisibility(View.VISIBLE);
         relativeRegister.setVisibility(View.VISIBLE);
 
-        tvLoginHeader.setVisibility(View.INVISIBLE);
-        relativeLogin.setVisibility(View.INVISIBLE);
+        btnRegisterInstead.setVisibility(View.GONE);
+        relativeLogin.setVisibility(View.GONE);
     }
 
     private void checkUserIfExists(final String name, final String uid) {
         databaseReference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.exists()) {
+                if (!dataSnapshot.exists()) {
                     Log.d(TAG, "onDataChange: User doesn't exists, saving in database...");
                     saveName(name, uid);
                 }

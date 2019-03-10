@@ -33,7 +33,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="150dp"
                     android:background="@drawable/iv_profile"
-                    android:src="@drawable/layer_list_1" />
+                    android:src="@drawable/defaultdp" />
 
                 <TextView
                     android:id="@+id/tvProfileName"

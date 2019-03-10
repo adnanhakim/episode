@@ -1,15 +1,25 @@
 package com.devteam.episode;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,6 +84,33 @@ public class MainActivity extends AppCompatActivity {
                 }
                 transaction.commit();
                 return true;
+            }
+        });
+    }
+
+    public static void updateFavourites(final Context context, String uid) {
+        SplashScreenActivity.favouritesList = new ArrayList<>();
+
+        Log.d(TAG, "getFavourites: new Arraylist");
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(uid).child("favouriteList");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Log.d(TAG, "onDataChange: Favourites exists");
+                    for (DataSnapshot list : dataSnapshot.getChildren()) {
+                        SplashScreenActivity.favouritesList.add(list.getValue(Favourite.class));
+                    }
+                } else {
+                    Log.d(TAG, "onDataChange: Favourites do not exist");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d(TAG, "onCancelled: Database Error: " + databaseError.getMessage());
+                Toast.makeText(context, "Database error :(", Toast.LENGTH_SHORT).show();
             }
         });
     }

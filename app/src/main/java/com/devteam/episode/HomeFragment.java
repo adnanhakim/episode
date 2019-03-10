@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
     // UI Elements
     private View view;
     private RecyclerView homeNextRecyclerView, homeLastRecyclerView;
-    private RelativeLayout homeRelative, homeLastRelative, homeNextRelative;
+    private RelativeLayout homeLastRelative, homeNextRelative;
     private TextView tvNextEpisode;
     private HomeAdapter homeAdapter;
 
@@ -79,7 +79,6 @@ public class HomeFragment extends Fragment {
     private void init() {
         homeNextRecyclerView = view.findViewById(R.id.homeNextRecyclerView);
         homeLastRecyclerView = view.findViewById(R.id.homeLastRecyclerView);
-        homeRelative = view.findViewById(R.id.homeRelative);
         homeLastRelative = view.findViewById(R.id.homeLastRelative);
         homeNextRelative = view.findViewById(R.id.homeNextRelative);
         tvNextEpisode = view.findViewById(R.id.tvNextEpisode);
@@ -90,7 +89,7 @@ public class HomeFragment extends Fragment {
         Log.d(TAG, "getJSONRequest: Checking for null pointer");
         requestQueue = Volley.newRequestQueue(getActivity());
         for (int i = 0; i < SplashScreenActivity.favouritesList.size(); i++) {
-            int tvId = SplashScreenActivity.favouritesId.get(i);
+            int tvId = SplashScreenActivity.favouritesList.get(i).getId();
             String URL = BASE_URL + tvId + REMAINING_URL;
             Log.d(TAG, "getDetails: Requesting details for URL: " + URL);
             homeRequest = new JsonObjectRequest(URL, null, new Response.Listener<JSONObject>() {
@@ -185,16 +184,17 @@ public class HomeFragment extends Fragment {
         Collections.sort(lastHomeList, new Comparator<Home>() {
             @Override
             public int compare(Home o1, Home o2) {
-
                 return o1.getAirDate().compareTo(o2.getAirDate());
             }
         });
 
         homeLastRecyclerView.setAdapter(homeAdapter);
         homeLastRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        if (lastHomeList.size() != 0)
+        if (lastHomeList.size() != 0) {
             homeLastRelative.setVisibility(View.VISIBLE);
-        //checkList();
+        } else {
+            homeLastRelative.setVisibility(View.GONE);
+        }
         setUpNextRecyclerView();
     }
 
@@ -214,13 +214,15 @@ public class HomeFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             tvNextEpisode.setFocusable(true);
         }
-        if (nextHomeList.size() != 0)
+        if (nextHomeList.size() != 0) {
             homeNextRelative.setVisibility(View.VISIBLE);
-
+        } else {
+            homeNextRelative.setVisibility(View.GONE);
+        }
         homeNextRelative.requestFocus();
     }
 
-    private void checkList() {
+    /*private void checkList() {
         if (lastHomeList.size() == 0 && nextHomeList.size() == 0)
             homeRelative.setVisibility(View.INVISIBLE);
         else {
@@ -236,7 +238,7 @@ public class HomeFragment extends Fragment {
             }
 
         }
-    }
+    }*/
 
     // Date Format: MM/dd/yyyy
     private static String changeDateFormat(String oldDate) {

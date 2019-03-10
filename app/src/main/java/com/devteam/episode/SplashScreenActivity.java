@@ -34,7 +34,6 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     // List
     public static List<Favourite> favouritesList;
-    public static List<Integer> favouritesId;
 
     // Firebase
     private FirebaseUser firebaseUser;
@@ -72,7 +71,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     public void getFavourites(final Context context, String uid) {
-        favouritesId = new ArrayList<>();
         favouritesList = new ArrayList<>();
 
         Log.d(TAG, "getFavourites: new Arraylist");
@@ -85,9 +83,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                     Log.d(TAG, "onDataChange: Favourites exists");
                     for (DataSnapshot list : dataSnapshot.getChildren()) {
                         favouritesList.add(list.getValue(Favourite.class));
-                    }
-                    for (int i = 0; i < favouritesList.size(); i++) {
-                        favouritesId.add(favouritesList.get(i).getId());
                     }
                 } else {
                     Log.d(TAG, "onDataChange: Favourites do not exist");

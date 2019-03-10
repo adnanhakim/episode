@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     private List<TVSeries> tvSeries;
+    private List<Integer> favouritesId;
     private Context context;
     private RequestOptions requestOptions;
 
@@ -51,12 +53,15 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isFavourited;
-                if(SplashScreenActivity.favouritesId.contains(tv.getId())){
-                    isFavourited = true;
-                } else {
-                    isFavourited = false;
+                boolean isFavourited = false;
+
+                for(int i =0; i<SplashScreenActivity.favouritesList.size(); i++) {
+                    if(SplashScreenActivity.favouritesList.get(i).getId() == tv.getId()) {
+                        isFavourited = true;
+                        break;
+                    }
                 }
+
                 Intent intent = new Intent(context, DetailActivity.class);
                 intent.putExtra("ID", tv.getId());
                 intent.putExtra("TITLE", tv.getTitle());

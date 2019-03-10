@@ -6,12 +6,12 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/homeRelative"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:id="@+id/homeLastRelative"
@@ -32,20 +32,16 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/homeLastRecyclerView"
-                    android:layout_below="@id/tvLastEpisode"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/tvLastEpisode" />
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/homeNextRelative"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/homeLastRelative"
-                android:focusable="true"
-                android:focusedByDefault="true"
-                android:focusableInTouchMode="true">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tvNextEpisode"
@@ -59,21 +55,16 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textColor="@color/colorAccent" />
 
-                <androidx.core.widget.NestedScrollView
-                    android:id="@+id/nextNestedScroll"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/homeNextRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tvNextEpisode"
-                    android:focusedByDefault="true">
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/tvNextEpisode" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/homeNextRecyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-
-                </androidx.core.widget.NestedScrollView>
             </RelativeLayout>
-        </RelativeLayout>
+
+        </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
+
 </RelativeLayout>

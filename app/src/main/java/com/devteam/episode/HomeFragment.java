@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment {
         Log.d(TAG, "getJSONRequest: Checking for null pointer");
         requestQueue = Volley.newRequestQueue(getActivity());
         for (int i = 0; i < SplashScreenActivity.favouritesList.size(); i++) {
-            int tvId = SplashScreenActivity.favouritesList.get(i).getId();
+            final int tvId = SplashScreenActivity.favouritesList.get(i).getId();
             String URL = BASE_URL + tvId + REMAINING_URL;
             Log.d(TAG, "getDetails: Requesting details for URL: " + URL);
             homeRequest = new JsonObjectRequest(URL, null, new Response.Listener<JSONObject>() {
@@ -133,7 +133,7 @@ public class HomeFragment extends Fragment {
 
                         // Check if Air Dates are between -365 & 365
                         if (lastAirDateInt < 365) {
-                            Home lastHome = new Home(lastEpisodeSeasonNo, lastEpisodeEpisodeNo, lastAirDateInt, showName, networks, lastEpisodeName, backdropURL, lastAirDateStr, AIRED);
+                            Home lastHome = new Home(lastEpisodeSeasonNo, lastEpisodeEpisodeNo, lastAirDateInt,tvId, showName, networks, lastEpisodeName, backdropURL, lastAirDateStr, AIRED);
                             lastHomeList.add(lastHome);
                         }
 
@@ -158,7 +158,7 @@ public class HomeFragment extends Fragment {
 
 
                         if (nextAirDateInt < 365) {
-                            Home nextHome = new Home(nextEpisodeSeasonNo, nextEpisodeEpisodeNo, nextAirDateInt, showName, networks, nextEpisodeName, backdropURL, nextAirDateStr, UNAIRED);
+                            Home nextHome = new Home(nextEpisodeSeasonNo, nextEpisodeEpisodeNo, nextAirDateInt, tvId, showName, networks, nextEpisodeName, backdropURL, nextAirDateStr, UNAIRED);
                             nextHomeList.add(nextHome);
                         }
                     } catch (JSONException e) {

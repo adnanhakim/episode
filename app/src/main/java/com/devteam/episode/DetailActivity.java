@@ -357,6 +357,10 @@ public class DetailActivity extends AppCompatActivity {
             startActivity(new Intent(DetailActivity.this, MainActivity.class));
             this.finish();
         }
+        else if(intentActivity.equals("HOME")) {
+            startActivity(new Intent(DetailActivity.this, MainActivity.class));
+            this.finish();
+        }
         super.onBackPressed();
         this.finish();
     }

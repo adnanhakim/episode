@@ -1,13 +1,14 @@
 package com.devteam.episode;
 
 public class Home {
-    private int episodeSeasonNo, episodeEpisodeNo, airDateInt;
+    private int episodeSeasonNo, episodeEpisodeNo, airDateInt, showId;
     private String showName, networks, episodeName, backdropPath, airDate, status;
 
-    public Home(int episodeSeasonNo, int episodeEpisodeNo, int airDateInt, String showName, String networks, String episodeName, String backdropPath, String airDate, String status) {
+    public Home(int episodeSeasonNo, int episodeEpisodeNo, int airDateInt, int showId, String showName, String networks, String episodeName, String backdropPath, String airDate, String status) {
         this.episodeSeasonNo = episodeSeasonNo;
         this.episodeEpisodeNo = episodeEpisodeNo;
         this.airDateInt = airDateInt;
+        this.showId = showId;
         this.showName = showName;
         this.networks = networks;
         this.episodeName = episodeName;
@@ -26,6 +27,10 @@ public class Home {
 
     public int getAirDateInt() {
         return airDateInt;
+    }
+
+    public int getShowId() {
+        return showId;
     }
 
     public String getShowName() {

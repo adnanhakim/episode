@@ -1,6 +1,8 @@
 package com.devteam.episode;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +39,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final Home home = homeList.get(position);
 
         holder.episodeName.setText(home.getEpisodeName());
@@ -68,6 +70,21 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             holder.seasonEpisode.setText("S" + home.getEpisodeSeasonNo() + " | E" + home.getEpisodeEpisodeNo());
 
         Glide.with(context).load(home.getBackdropPath()).apply(requestOptions).into(holder.backDrop);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("ID", home.getShowId());
+                intent.putExtra("TITLE", home.getShowName());
+                intent.putExtra("BOOLEAN", true);
+                intent.putExtra("ACTIVITY", "HOME");
+                v.getContext().startActivity(intent);
+                ((Activity) context).finish();
+
+            }
+        });
     }
 
     @Override

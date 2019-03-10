@@ -54,6 +54,10 @@ public class HomeFragment extends Fragment {
     public static final String TAG = "HomeFragment";
     private List<Home> nextHomeList, lastHomeList;
 
+    //AirDate Status
+    public static final String AIRED = "aired";
+    public static final String UNAIRED = "unaired";
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -130,7 +134,7 @@ public class HomeFragment extends Fragment {
 
                         // Check if Air Dates are between -365 & 365
                         if (lastAirDateInt < 365) {
-                            Home lastHome = new Home(lastEpisodeSeasonNo, lastEpisodeEpisodeNo, lastAirDateInt, showName, networks, lastEpisodeName, backdropURL, lastAirDateStr);
+                            Home lastHome = new Home(lastEpisodeSeasonNo, lastEpisodeEpisodeNo, lastAirDateInt, showName, networks, lastEpisodeName, backdropURL, lastAirDateStr, AIRED);
                             lastHomeList.add(lastHome);
                         }
 
@@ -155,7 +159,7 @@ public class HomeFragment extends Fragment {
 
 
                         if (nextAirDateInt < 365) {
-                            Home nextHome = new Home(nextEpisodeSeasonNo, nextEpisodeEpisodeNo, nextAirDateInt, showName, networks, nextEpisodeName, backdropURL, nextAirDateStr);
+                            Home nextHome = new Home(nextEpisodeSeasonNo, nextEpisodeEpisodeNo, nextAirDateInt, showName, networks, nextEpisodeName, backdropURL, nextAirDateStr, UNAIRED);
                             nextHomeList.add(nextHome);
                         }
                     } catch (JSONException e) {

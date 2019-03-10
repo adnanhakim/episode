@@ -43,12 +43,20 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.episodeName.setText(home.getEpisodeName());
         holder.showName.setText(home.getShowName());
 
-        if(home.getAirDate().equals("000"))
-            holder.airDate.setText("Today");
-        else if(home.getAirDate().equals("001"))
-            holder.airDate.setText("Tomorrow");
-        else
-            holder.airDate.setText(home.getAirDateInt() + " Days");
+        if(home.getStatus().equals("aired")) {
+            if (home.getAirDate().equals("001"))
+                holder.airDate.setText("Yesterday");
+            else
+                holder.airDate.setText(home.getAirDateInt() + " Days Ago");
+        }
+        else {
+            if (home.getAirDate().equals("000"))
+                holder.airDate.setText("Today");
+            else if (home.getAirDate().equals("001"))
+                holder.airDate.setText("Tomorrow");
+            else
+                holder.airDate.setText(home.getAirDateInt() + " Days");
+        }
 
         if(home.getEpisodeEpisodeNo() < 10 && home.getEpisodeSeasonNo() >= 10)
             holder.seasonEpisode.setText("S" + home.getEpisodeSeasonNo() + " | E0" + home.getEpisodeEpisodeNo());

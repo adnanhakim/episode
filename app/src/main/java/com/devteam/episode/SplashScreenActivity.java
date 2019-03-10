@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +29,9 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private static final String TAG = "SplashScreenActivity";
 
+    // Variable
+    private TextView tvSplashScreen;
+
     // List
     public static List<Favourite> favouritesList;
     public static List<Integer> favouritesId;
@@ -33,10 +39,19 @@ public class SplashScreenActivity extends AppCompatActivity {
     // Firebase
     private FirebaseUser firebaseUser;
 
+    // Animation
+    private Animation animBlink;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        tvSplashScreen = findViewById(R.id.tvSplashScreen);
+
+        // Animating TextView
+        animBlink = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
+        tvSplashScreen.startAnimation(animBlink);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 

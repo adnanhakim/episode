@@ -7,6 +7,7 @@
     tools:context=".SplashScreenActivity">
 
     <TextView
+        android:id="@+id/tvSplashScreen"
         android:textSize="30dp"
         android:textColor="@color/colorAccent"
         android:fontFamily="@font/gravitybook"

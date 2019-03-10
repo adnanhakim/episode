@@ -32,8 +32,8 @@
                     android:layout_height="100dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="150dp"
-                    android:background="@drawable/iv_profile"
-                    android:src="@drawable/defaultdp" />
+                    android:src="@drawable/defaultdp"
+                    android:background="@drawable/iv_profile"/>
 
                 <TextView
                     android:id="@+id/tvProfileName"

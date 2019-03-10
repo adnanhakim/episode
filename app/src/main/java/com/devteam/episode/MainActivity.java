@@ -12,10 +12,6 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Favourites list
-    // public static List<Favourite> favouritesList;
-    // public static List<Integer> favouritesId;
-
     // URL
     public static final String API_KEY = "7f1c5b6bcdc0417095c1df13c485f647";
 
@@ -34,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         // To select trending fragment as main fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerMain,
-                new TrendingFragment()).commit();
+                new HomeFragment()).commit();
 
         bottomNavigationView.getMenu().getItem(1).setChecked(true);
 
@@ -54,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = getSupportFragmentManager().findFragmentByTag("TRENDING");
                 if (fragment != null && fragment.isVisible()) {
                     // Scroll to top of recycler view
-
                 }
 
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -77,34 +72,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    /*public static void getFavourites(String uid) {
-        favouritesId = new ArrayList<>();
-        favouritesList = new ArrayList<>();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(uid).child("favouriteList");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    Log.d(TAG, "onDataChange: Favourites exists");
-                    for(DataSnapshot list: dataSnapshot.getChildren()) {
-                        favouritesList.add(list.getValue(Favourite.class));
-                    }
-                    for(int i = 0; i<favouritesList.size(); i++) {
-                        favouritesId.add(favouritesList.get(i).getId());
-                    }
-                    for(int i = 0; i<favouritesList.size(); i++) {
-                        Log.d(TAG, "onDataChange: " + favouritesList.get(i).getTitle());
-                    }
-                } else {
-                    Log.d(TAG, "onDataChange: Favourites do not exist");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }*/
 }

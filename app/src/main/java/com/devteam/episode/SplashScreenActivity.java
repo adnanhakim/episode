@@ -45,10 +45,8 @@ public class SplashScreenActivity extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    AtomicBoolean done = getFavourites(SplashScreenActivity.this, firebaseUser.getUid());
-                    Log.d(TAG, "run: Checking done = " + done.get());
-                    startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
-                    finish();
+                    getFavourites(SplashScreenActivity.this, firebaseUser.getUid());
+                    //Log.d(TAG, "run: Checking done = " + done.get());
                 }
             }, 3000);
         } else {
@@ -58,9 +56,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
     }
 
-    public static AtomicBoolean getFavourites(final Context context, String uid) {
-        final AtomicBoolean done = new AtomicBoolean(false);
-        //final CountDownLatch latch = new CountDownLatch(1);
+    public void getFavourites(final Context context, String uid) {
         favouritesId = new ArrayList<>();
         favouritesList = new ArrayList<>();
 
@@ -81,20 +77,23 @@ public class SplashScreenActivity extends AppCompatActivity {
                 } else {
                     Log.d(TAG, "onDataChange: Favourites do not exist");
                 }
-                done.set(true);
-                //latch.countDown();
+                updateUI(true);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.d(TAG, "onCancelled: Database Error: " + databaseError.getMessage());
                 Toast.makeText(context, "Database error :(", Toast.LENGTH_SHORT).show();
-                done.set(false);
+                updateUI(false);
             }
         });
-        //try {
-            //latch.await();
-
-        return done;
     }
+
+    private void updateUI(boolean message) {
+        if (message == true) {
+            startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+        }
+        this.finish();
+    }
+
 }

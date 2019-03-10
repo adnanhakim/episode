@@ -56,13 +56,13 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         if (firebaseUser != null) {
             Log.d(TAG, "onCreate: User is already logged in, retrieving favourites");
-            new Handler().postDelayed(new Runnable() {
+            new Handler().post(new Runnable() {
                 @Override
                 public void run() {
                     getFavourites(SplashScreenActivity.this, firebaseUser.getUid());
                     //Log.d(TAG, "run: Checking done = " + done.get());
                 }
-            }, 3000);
+            });
         } else {
             Log.d(TAG, "onCreate: User is not logged in, redirecting to RegisterActivity");
             startActivity(new Intent(SplashScreenActivity.this, RegisterActivity.class));

@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -28,6 +29,15 @@ public class WebActivity extends AppCompatActivity {
         String baseUrl = intent.getStringExtra("URL");
 
         webView.loadUrl(baseUrl + header);
+
+        tvHeader.setText(header);
+
+        ibClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void init() {

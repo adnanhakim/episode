@@ -75,13 +75,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("ID", home.getShowId());
-                intent.putExtra("TITLE", home.getShowName());
-                intent.putExtra("BOOLEAN", true);
+                Intent intent = new Intent(context, EpisodeActivity.class);
+                intent.putExtra("SEASONTITLE", "Season " + home.getEpisodeSeasonNo());
+                intent.putExtra("SEASONNO", home.getEpisodeSeasonNo());
+                intent.putExtra("TVID", home.getShowId());
+                intent.putExtra("EPISODENO", home.getEpisodeEpisodeNo());
                 intent.putExtra("ACTIVITY", "HOME");
                 v.getContext().startActivity(intent);
-                ((Activity) context).finish();
 
             }
         });

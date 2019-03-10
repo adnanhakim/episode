@@ -37,7 +37,7 @@ public class EpisodeActivity extends AppCompatActivity {
     private final String REMAINING_URL = "?api_key=7f1c5b6bcdc0417095c1df13c485f647&language=en-US";
     private final String IMAGE_URL = "https://image.tmdb.org/t/p/w500";
     private String seasonTitle, URL;
-    private int tvId, seasonNo;
+    private int tvId, seasonNo, episodeNo;
 
     private JsonObjectRequest objectRequest;
     private RequestQueue requestQueue;
@@ -49,12 +49,27 @@ public class EpisodeActivity extends AppCompatActivity {
         init();
 
         Intent intent = getIntent();
-        seasonTitle = intent.getStringExtra("SEASONTITLE");
-        seasonNo = intent.getIntExtra("SEASONNO", 999999);
-        tvId = intent.getIntExtra("TVID", 999999);
-        tvHeader.setText(seasonTitle);
+        String check = intent.getStringExtra("ACTIVITY");
 
-        getEpisodeList();
+        if(check.equals("HOME")) {
+            seasonTitle = intent.getStringExtra("SEASONTITLE");
+            seasonNo = intent.getIntExtra("SEASONNO", 999999);
+            tvId = intent.getIntExtra("TVID", 999999);
+            episodeNo = intent.getIntExtra("EPISODENO", 1);
+            Log.d(TAG, "onCreate: EpisodeNo: " + episodeNo);
+            tvHeader.setText(seasonTitle);
+
+            getEpisodeList();
+            resetUpViewPager();
+        }
+        else {
+            seasonTitle = intent.getStringExtra("SEASONTITLE");
+            seasonNo = intent.getIntExtra("SEASONNO", 999999);
+            tvId = intent.getIntExtra("TVID", 999999);
+            tvHeader.setText(seasonTitle);
+
+            getEpisodeList();
+        }
     }
 
     private void init() {
@@ -109,6 +124,22 @@ public class EpisodeActivity extends AppCompatActivity {
     private void setUpViewPager() {
         episodeAdapter = new EpisodeAdapter(episodes, EpisodeActivity.this);
         viewPager.setAdapter(episodeAdapter);
+        viewPager.setPadding(130, 32, 130, 0);
+        viewPager.setPageTransformer(true, new FadeTransformer());
+        viewPager.setPageMargin(40);
+        Log.d(TAG, "onCreate: List having " + episodes.size() + " results");
+    }
+
+    private void resetUpViewPager() {
+        episodeAdapter = new EpisodeAdapter(episodes, EpisodeActivity.this);
+        viewPager.setAdapter(episodeAdapter);
+        viewPager.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                viewPager.setCurrentItem(episodeNo - 1);
+            }
+        }, 1000);
         viewPager.setPadding(130, 32, 130, 0);
         viewPager.setPageTransformer(true, new FadeTransformer());
         viewPager.setPageMargin(40);

@@ -58,6 +58,7 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.ViewHolder
                 intent.putExtra("SEASONTITLE", season.getSeasonTitle());
                 intent.putExtra("SEASONNO", season.getSeasonNo());
                 intent.putExtra("TVID", season.getTvId());
+                intent.putExtra("ACTIVITY", "SEASON");
                 v.getContext().startActivity(intent);
             }
         });

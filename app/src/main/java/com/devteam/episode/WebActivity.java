@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -28,9 +29,16 @@ public class WebActivity extends AppCompatActivity {
         String header = intent.getStringExtra("HEADER");
         String baseUrl = intent.getStringExtra("URL");
 
+        tvHeader.setText(header);
+
+        webView.getSettings().setJavaScriptEnabled(true);
+
+        //Enabling zoom-in controls
+        webView.getSettings().setSupportZoom(true);
+
         webView.loadUrl(baseUrl + header);
 
-        tvHeader.setText(header);
+        webView.setWebViewClient(new WebViewController());
 
         ibClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,7 +46,9 @@ public class WebActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
+
 
     private void init() {
         toolbar = findViewById(R.id.toolbarWeb);

@@ -1,6 +1,7 @@
 package com.devteam.episode;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
     private List<Cast> castList;
     private Context context;
     private RequestOptions requestOptions;
+    private String url = "https://en.wikipedia.org/wiki/";
 
     public CastAdapter(List<Cast> castList, Context context) {
         this.castList = castList;
@@ -37,12 +39,22 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Cast cast = castList.get(position);
+        final Cast cast = castList.get(position);
 
         holder.tvName.setText(cast.getName());
         holder.tvCharacter.setText(cast.getCharacter());
 
         Glide.with(context).load(cast.getImageURL()).apply(requestOptions).into(holder.ivPhoto);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, WebActivity.class);
+                intent.putExtra("HEADER", cast.getName());
+                intent.putExtra("URL", url);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.devteam.episode;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.graphics.Color.parseColor;
+
 public class TrendingFragment extends Fragment {
 
     // URL
@@ -51,7 +54,6 @@ public class TrendingFragment extends Fragment {
     private RecyclerView recyclerView, searchRecyclerView;
     private MainAdapter adapter, searchAdapter;
     private LinearLayoutManager layoutManager;
-    private ProgressBar progressBar;
 
 
     // Variables
@@ -77,12 +79,12 @@ public class TrendingFragment extends Fragment {
         tvHeader = view.findViewById(R.id.tvTrendingHeader);
         recyclerView = view.findViewById(R.id.trendingRecyclerView);
         searchRecyclerView = view.findViewById(R.id.searchRecyclerView);
-        progressBar = view.findViewById(R.id.pbTrending);
 
         adapter = new MainAdapter(tvSeries, getContext());
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
+
         return view;
     }
 
@@ -90,11 +92,14 @@ public class TrendingFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tvSeries = new ArrayList<>();
+        MainActivity.bottomNavigationView.getMenu().getItem(1).setIcon(null);
+        MainActivity.trendingProgressBar.setVisibility(View.VISIBLE);
         getJSONRequest();
     }
 
     private void getJSONRequest() {
         Log.d(TAG, "getJSONRequest: Requesting JSON...");
+
         if (currentPage < totalPages || totalPages == 99999) {
             currentPage += 1;
             URL = URL + "&page=" + currentPage;
@@ -102,6 +107,10 @@ public class TrendingFragment extends Fragment {
             request = new JsonObjectRequest(URL, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
+
+                    MainActivity.trendingProgressBar.setVisibility(View.INVISIBLE);
+                    MainActivity.bottomNavigationView.getMenu().getItem(1).setIcon(R.drawable.ic_trending);
+
                     try {
                         Log.d(TAG, "onResponse: Got results");
                         totalPages = response.getInt("total_pages");
@@ -124,6 +133,9 @@ public class TrendingFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    MainActivity.trendingProgressBar.setVisibility(View.INVISIBLE);
+                    MainActivity.bottomNavigationView.getMenu().getItem(1).setIcon(R.drawable.ic_trending);
+
                     Log.d(TAG, "onErrorResponse: Error: " + error.toString());
                 }
             });
@@ -158,16 +170,24 @@ public class TrendingFragment extends Fragment {
 
                 if (isScrolling == true && visibleItems + scrolledOutItems == totalItems) {
                     Log.d(TAG, "onScrolled: Fetching new data...");
+                    MainActivity.bottomNavigationView.getMenu().getItem(1).setIcon(null);
+                    MainActivity.trendingProgressBar.setVisibility(View.VISIBLE);
+                    MainActivity.trendingProgressBar.isIndeterminate();
+                    MainActivity.trendingProgressBar.setFadingEdgeLength(100);
+                    /*
                     progressBar.setVisibility(View.VISIBLE);
                     progressBar.isIndeterminate();
                     progressBar.setFadingEdgeLength(100);
+                    */
                     isScrolling = false;
                     getJSONRequest();
                     adapter.notifyItemRangeInserted(adapter.getItemCount(), tvSeries.size() - 1);
                 }
             }
         });
-        progressBar.setVisibility(View.GONE);
+        //progressBar.setVisibility(View.GONE);
+        MainActivity.trendingProgressBar.setVisibility(View.INVISIBLE);
+        MainActivity.bottomNavigationView.getMenu().getItem(1).setIcon(R.drawable.ic_trending);
     }
 
     @Override
@@ -201,8 +221,10 @@ public class TrendingFragment extends Fragment {
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.GONE);
+                //progressBar.setVisibility(View.GONE);
+                MainActivity.trendingProgressBar.setVisibility(View.GONE);
                 tvHeader.setVisibility(View.INVISIBLE);
+                MainActivity.bottomNavigationView.setVisibility(View.GONE);
             }
         });
 
@@ -210,6 +232,7 @@ public class TrendingFragment extends Fragment {
             @Override
             public boolean onClose() {
                 tvHeader.setVisibility(View.VISIBLE);
+                MainActivity.bottomNavigationView.setVisibility(View.VISIBLE);
                 return false;
             }
         });

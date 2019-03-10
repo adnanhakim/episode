@@ -20,4 +20,14 @@
         android:elevation="5dp"
         app:menu="@menu/bottom_navigation_bar" />
 
+    <ProgressBar
+        android:id="@+id/pbTrending"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        style="?android:attr/progressBarStyleSmall"
+        android:padding="28dp"/>
+
 </RelativeLayout>

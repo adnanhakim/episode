@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,10 +17,13 @@ public class MainActivity extends AppCompatActivity {
     public static final String API_KEY = "7f1c5b6bcdc0417095c1df13c485f647";
 
     // UI Elements
-    private BottomNavigationView bottomNavigationView;
+    public static BottomNavigationView bottomNavigationView;
 
     // Variables
     private static final String TAG = "MainActivity";
+
+    //Progress Bar
+    public static ProgressBar trendingProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +36,14 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerMain,
                 new HomeFragment()).commit();
 
-        bottomNavigationView.getMenu().getItem(1).setChecked(true);
+        bottomNavigationView.getMenu().getItem(0).setChecked(true);
 
         setUpBottomNavigation();
     }
 
     private void init() {
         bottomNavigationView = findViewById(R.id.bottomNavigationMain);
+        trendingProgressBar = findViewById(R.id.pbTrending);
     }
 
     private void setUpBottomNavigation() {

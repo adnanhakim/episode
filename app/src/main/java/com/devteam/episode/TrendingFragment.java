@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +51,7 @@ public class TrendingFragment extends Fragment {
     private RecyclerView recyclerView, searchRecyclerView;
     private MainAdapter adapter, searchAdapter;
     private LinearLayoutManager layoutManager;
+    private ProgressBar progressBar;
 
 
     // Variables
@@ -75,6 +77,7 @@ public class TrendingFragment extends Fragment {
         tvHeader = view.findViewById(R.id.tvTrendingHeader);
         recyclerView = view.findViewById(R.id.trendingRecyclerView);
         searchRecyclerView = view.findViewById(R.id.searchRecyclerView);
+        progressBar = view.findViewById(R.id.pbTrending);
 
         adapter = new MainAdapter(tvSeries, getContext());
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
@@ -133,9 +136,9 @@ public class TrendingFragment extends Fragment {
     }
 
     private void setUpRecyclerView() {
+
         Log.d(TAG, "setUpRecyclerView: List having " + tvSeries.size() + " results");
         adapter.notifyDataSetChanged();
-
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -155,12 +158,16 @@ public class TrendingFragment extends Fragment {
 
                 if (isScrolling == true && visibleItems + scrolledOutItems == totalItems) {
                     Log.d(TAG, "onScrolled: Fetching new data...");
+                    progressBar.setVisibility(View.VISIBLE);
+                    progressBar.isIndeterminate();
+                    progressBar.setFadingEdgeLength(100);
                     isScrolling = false;
                     getJSONRequest();
                     adapter.notifyItemRangeInserted(adapter.getItemCount(), tvSeries.size() - 1);
                 }
             }
         });
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -194,6 +201,7 @@ public class TrendingFragment extends Fragment {
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.GONE);
                 tvHeader.setVisibility(View.INVISIBLE);
             }
         });

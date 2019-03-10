@@ -33,12 +33,20 @@
         android:layout_below="@id/toolbarTrending"
         android:id="@+id/trendingRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@id/toolbarTrending"
         android:id="@+id/searchRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <ProgressBar
+        android:id="@+id/pbTrending"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_centerHorizontal="true"
+        android:requiresFadingEdge="vertical" />
 
 </RelativeLayout>

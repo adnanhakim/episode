@@ -3,42 +3,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarTrending"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarTrending"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:elevation="5dp">
+        android:background="@color/colorWhite"
+        android:elevation="10dp">
 
-        <RelativeLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarTrending"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="15dp">
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="10dp">
 
-            <TextView
-                android:id="@+id/tvTrendingHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:fontFamily="@font/gravitybook"
-                android:textStyle="bold"
-                android:text="EPISODE"
-                android:textColor="@color/colorGold"
-                android:textSize="20dp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tvTrendingHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/gravitybook"
+                    android:text="EPISODE"
+                    android:textColor="@color/colorGold"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
-    </androidx.appcompat.widget.Toolbar>
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@id/toolbarTrending"
         android:id="@+id/trendingRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/appBarTrending" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@id/toolbarTrending"
         android:id="@+id/searchRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/appBarTrending" />
 
 </RelativeLayout>

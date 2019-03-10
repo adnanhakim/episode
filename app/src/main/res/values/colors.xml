@@ -6,6 +6,7 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
     <color name="colorGrey">#CCCCCC</color>
+    <color name="colorLightGrey">#808080</color>
     <color name="colorGold">#AC7600</color>
     <color name="colorFavourite">#EE4957</color>
 </resources>

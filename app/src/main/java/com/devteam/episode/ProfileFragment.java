@@ -43,7 +43,7 @@ public class ProfileFragment extends Fragment {
     private Toolbar toolbar;
     private View view;
     private ImageView ivProfileDp, ivProfileCover;
-    private TextView tvProfileName, tvProfileNoFavs;
+    private TextView tvProfileName, tvProfileEmail, tvProfileNoFavs;
     private RecyclerView recyclerView;
     private Button btnLogout;
 
@@ -120,18 +120,21 @@ public class ProfileFragment extends Fragment {
         ivProfileDp = view.findViewById(R.id.ivProfileDp);
         ivProfileCover = view.findViewById(R.id.ivProfileCover);
         tvProfileName = view.findViewById(R.id.tvProfileName);
+        tvProfileEmail = view.findViewById(R.id.tvProfileEmail);
         recyclerView = view.findViewById(R.id.favouriteRecyclerView);
         btnLogout = view.findViewById(R.id.btnProfileLogout);
         tvProfileNoFavs = view.findViewById(R.id.tvProfileNoFavourite);
 
         // To hide all data until data is fetched
         tvProfileName.setVisibility(View.INVISIBLE);
+        tvProfileEmail.setVisibility(View.INVISIBLE);
     }
 
     private void getUserData() {
         Log.d(TAG, "getUserData: Fetching user data...");
         firebaseAuth = FirebaseAuth.getInstance();
         String uid = firebaseAuth.getUid();
+        final String email = firebaseAuth.getCurrentUser().getEmail();
         databaseReference = FirebaseDatabase.getInstance().getReference(uid);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -140,7 +143,9 @@ public class ProfileFragment extends Fragment {
                 Log.d(TAG, "onDataChange: Successfully retrieved data");
                 User user = dataSnapshot.getValue(User.class);
                 tvProfileName.setText(user.getName());
+                tvProfileEmail.setText(email);
                 tvProfileName.setVisibility(View.VISIBLE);
+                tvProfileEmail.setVisibility(View.VISIBLE);
             }
 
             @Override

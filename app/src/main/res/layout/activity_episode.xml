@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:fontFamily="@font/gravitybook"
+                android:fontFamily="@font/keepcalm"
                 android:text="Series: Season 1"
                 android:textColor="@color/colorGold"
                 android:textSize="20dp" />

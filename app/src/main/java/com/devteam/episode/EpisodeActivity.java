@@ -8,6 +8,7 @@ import transformer.FadeTransformer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -46,6 +47,7 @@ public class EpisodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_episode);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         init();
 
         Intent intent = getIntent();
@@ -101,7 +103,7 @@ public class EpisodeActivity extends AppCompatActivity {
                         double rating = Double.valueOf(String.format("%.2f", voteAverage));
                         Log.d(TAG, "onResponse: Rating: " + rating);
                         String path = IMAGE_URL + object.getString("still_path");
-                        Episode episode = new Episode(no, DetailActivity.formatDate(date), title, overview, rating, path);
+                        Episode episode = new Episode(no, seasonNo,DetailActivity.formatDate(date), title, overview, rating, path);
                         episodes.add(episode);
                     }
                     setUpViewPager();

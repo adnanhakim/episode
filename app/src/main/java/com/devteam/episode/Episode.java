@@ -2,12 +2,13 @@ package com.devteam.episode;
 
 public class Episode {
 
-    private int no;
+    private int episodeNo, seasonNo;
     private double rating;
     private String date, title, overview, imageURL;
 
-    public Episode(int no, String date, String title, String overview, double rating, String imageURL) {
-        this.no = no;
+    public Episode(int episodeNo, int seasonNo, String date, String title, String overview, double rating, String imageURL) {
+        this.episodeNo = episodeNo;
+        this.seasonNo = seasonNo;
         this.date = date;
         this.title = title;
         this.overview = overview;
@@ -15,8 +16,12 @@ public class Episode {
         this.imageURL = imageURL;
     }
 
-    public int getNo() {
-        return no;
+    public int getEpisodeNo() {
+        return episodeNo;
+    }
+
+    public int getSeasonNo() {
+        return seasonNo;
     }
 
     public double getRating() {

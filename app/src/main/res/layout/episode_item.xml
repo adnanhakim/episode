@@ -10,15 +10,12 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        app:cardCornerRadius="20dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
-            android:paddingTop="15dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="40dp">
+            android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:id="@+id/relativeEpisodeCard"
@@ -29,15 +26,14 @@
                     android:id="@+id/ivEpisodePhoto"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:background="@color/colorWhite"
                     android:scaleType="centerCrop"
-                    android:src="@color/colorAccent" />
+                    android:src="@color/colorGrey" />
 
                 <ImageView
-                    android:background="@drawable/gradient"
-                    android:layout_alignParentBottom="true"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp" />
+                    android:layout_height="60dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/gradient" />
 
             </RelativeLayout>
 
@@ -59,12 +55,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/relativeEpisodeCard"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/gravitybook"
                 android:text="12th September 2018"
                 android:textColor="@color/colorBlack"
-                android:textStyle=""
-                android:textSize="17dp" />
+                android:textSize="17dp"
+                android:textStyle="" />
 
             <TextView
                 android:id="@+id/tvEpisodeRating"
@@ -73,21 +70,63 @@
                 android:layout_below="@id/relativeEpisodeCard"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:drawableLeft="@drawable/ic_star"
                 android:fontFamily="@font/gravitybook"
                 android:text="8.9"
                 android:textColor="@color/colorBlack"
                 android:textSize="17dp" />
 
-            <TextView
-                android:id="@+id/tvEpisodeOverview"
-                android:layout_width="wrap_content"
+
+            <com.ms.square.android.expandabletextview.ExpandableTextView
+                android:id="@+id/etvEpisodeOverview"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvEpisodeDate"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/modernsans"
-                android:text="Episode Overview"
-                android:textSize="14dp" />
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                app:maxCollapsedLines="4">
+
+                <TextView
+                    android:id="@+id/expandable_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Episode Overview"
+                    android:textSize="14dp" />
+
+                <ImageButton
+                    android:id="@+id/expand_collapse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:background="@null" />
+
+            </com.ms.square.android.expandabletextview.ExpandableTextView>
+
+            <View
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:id="@+id/viewEpisode"
+                android:layout_below="@id/etvEpisodeOverview"
+                android:background="@color/colorGrey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <TextView
+                android:id="@+id/tvEpisodeInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/viewEpisode"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/keepcalm"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Name"
+                android:textColor="#90808080"
+                android:textSize="20dp" />
 
         </RelativeLayout>
 

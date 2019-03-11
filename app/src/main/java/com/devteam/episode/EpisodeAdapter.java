@@ -4,11 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class EpisodeAdapter extends PagerAdapter {
         this.episodes = episodes;
         this.context = context;
         requestOptions = new RequestOptions().centerCrop()
-               .placeholder(R.drawable.loading_screen).error(R.drawable.loading_screen);
+                .placeholder(R.drawable.loading_screen).error(R.drawable.loading_screen);
     }
 
     @Override
@@ -44,19 +46,40 @@ public class EpisodeAdapter extends PagerAdapter {
         View view = LayoutInflater.from(context).inflate(R.layout.episode_item, container, false);
 
         ImageView ivPhoto;
-        TextView tvTitle, tvOverview, tvDate, tvRating;
+        TextView tvTitle, tvDate, tvRating, tvInfo;
+        ExpandableTextView etvOverview;
 
         ivPhoto = view.findViewById(R.id.ivEpisodePhoto);
         tvTitle = view.findViewById(R.id.tvEpisodeTitle);
-        tvOverview = view.findViewById(R.id.tvEpisodeOverview);
+        etvOverview = view.findViewById(R.id.etvEpisodeOverview);
         tvDate = view.findViewById(R.id.tvEpisodeDate);
         tvRating = view.findViewById(R.id.tvEpisodeRating);
+        tvInfo = view.findViewById(R.id.tvEpisodeInfo);
 
-        tvTitle.setText(episodes.get(position).getNo() + ": " + episodes.get(position).getTitle());
-        tvOverview.setText(episodes.get(position).getOverview());
-        tvDate.setText(episodes.get(position).getDate());
-        tvRating.setText(String.valueOf(episodes.get(position).getRating()));
-        Glide.with(context).load(episodes.get(position).getImageURL()).apply(requestOptions).into(ivPhoto);
+        Episode episode = episodes.get(position);
+
+        tvTitle.setText(episode.getTitle());
+        etvOverview.setText(episode.getOverview());
+        tvDate.setText(episode.getDate());
+        tvRating.setText(String.valueOf(episode.getRating()));
+
+        String seasonString, episodeString;
+        int seasonNo = episode.getSeasonNo();
+        int episodeNo = episode.getEpisodeNo();
+        if (seasonNo < 10) {
+            seasonString = "0" + String.valueOf(seasonNo);
+        } else {
+            seasonString = String.valueOf(seasonNo);
+        }
+
+        if (episodeNo < 10) {
+            episodeString = "0" + String.valueOf(episodeNo);
+        } else {
+            episodeString = String.valueOf(episodeNo);
+        }
+
+        tvInfo.setText("S" + seasonString + " | E" + episodeString);
+        Glide.with(context).load(episode.getImageURL()).apply(requestOptions).into(ivPhoto);
 
         container.addView(view, 0);
         return view;

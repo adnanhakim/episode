@@ -46,14 +46,21 @@ public class WebActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
-
 
     private void init() {
         toolbar = findViewById(R.id.toolbarWeb);
         ibClose = findViewById(R.id.ibWebClose);
         tvHeader = findViewById(R.id.tvWebHeader);
         webView = findViewById(R.id.webView);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

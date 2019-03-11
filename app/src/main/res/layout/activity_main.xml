@@ -12,12 +12,17 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomNavigationMain"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_above="@id/bottomNavigationMain"
+        android:background="@drawable/shadow_gradient"/>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:elevation="5dp"
         app:menu="@menu/bottom_navigation_bar" />
 
     <ProgressBar

@@ -27,7 +27,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     public HomeAdapter(List<Home> homeList, Context context) {
         this.homeList = homeList;
         this.context = context;
-        requestOptions = new RequestOptions().centerCrop();
+        requestOptions = new RequestOptions().centerCrop()
+                .placeholder(R.drawable.loading_screen).error(R.drawable.loading_screen);
     }
 
     @NonNull

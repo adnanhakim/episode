@@ -28,8 +28,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     public MainAdapter(List<TVSeries> tvSeries, Context context) {
         this.tvSeries = tvSeries;
         this.context = context;
-        requestOptions = new RequestOptions().centerCrop();
-              //  .placeholder(R.drawable.loading).error(R.drawable.loading);
+        requestOptions = new RequestOptions().centerCrop()
+              .placeholder(R.drawable.loading_screen).error(R.drawable.loading_screen);
     }
 
     @NonNull

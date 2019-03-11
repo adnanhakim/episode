@@ -27,7 +27,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
     public CastAdapter(List<Cast> castList, Context context) {
         this.castList = castList;
         this.context = context;
-        requestOptions = new RequestOptions().centerCrop();
+        requestOptions = new RequestOptions().centerCrop().placeholder(R.drawable.loading_screen).error(R.drawable.loading_screen);
     }
 
     @NonNull

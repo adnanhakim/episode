@@ -26,7 +26,8 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
     public FavouriteAdapter(List<Favourite> favouriteList, Context context) {
         this.favouriteList = favouriteList;
         this.context = context;
-        requestOptions = new RequestOptions().centerCrop();
+        requestOptions = new RequestOptions().centerCrop()
+                .placeholder(R.drawable.loading_screen).error(R.drawable.loading_screen);
     }
 
     @NonNull

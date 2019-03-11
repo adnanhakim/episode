@@ -24,8 +24,8 @@ public class EpisodeAdapter extends PagerAdapter {
     public EpisodeAdapter(List<Episode> episodes, Context context) {
         this.episodes = episodes;
         this.context = context;
-        requestOptions = new RequestOptions().centerCrop();
-               // .placeholder(R.drawable.loading).error(R.drawable.loading);
+        requestOptions = new RequestOptions().centerCrop()
+               .placeholder(R.drawable.loading_screen).error(R.drawable.loading_screen);
     }
 
     @Override

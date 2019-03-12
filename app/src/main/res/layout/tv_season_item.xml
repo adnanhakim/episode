@@ -30,7 +30,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@id/ivSeasonPoster"
-        android:fontFamily="@font/modernsans"
+        android:fontFamily="@font/roboto"
         android:text="Aired on: Date"
         android:textSize="16dp" />
 
@@ -41,7 +41,7 @@
         android:layout_below="@id/tvSeasonAired"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/ivSeasonPoster"
-        android:fontFamily="@font/modernsans"
+        android:fontFamily="@font/roboto"
         android:text="No of episodes: 13"
         android:textSize="16dp" />
 

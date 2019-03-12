@@ -32,10 +32,10 @@
                 android:background="@color/colorGold" />
 
             <ImageView
-                android:background="@drawable/gradient"
-                android:layout_marginTop="170dp"
                 android:layout_width="match_parent"
-                android:layout_height="80dp" />
+                android:layout_height="80dp"
+                android:layout_marginTop="170dp"
+                android:background="@drawable/gradient" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbarDetails"
@@ -132,41 +132,41 @@
                 android:padding="20dp">
 
                 <TextView
-                    android:gravity="center_vertical"
-                    android:drawablePadding="5dp"
-                    android:drawableLeft="@drawable/ic_status"
                     android:id="@+id/tvDetailsStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_status"
+                    android:drawablePadding="5dp"
                     android:fontFamily="@font/gravitybook"
+                    android:gravity="center_vertical"
                     android:text="Status"
                     android:textColor="@color/colorBlack"
                     android:textSize="15dp" />
 
                 <TextView
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@id/tvDetailsStatus"
-                    android:gravity="center_vertical"
-                    android:drawablePadding="5dp"
-                    android:drawableLeft="@drawable/ic_genres"
                     android:id="@+id/tvDetailsGenres"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/tvDetailsStatus"
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/ic_genres"
+                    android:drawablePadding="5dp"
                     android:fontFamily="@font/gravitybook"
+                    android:gravity="center_vertical"
                     android:text="Genres"
                     android:textColor="@color/colorBlack"
                     android:textSize="15dp" />
 
                 <TextView
-                    android:drawableLeft="@drawable/ic_runtime"
-                    android:drawablePadding="5dp"
-                    android:gravity="center_vertical"
                     android:id="@+id/tvDetailsRuntime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvDetailsGenres"
                     android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/ic_runtime"
+                    android:drawablePadding="5dp"
                     android:fontFamily="@font/gravitybook"
+                    android:gravity="center_vertical"
                     android:text="45 minutes"
                     android:textColor="@color/colorBlack"
                     android:textSize="15dp" />
@@ -221,6 +221,92 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvDetailsCast" />
+
+            <View
+                android:layout_marginTop="10dp"
+                android:id="@+id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/castRecyclerView"
+                android:background="@color/colorGrey" />
+
+            <LinearLayout
+                android:id="@+id/linearDetails"
+                android:layout_below="@id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:id="@+id/tvDetailsImdb"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:drawableLeft="@drawable/imdb"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/gravitybook"
+                    android:padding="10dp"
+                    android:text="Check out on IMDb"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrey" />
+
+                <TextView
+                    android:id="@+id/tvDetailsFacebook"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:drawableLeft="@drawable/facebook"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/gravitybook"
+                    android:padding="10dp"
+                    android:text="Like on Facebook"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrey" />
+
+                <TextView
+                    android:id="@+id/tvDetailsInstagram"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:drawableLeft="@drawable/instagram"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/gravitybook"
+                    android:padding="10dp"
+                    android:text="Follow on Instagram"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrey" />
+
+                <TextView
+                    android:id="@+id/tvDetailsTwitter"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:drawableLeft="@drawable/twitter"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/gravitybook"
+                    android:padding="10dp"
+                    android:text="Follow on Twitter"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
 
         </RelativeLayout>
 

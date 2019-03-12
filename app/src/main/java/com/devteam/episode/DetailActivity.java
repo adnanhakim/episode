@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,17 +52,20 @@ public class DetailActivity extends AppCompatActivity {
     // URL
     public static final String API_KEY = "7f1c5b6bcdc0417095c1df13c485f647";
     private final String BASE_URL = "https://api.themoviedb.org/3/tv/";
-    private final String REMAINING_URL = "?api_key=7f1c5b6bcdc0417095c1df13c485f647&language=en-US";
+    private final String REMAINING_URL = "?api_key=" + API_KEY + "&language=en-US";
     private final String IMAGE_URL = "https://image.tmdb.org/t/p/w500";
-    private JsonObjectRequest detailsRequest, castRequest;
+    private JsonObjectRequest detailsRequest, castRequest, externalIdsRequest;
     private RequestQueue requestQueue;
 
     // UI Elements
-    private RelativeLayout relativeLayout;
+    private RelativeLayout relativeLayout, relativeDetails;
+    private View view;
+    private LinearLayout linearLayout;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private NestedScrollView nestedScrollView;
     private Typeface keepcalm;
     private TextView tvNetworks, tvOverview, tvStatus, tvGenres, tvRuntime;
+    private TextView tvImdb, tvFacebook, tvInstagram, tvTwitter;
     private ImageView ivPoster, ivBackdrop;
     private RecyclerView seasonRecycler, castRecycler;
     private SeasonAdapter seasonAdapter;
@@ -74,7 +79,6 @@ public class DetailActivity extends AppCompatActivity {
     private String seriesTitle, intentActivity;
     private List<Season> seasonList;
     private List<Cast> castList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +104,7 @@ public class DetailActivity extends AppCompatActivity {
         castList = new ArrayList<>();
         getDetails(seriesId);
         getCast(seriesId);
+        getExternalIds(seriesId);
 
         if (isFavourited == true) {
             ibFavourites.setImageResource(R.drawable.ic_favorite);
@@ -177,9 +182,16 @@ public class DetailActivity extends AppCompatActivity {
         tvOverview = findViewById(R.id.tvDetailsOverview);
         tvGenres = findViewById(R.id.tvDetailsGenres);
         tvRuntime = findViewById(R.id.tvDetailsRuntime);
+        tvImdb = findViewById(R.id.tvDetailsImdb);
+        tvFacebook = findViewById(R.id.tvDetailsFacebook);
+        tvInstagram = findViewById(R.id.tvDetailsInstagram);
+        tvTwitter = findViewById(R.id.tvDetailsTwitter);
         seasonRecycler = findViewById(R.id.seasonRecyclerView);
         castRecycler = findViewById(R.id.castRecyclerView);
         relativeLayout = findViewById(R.id.relativeMain);
+        relativeDetails = findViewById(R.id.relativeDetails);
+        view = findViewById(R.id.view1);
+        linearLayout = findViewById(R.id.linearDetails);
         relativeLayout.setVisibility(View.INVISIBLE);
 
         //Poster Corners
@@ -192,6 +204,9 @@ public class DetailActivity extends AppCompatActivity {
 
         // Initialize Volley
         requestQueue = Volley.newRequestQueue(this);
+
+        view.setFocusable(false);
+        relativeDetails.setFocusable(false);
     }
 
     private void setUpCollapsingToolbar(String title) {
@@ -335,6 +350,101 @@ public class DetailActivity extends AppCompatActivity {
         castRecycler.setAdapter(castAdapter);
         castRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         castRecycler.setHasFixedSize(true);
+    }
+
+    // External ids
+    String imdbId, facebookId, instagramId, twitterId;
+    String IMDB_URL = "https://www.imdb.com/title/";
+    String FACEBOOK_URL = "https://www.facebook.com/";
+    String INSTAGRAM_URL = "https://www.instagram.com/";
+    String TWITTER_URL = "https://twitter.com/";
+
+    private void getExternalIds(int seriesId) {
+        Log.d(TAG, "getExternalIds: Requesting external ids...");
+        String url = BASE_URL + seriesId + "/external_ids" + REMAINING_URL;
+        externalIdsRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    Log.d(TAG, "onResponse: Got external ids");
+                    imdbId = response.getString("imdb_id");
+                    facebookId = response.getString("facebook_id");
+                    instagramId = response.getString("instagram_id");
+                    twitterId = response.getString("twitter_id");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                setExternalIds();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "onErrorResponse: Error: " + error.toString());
+            }
+        });
+        requestQueue.add(externalIdsRequest);
+    }
+
+    private void setExternalIds(){
+        // IMDb
+        if(!imdbId.equals(null)) {
+            final String url = IMDB_URL + imdbId;
+            tvImdb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
+            });
+        } else {
+            tvImdb.setVisibility(View.GONE);
+        }
+
+        // Facebook
+        if(!facebookId.equals(null)) {
+            final String url = FACEBOOK_URL + facebookId;
+            tvFacebook.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
+            });
+        } else {
+            tvFacebook.setVisibility(View.GONE);
+        }
+
+        // Instagram
+        if(!instagramId.equals(null)) {
+            final String url = INSTAGRAM_URL + instagramId;
+            tvInstagram.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
+            });
+        } else {
+            tvInstagram.setVisibility(View.GONE);
+        }
+
+        // Twitter
+        if(!twitterId.equals(null)) {
+            final String url = TWITTER_URL + twitterId;
+            tvTwitter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
+            });
+        } else {
+            tvTwitter.setVisibility(View.GONE);
+        }
     }
 
     public static String formatDate(String oldDate) {

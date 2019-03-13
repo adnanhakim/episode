@@ -1,17 +1,20 @@
 package com.devteam.episode;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -30,6 +33,9 @@ import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,7 +51,6 @@ public class ProfileFragment extends Fragment {
     private ImageView ivProfileDp, ivProfileCover;
     private TextView tvProfileName, tvProfileEmail, tvProfileNoFavs;
     private RecyclerView recyclerView;
-    private Button btnLogout;
 
     // Adapters
     public static FavouriteAdapter adapter;
@@ -54,18 +59,21 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
     private GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInAccount googleSignInAccount;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.profile_fragment, container, false);
         init();
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        this.setHasOptionsMenu(true);
         getUserData();
 
         // To get random background as cover
         requestOptions = new RequestOptions().centerCrop();
 
-        final GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(getActivity());
+        googleSignInAccount = GoogleSignIn.getLastSignedInAccount(getActivity());
         if (googleSignInAccount != null) {
             Glide.with(getContext()).load(googleSignInAccount.getPhotoUrl()).apply(requestOptions).into(ivProfileDp);
         }
@@ -86,25 +94,6 @@ public class ProfileFragment extends Fragment {
         setUpRecyclerView();
 
         firebaseAuth = FirebaseAuth.getInstance();
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: Logging out...");
-                if (googleSignInAccount != null) {
-                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                            .requestIdToken("1334923011-sqs5e74sg1aui1c06iq974tr9iasi0n6.apps.googleusercontent.com")
-                            .requestEmail()
-                            .build();
-                    mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
-                    mGoogleSignInClient.signOut();
-                    firebaseAuth.signOut();
-                } else {
-                    firebaseAuth.signOut();
-                }
-                getActivity().finish();
-                startActivity(new Intent(getActivity(), RegisterActivity.class));
-            }
-        });
         return view;
     }
 
@@ -116,13 +105,12 @@ public class ProfileFragment extends Fragment {
 
     private void init() {
         // Find view by ids
-        //toolbar = view.findViewById(R.id.profileToolbar);
+        toolbar = view.findViewById(R.id.toolbarProfile);
         ivProfileDp = view.findViewById(R.id.ivProfileDp);
         ivProfileCover = view.findViewById(R.id.ivProfileCover);
         tvProfileName = view.findViewById(R.id.tvProfileName);
         tvProfileEmail = view.findViewById(R.id.tvProfileEmail);
         recyclerView = view.findViewById(R.id.favouriteRecyclerView);
-        btnLogout = view.findViewById(R.id.btnProfileLogout);
         tvProfileNoFavs = view.findViewById(R.id.tvProfileNoFavourite);
 
         // To hide all data until data is fetched
@@ -169,5 +157,58 @@ public class ProfileFragment extends Fragment {
             tvProfileNoFavs.setVisibility(View.INVISIBLE);
             recyclerView.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.profile_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.profileSettings:
+                Toast.makeText(getContext(), "Settings", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.profileAbout:
+                Toast.makeText(getContext(), "About", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.profileLogout:
+                logout();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void logout() {
+        Log.d(TAG, "onClick: Logging out...");
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Logout");
+        builder.setMessage("Are you sure you want to logout");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (googleSignInAccount != null) {
+                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .requestIdToken("1334923011-sqs5e74sg1aui1c06iq974tr9iasi0n6.apps.googleusercontent.com")
+                            .requestEmail()
+                            .build();
+                    mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+                    mGoogleSignInClient.signOut();
+                }
+                firebaseAuth.signOut();
+                getActivity().finish();
+                startActivity(new Intent(getActivity(), RegisterActivity.class));
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 }

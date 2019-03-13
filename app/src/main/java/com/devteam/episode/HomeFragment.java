@@ -47,7 +47,7 @@ public class HomeFragment extends Fragment {
     private View view;
     private RecyclerView homeNextRecyclerView, homeLastRecyclerView;
     private RelativeLayout homeLastRelative, homeNextRelative;
-    private TextView tvNextEpisode;
+    private TextView tvNextEpisode, tvHomeNoFavs;
     private HomeAdapter homeAdapter;
 
     //Variables
@@ -65,6 +65,19 @@ public class HomeFragment extends Fragment {
         init();
         homeLastRelative.setVisibility(View.INVISIBLE);
         homeNextRelative.setVisibility(View.INVISIBLE);
+
+        tvHomeNoFavs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TrendingFragment trendingFragment = new TrendingFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(((ViewGroup) getView().getParent()).getId(), trendingFragment, "TRENDING")
+                        .addToBackStack(null)
+                        .commit();
+                MainActivity.bottomNavigationView.getMenu().findItem(R.id.navTrending).setChecked(true);
+            }
+        });
+
         return view;
     }
 
@@ -82,6 +95,7 @@ public class HomeFragment extends Fragment {
         homeLastRelative = view.findViewById(R.id.homeLastRelative);
         homeNextRelative = view.findViewById(R.id.homeNextRelative);
         tvNextEpisode = view.findViewById(R.id.tvNextEpisode);
+        tvHomeNoFavs = view.findViewById(R.id.tvHomeNoFavourite);
     }
 
     private void getJSONRequest() {

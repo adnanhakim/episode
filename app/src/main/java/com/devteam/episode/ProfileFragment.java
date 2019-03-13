@@ -93,6 +93,18 @@ public class ProfileFragment extends Fragment {
 
         setUpRecyclerView();
 
+        tvProfileNoFavs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TrendingFragment trendingFragment = new TrendingFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(((ViewGroup) getView().getParent()).getId(), trendingFragment, "TRENDING")
+                        .addToBackStack(null)
+                        .commit();
+                MainActivity.bottomNavigationView.getMenu().findItem(R.id.navTrending).setChecked(true);
+            }
+        });
+
         firebaseAuth = FirebaseAuth.getInstance();
         return view;
     }

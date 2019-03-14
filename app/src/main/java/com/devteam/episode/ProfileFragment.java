@@ -185,7 +185,7 @@ public class ProfileFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.profileSettings:
-                Toast.makeText(getContext(), "Settings", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
                 return true;
             case R.id.profileAbout:
                 Toast.makeText(getContext(), "About", Toast.LENGTH_SHORT).show();

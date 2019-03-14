@@ -54,6 +54,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
                 intent.putExtra("BOOLEAN", true);
                 intent.putExtra("ACTIVITY", "PROFILE");
                 v.getContext().startActivity(intent);
+                ((Activity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 ((Activity) context).finish();
             }
         });

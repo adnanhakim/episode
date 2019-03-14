@@ -1,5 +1,6 @@
 package com.devteam.episode;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -213,6 +214,7 @@ public class ProfileFragment extends Fragment {
                 firebaseAuth.signOut();
                 getActivity().finish();
                 startActivity(new Intent(getActivity(), RegisterActivity.class));
+                ((Activity) getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

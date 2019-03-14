@@ -75,7 +75,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(context, EpisodeActivity.class);
                 intent.putExtra("SEASONTITLE", "Season " + home.getEpisodeSeasonNo());
                 intent.putExtra("SEASONNO", home.getEpisodeSeasonNo());
@@ -83,6 +82,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                 intent.putExtra("EPISODENO", home.getEpisodeEpisodeNo());
                 intent.putExtra("ACTIVITY", "HOME");
                 v.getContext().startActivity(intent);
+                ((Activity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
             }
         });

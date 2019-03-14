@@ -252,9 +252,9 @@ public class DetailActivity extends AppCompatActivity {
 
                     // To get genres
                     JSONArray genreArray = response.getJSONArray("genres");
-                    for(int i=0; i< genreArray.length(); i++) {
+                    for (int i = 0; i < genreArray.length(); i++) {
                         JSONObject genreObject = genreArray.getJSONObject(i);
-                        if(i==0) {
+                        if (i == 0) {
                             genres = genres + genreObject.getString("name");
                         } else {
                             genres = genres + ", " + genreObject.getString("name");
@@ -322,7 +322,7 @@ public class DetailActivity extends AppCompatActivity {
                 try {
                     Log.d(TAG, "onResponse: Got cast");
                     JSONArray castArray = response.getJSONArray("cast");
-                    for(int i=0; i<castArray.length(); i++) {
+                    for (int i = 0; i < castArray.length(); i++) {
                         JSONObject castObject = castArray.getJSONObject(i);
                         String name = castObject.getString("name");
                         String character = castObject.getString("character");
@@ -385,9 +385,9 @@ public class DetailActivity extends AppCompatActivity {
         requestQueue.add(externalIdsRequest);
     }
 
-    private void setExternalIds(){
+    private void setExternalIds() {
         // IMDb
-        if(!imdbId.equals(null)) {
+        if (!imdbId.equals(null)) {
             final String url = IMDB_URL + imdbId;
             tvImdb.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -395,6 +395,7 @@ public class DetailActivity extends AppCompatActivity {
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
             });
         } else {
@@ -402,7 +403,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         // Facebook
-        if(!facebookId.equals(null)) {
+        if (!facebookId.equals(null)) {
             final String url = FACEBOOK_URL + facebookId;
             tvFacebook.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -410,6 +411,7 @@ public class DetailActivity extends AppCompatActivity {
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
             });
         } else {
@@ -417,7 +419,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         // Instagram
-        if(!instagramId.equals(null)) {
+        if (!instagramId.equals(null)) {
             final String url = INSTAGRAM_URL + instagramId;
             tvInstagram.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -425,6 +427,7 @@ public class DetailActivity extends AppCompatActivity {
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
             });
         } else {
@@ -432,7 +435,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         // Twitter
-        if(!twitterId.equals(null)) {
+        if (!twitterId.equals(null)) {
             final String url = TWITTER_URL + twitterId;
             tvTwitter.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -440,6 +443,7 @@ public class DetailActivity extends AppCompatActivity {
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
             });
         } else {
@@ -465,14 +469,8 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(intentActivity.equals("PROFILE")) {
-            startActivity(new Intent(DetailActivity.this, MainActivity.class));
-            this.finish();
-        }
-        else if(intentActivity.equals("HOME")) {
-            startActivity(new Intent(DetailActivity.this, MainActivity.class));
-            this.finish();
-        }
+        startActivity(new Intent(DetailActivity.this, MainActivity.class));
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         super.onBackPressed();
         this.finish();
     }

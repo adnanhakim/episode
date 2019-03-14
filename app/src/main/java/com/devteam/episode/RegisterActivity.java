@@ -85,6 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (firebaseUser != null && firebaseUser.isEmailVerified() == true) {
             // directly go to main page
             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             Log.d(TAG, "onCreate: Firebase user" + firebaseUser.getEmail());
             finish();
         } else if (firebaseUser != null) {
@@ -171,6 +172,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 if (firebaseUser.isEmailVerified()) {
                                     Log.d(TAG, "onComplete: Signed in successfully");
                                     startActivity(new Intent(RegisterActivity.this, SplashScreenActivity.class));
+                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                     finish();
                                 } else {
                                     Log.d(TAG, "onComplete: Email not verified");
@@ -386,6 +388,7 @@ public class RegisterActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                             startActivity(new Intent(RegisterActivity.this, SplashScreenActivity.class));
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.

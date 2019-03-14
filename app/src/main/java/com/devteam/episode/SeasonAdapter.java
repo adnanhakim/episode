@@ -1,5 +1,6 @@
 package com.devteam.episode;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -60,6 +61,7 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.ViewHolder
                 intent.putExtra("TVID", season.getTvId());
                 intent.putExtra("ACTIVITY", "SEASON");
                 v.getContext().startActivity(intent);
+                ((Activity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 

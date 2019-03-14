@@ -68,6 +68,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "onCreate: User is not logged in, redirecting to RegisterActivity");
             startActivity(new Intent(SplashScreenActivity.this, RegisterActivity.class));
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             this.finish();
         }
     }
@@ -104,6 +105,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void updateUI(boolean message) {
         if (message == true) {
             startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
         this.finish();
     }

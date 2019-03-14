@@ -1,5 +1,6 @@
 package com.devteam.episode;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -68,6 +69,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                 intent.putExtra("BOOLEAN", isFavourited);
                 intent.putExtra("ACTIVITY", "MAIN");
                 v.getContext().startActivity(intent);
+                ((Activity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 

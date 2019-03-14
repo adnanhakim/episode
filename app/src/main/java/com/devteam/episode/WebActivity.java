@@ -3,6 +3,7 @@ package com.devteam.episode;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -56,10 +57,18 @@ public class WebActivity extends AppCompatActivity {
     }
 
     @Override
+    public void finish() {
+        super.finish();
+        this.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
+
+    @Override
     public void onBackPressed() {
         if (webView.canGoBack()) {
+            finish();
             webView.goBack();
         } else {
+            finish();
             super.onBackPressed();
         }
     }

@@ -1,5 +1,6 @@
 package com.devteam.episode;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -53,6 +54,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
                 intent.putExtra("HEADER", cast.getName());
                 intent.putExtra("URL", url);
                 v.getContext().startActivity(intent);
+                ((Activity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
     }

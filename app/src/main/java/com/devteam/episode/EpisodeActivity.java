@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 import transformer.FadeTransformer;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -146,5 +147,11 @@ public class EpisodeActivity extends AppCompatActivity {
         viewPager.setPageTransformer(true, new FadeTransformer());
         viewPager.setPageMargin(40);
         Log.d(TAG, "onCreate: List having " + episodes.size() + " results");
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

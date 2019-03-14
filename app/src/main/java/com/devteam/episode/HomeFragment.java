@@ -96,6 +96,9 @@ public class HomeFragment extends Fragment {
         homeNextRelative = view.findViewById(R.id.homeNextRelative);
         tvNextEpisode = view.findViewById(R.id.tvNextEpisode);
         tvHomeNoFavs = view.findViewById(R.id.tvHomeNoFavourite);
+
+        // To set visibility at startup
+        tvHomeNoFavs.setVisibility(View.INVISIBLE);
     }
 
     private void getJSONRequest() {
@@ -147,7 +150,7 @@ public class HomeFragment extends Fragment {
 
                         // Check if Air Dates are between -365 & 365
                         if (lastAirDateInt < 365) {
-                            Home lastHome = new Home(lastEpisodeSeasonNo, lastEpisodeEpisodeNo, lastAirDateInt,tvId, showName, networks, lastEpisodeName, backdropURL, lastAirDateStr, AIRED);
+                            Home lastHome = new Home(lastEpisodeSeasonNo, lastEpisodeEpisodeNo, lastAirDateInt, tvId, showName, networks, lastEpisodeName, backdropURL, lastAirDateStr, AIRED);
                             lastHomeList.add(lastHome);
                         }
 
@@ -230,8 +233,12 @@ public class HomeFragment extends Fragment {
         }
         if (nextHomeList.size() != 0) {
             homeNextRelative.setVisibility(View.VISIBLE);
+            tvHomeNoFavs.setVisibility(View.INVISIBLE);
         } else {
             homeNextRelative.setVisibility(View.GONE);
+            if (lastHomeList.size() == 0) {
+                tvHomeNoFavs.setVisibility(View.VISIBLE);
+            }
         }
         homeNextRelative.requestFocus();
     }

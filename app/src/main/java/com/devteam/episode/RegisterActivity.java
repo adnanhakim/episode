@@ -329,7 +329,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void saveName(String name, String uid) {
-        User user = new User(name, 0);
+        User user = new User(name, null, false);
         databaseReference.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

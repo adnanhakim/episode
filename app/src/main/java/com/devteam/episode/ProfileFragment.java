@@ -23,6 +23,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,6 +48,7 @@ public class ProfileFragment extends Fragment {
     private RequestOptions requestOptions;
 
     // UI Elements
+    private CollapsingToolbarLayout collapsingToolbarLayout;
     private Toolbar toolbar;
     private View view;
     private ImageView ivProfileDp, ivProfileCover;
@@ -68,6 +70,7 @@ public class ProfileFragment extends Fragment {
         view = inflater.inflate(R.layout.profile_fragment, container, false);
         init();
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        toolbar.setTitle("");
         this.setHasOptionsMenu(true);
         getUserData();
 
@@ -118,6 +121,7 @@ public class ProfileFragment extends Fragment {
 
     private void init() {
         // Find view by ids
+        collapsingToolbarLayout = view.findViewById(R.id.collapsingToolbarProfile);
         toolbar = view.findViewById(R.id.toolbarProfile);
         ivProfileDp = view.findViewById(R.id.ivProfileDp);
         ivProfileCover = view.findViewById(R.id.ivProfileCover);

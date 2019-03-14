@@ -2,23 +2,27 @@ package com.devteam.episode;
 
 public class User {
 
-    private String name;
-    private int favourites;
+    private String name, imageURL;
+    private boolean nightMode;
 
     public User() {
     }
 
-    public User(String name, int favourites) {
+    public User(String name, String imageURL, boolean nightMode) {
         this.name = name;
-        this.favourites = favourites;
+        this.imageURL = imageURL;
+        this.nightMode = nightMode;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getFavourites() {
-        return favourites;
+    public String getImageURL() {
+        return imageURL;
     }
 
+    public boolean isNightMode() {
+        return nightMode;
+    }
 }

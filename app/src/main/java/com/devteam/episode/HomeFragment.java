@@ -98,7 +98,7 @@ public class HomeFragment extends Fragment {
         tvHomeNoFavs = view.findViewById(R.id.tvHomeNoFavourite);
 
         // To set visibility at startup
-        tvHomeNoFavs.setVisibility(View.INVISIBLE);
+        tvHomeNoFavs.setVisibility(View.VISIBLE);
     }
 
     private void getJSONRequest() {
@@ -238,28 +238,12 @@ public class HomeFragment extends Fragment {
             homeNextRelative.setVisibility(View.GONE);
             if (lastHomeList.size() == 0) {
                 tvHomeNoFavs.setVisibility(View.VISIBLE);
+            } else {
+                tvHomeNoFavs.setVisibility(View.INVISIBLE);
             }
         }
         homeNextRelative.requestFocus();
     }
-
-    /*private void checkList() {
-        if (lastHomeList.size() == 0 && nextHomeList.size() == 0)
-            homeRelative.setVisibility(View.INVISIBLE);
-        else {
-            homeRelative.setVisibility(View.VISIBLE);
-
-            if (lastHomeList.size() == 0 && nextHomeList.size() != 0)
-                homeLastRelative.setVisibility(View.INVISIBLE);
-            else if (lastHomeList.size() != 0 && nextHomeList.size() == 0)
-                homeNextRelative.setVisibility(View.INVISIBLE);
-            else {
-                homeLastRelative.setVisibility(View.VISIBLE);
-                homeNextRelative.setVisibility(View.VISIBLE);
-            }
-
-        }
-    }*/
 
     // Date Format: MM/dd/yyyy
     private static String changeDateFormat(String oldDate) {

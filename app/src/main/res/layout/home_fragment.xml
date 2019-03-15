@@ -14,7 +14,7 @@
         android:fontFamily="@font/gravitybook"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:text="Click to add favourite shows"
+        android:text="@string/click_to_add_favourite"
         android:textColor="@color/colorLightGrey"
         android:textSize="17dp" />
 
@@ -42,10 +42,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="12dp"
                         android:fontFamily="@font/gravitybook"
                         android:padding="8dp"
-                        android:text="Previous Episodes"
+                        android:background="@drawable/episode_status_stroke"
+                        android:text="@string/aired_episode_status"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
                         android:textColor="@color/colorAccent" />
 
@@ -67,10 +68,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="12dp"
                         android:fontFamily="@font/gravitybook"
                         android:padding="8dp"
-                        android:text="Upcoming Episodes"
+                        android:background="@drawable/episode_status_stroke"
+                        android:text="@string/unaired_episode_status"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
                         android:textColor="@color/colorAccent" />
 

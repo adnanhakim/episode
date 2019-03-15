@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -406,7 +407,7 @@ public class DetailActivity extends AppCompatActivity {
 
         // Facebook
         if (!facebookId.equals(null)) {
-            final String url = checkForFacebookAppUrl(this) + FACEBOOK_URL + facebookId;
+            final String url = checkForFacebookUrl(this) + facebookId;
             tvFacebook.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -469,18 +470,24 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-    public String checkForFacebookAppUrl(Context context) {
+    public String checkForFacebookUrl(Context context) {
         PackageManager packageManager = context.getPackageManager();
         try {
+            int versionCode = packageManager.getPackageInfo("com.facebook.katana", PackageManager.GET_ACTIVITIES).versionCode;
+
             boolean activated = packageManager.getApplicationInfo("com.facebook.katana", 0).enabled;
 
-            if(activated)
-                return "fb://facewebmodal/f?href=";
+            if (activated) {
+                if(versionCode >= 3002850)
+                    return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
+                else
+                    return "fb://page/";
+            }
             else
-                return "";
+                return FACEBOOK_URL;
 
         } catch (PackageManager.NameNotFoundException e) {
-            return "";
+            return FACEBOOK_URL;
         }
     }
 

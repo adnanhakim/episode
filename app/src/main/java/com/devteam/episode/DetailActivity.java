@@ -7,7 +7,9 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -404,7 +406,7 @@ public class DetailActivity extends AppCompatActivity {
 
         // Facebook
         if (!facebookId.equals(null)) {
-            final String url = FACEBOOK_URL + facebookId;
+            final String url = checkForFacebookAppUrl(this) + FACEBOOK_URL + facebookId;
             tvFacebook.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -463,6 +465,21 @@ public class DetailActivity extends AppCompatActivity {
             return newDate;
         } catch (ParseException e) {
             e.printStackTrace();
+            return "";
+        }
+    }
+
+    public String checkForFacebookAppUrl(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            boolean activated = packageManager.getApplicationInfo("com.facebook.katana", 0).enabled;
+
+            if(activated)
+                return "fb://facewebmodal/f?href=";
+            else
+                return "";
+
+        } catch (PackageManager.NameNotFoundException e) {
             return "";
         }
     }

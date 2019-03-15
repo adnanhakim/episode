@@ -2,6 +2,7 @@ package com.devteam.episode;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
@@ -37,5 +38,11 @@ public class SettingsActivity extends AppCompatActivity {
         tvEditDp = findViewById(R.id.tvSettingsEditDp);
         tvNightMode = findViewById(R.id.tvSettingsNightMode);
         switchNightMode = findViewById(R.id.switchSettingsNightMode);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

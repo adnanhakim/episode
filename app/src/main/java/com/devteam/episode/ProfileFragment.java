@@ -186,6 +186,7 @@ public class ProfileFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.profileSettings:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
+                ((Activity) getContext()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 return true;
             case R.id.profileAbout:
                 Toast.makeText(getContext(), "About", Toast.LENGTH_SHORT).show();

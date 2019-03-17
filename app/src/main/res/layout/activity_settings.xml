@@ -12,10 +12,10 @@
         android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:background="@color/colorWhite"
-            android:elevation="10dp"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorWhite"
+            android:elevation="10dp">
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
@@ -44,6 +44,35 @@
             android:text="Edit Display Picture"
             android:textColor="@color/colorBlack"
             android:textSize="18dp" />
+
+        <RelativeLayout
+            android:id="@+id/relativeSettingsEditDp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:padding="20dp">
+
+            <ImageView
+                android:id="@+id/ivSettingsDp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/iv_profile"
+                android:src="@drawable/defaultdp" />
+
+            <Button
+                android:id="@+id/btnSettingsSave"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ivSettingsDp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_style_1"
+                android:fontFamily="@font/gravitybook"
+                android:text="Save"
+                android:textColor="@color/colorPrimary" />
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

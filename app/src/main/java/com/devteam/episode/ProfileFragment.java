@@ -58,6 +58,9 @@ public class ProfileFragment extends Fragment {
     // Adapters
     public static FavouriteAdapter adapter;
 
+    // Models
+    public static User user;
+
     // Firebase variables
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
@@ -146,9 +149,10 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d(TAG, "onDataChange: Successfully retrieved data");
-                User user = dataSnapshot.getValue(User.class);
+                user = dataSnapshot.getValue(User.class);
                 tvProfileName.setText(user.getName());
                 tvProfileEmail.setText(email);
+                Log.d(TAG, "onDataChange: User image url: " + user.getImageURL());
                 tvProfileName.setVisibility(View.VISIBLE);
                 tvProfileEmail.setVisibility(View.VISIBLE);
             }

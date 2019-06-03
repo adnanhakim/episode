@@ -63,7 +63,6 @@ public class DetailActivity extends AppCompatActivity {
     // UI Elements
     private RelativeLayout relativeLayout, relativeDetails;
     private View view;
-    private LinearLayout linearLayout;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private NestedScrollView nestedScrollView;
     private Typeface keepcalm;
@@ -178,7 +177,6 @@ public class DetailActivity extends AppCompatActivity {
         collapsingToolbarLayout = findViewById(R.id.collapsingToolbarDetails);
         nestedScrollView = findViewById(R.id.nestedSVDetails);
         ivBackdrop = findViewById(R.id.ivDetailsBackDrop);
-        ivPoster = findViewById(R.id.ivDetailsPoster);
         tvNetworks = findViewById(R.id.tvDetailsNetwork);
         ibFavourites = findViewById(R.id.ibDetailsFavourite);
         tvStatus = findViewById(R.id.tvDetailsStatus);
@@ -193,13 +191,7 @@ public class DetailActivity extends AppCompatActivity {
         castRecycler = findViewById(R.id.castRecyclerView);
         relativeLayout = findViewById(R.id.relativeMain);
         relativeDetails = findViewById(R.id.relativeDetails);
-        view = findViewById(R.id.view1);
         relativeLayout.setVisibility(View.INVISIBLE);
-
-        //Poster Corners
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ivPoster.setClipToOutline(true);
-        }
 
         // Initialize typefaces
         keepcalm = ResourcesCompat.getFont(this, R.font.keepcalm_font);
@@ -207,7 +199,6 @@ public class DetailActivity extends AppCompatActivity {
         // Initialize Volley
         requestQueue = Volley.newRequestQueue(this);
 
-        view.setFocusable(false);
         relativeDetails.setFocusable(false);
     }
 
@@ -308,7 +299,6 @@ public class DetailActivity extends AppCompatActivity {
         tvRuntime.setText(runtime);
 
         RequestOptions option = new RequestOptions().centerCrop();
-        Glide.with(DetailActivity.this).load(posterURL).apply(option).into(ivPoster);
         Glide.with(DetailActivity.this).load(backdropURL).apply(option).into(ivBackdrop);
 
         relativeLayout.setVisibility(View.VISIBLE);

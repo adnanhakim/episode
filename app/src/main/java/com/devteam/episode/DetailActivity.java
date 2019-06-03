@@ -194,7 +194,6 @@ public class DetailActivity extends AppCompatActivity {
         relativeLayout = findViewById(R.id.relativeMain);
         relativeDetails = findViewById(R.id.relativeDetails);
         view = findViewById(R.id.view1);
-        linearLayout = findViewById(R.id.linearDetails);
         relativeLayout.setVisibility(View.INVISIBLE);
 
         //Poster Corners

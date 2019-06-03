@@ -7,7 +7,9 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -43,6 +45,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+        // Loading animation
+        holder.ivPoster.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition));
+        holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale));
+
         final TVSeries tv = tvSeries.get(position);
 
         holder.tvTitle.setText(tv.getTitle());
@@ -101,10 +108,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
         public TextView tvTitle, tvOverview;
         public ImageView ivPoster;
+        public RelativeLayout container;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            container = itemView.findViewById(R.id.relativeMainContainer);
             tvTitle = itemView.findViewById(R.id.tvCardTitle);
             tvOverview = itemView.findViewById(R.id.tvCardOverview);
             ivPoster = itemView.findViewById(R.id.ivCardPoster);

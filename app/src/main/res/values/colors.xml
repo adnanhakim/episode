@@ -9,4 +9,7 @@
     <color name="colorLightGrey">#808080</color>
     <color name="colorGold">#AC7600</color>
     <color name="colorFavourite">#EE4957</color>
+    <color name="titleTextColor">#000000</color>
+    <color name="contextTextColor">#404040</color>
+    <color name="cardBgColor">#F6F6F6</color>
 </resources>

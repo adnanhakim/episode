@@ -1,6 +1,7 @@
 package com.devteam.episode;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
@@ -414,6 +415,7 @@ public class DetailActivity extends AppCompatActivity {
         if (!instagramId.equals(null)) {
             final String url = INSTAGRAM_URL + instagramId;
             tvInstagram.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(Intent.ACTION_VIEW);

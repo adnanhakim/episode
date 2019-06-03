@@ -58,7 +58,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             else if (home.getAirDate().equals("001"))
                 holder.airDate.setText("Tomorrow");
             else
-                holder.airDate.setText("in " + home.getAirDateInt() + " Days");
+                holder.airDate.setText("In " + home.getAirDateInt() + " Days");
         }
 
         if(home.getEpisodeEpisodeNo() < 10 && home.getEpisodeSeasonNo() >= 10)

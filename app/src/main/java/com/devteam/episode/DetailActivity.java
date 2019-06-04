@@ -66,7 +66,7 @@ public class DetailActivity extends AppCompatActivity {
     private View view;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private NestedScrollView nestedScrollView;
-    private Typeface keepcalm;
+    private Typeface rubik;
     private TextView tvNetworks, tvOverview, tvStatus, tvGenres, tvRuntime;
     private TextView tvImdb, tvFacebook, tvInstagram, tvTwitter;
     private ImageView ivPoster, ivBackdrop;
@@ -195,7 +195,7 @@ public class DetailActivity extends AppCompatActivity {
         relativeLayout.setVisibility(View.INVISIBLE);
 
         // Initialize typefaces
-        keepcalm = ResourcesCompat.getFont(this, R.font.keepcalm_font);
+        rubik = ResourcesCompat.getFont(this, R.font.rubik_regular);
 
         // Initialize Volley
         requestQueue = Volley.newRequestQueue(this);
@@ -205,8 +205,8 @@ public class DetailActivity extends AppCompatActivity {
 
     private void setUpCollapsingToolbar(String title) {
         collapsingToolbarLayout.setTitle(title);
-        collapsingToolbarLayout.setExpandedTitleTypeface(keepcalm);
-        collapsingToolbarLayout.setCollapsedTitleTypeface(keepcalm);
+        collapsingToolbarLayout.setExpandedTitleTypeface(rubik);
+        collapsingToolbarLayout.setCollapsedTitleTypeface(rubik);
         collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorWhite));
         collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorGold));
     }

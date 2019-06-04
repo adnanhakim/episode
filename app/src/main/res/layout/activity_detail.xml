@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="17dp"
-                android:fontFamily="@font/gravitybook"
+                android:fontFamily="@font/rubik"
                 android:text="Networks"
                 android:textColor="@color/colorBlack"
                 android:textSize="18dp"
@@ -86,33 +86,33 @@
                 android:src="@drawable/ic_not_favorite" />
 
             <RelativeLayout
-                android:padding="10dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:background="@drawable/card_bg"
                 android:id="@+id/relativeDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_below="@id/tvDetailsNetwork">
+                android:layout_below="@id/tvDetailsNetwork"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/card_bg"
+                android:padding="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
 
                 <TextView
-                    android:textColor="@color/contextTextColor"
                     android:id="@+id/tvDetailsOverview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:textSize="16dp"
+                    android:layout_marginBottom="10dp"
                     android:fontFamily="@font/roboto"
                     android:text="overview"
-                    android:layout_marginBottom="10dp"/>
+                    android:textColor="@color/contextTextColor"
+                    android:textSize="16dp" />
 
                 <TextView
-                    android:layout_marginStart="15dp"
-                    android:layout_below="@id/tvDetailsOverview"
                     android:id="@+id/tvDetailsStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/tvDetailsOverview"
+                    android:layout_marginStart="15dp"
                     android:drawableLeft="@drawable/ic_status"
                     android:drawablePadding="5dp"
                     android:fontFamily="@font/gravitybook"
@@ -141,10 +141,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvDetailsGenres"
+                    android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:drawableLeft="@drawable/ic_runtime"
                     android:drawablePadding="5dp"
-                    android:layout_marginStart="15dp"
                     android:fontFamily="@font/gravitybook"
                     android:gravity="center_vertical"
                     android:text="45 minutes"
@@ -153,16 +153,69 @@
 
             </RelativeLayout>
 
-            <TextView
-                android:layout_marginTop="20dp"
-                android:id="@+id/tvDetailsSeason"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/relativeRatings"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/relativeDetails"
-                android:fontFamily="@font/keepcalm"
+                android:layout_below="@+id/relativeDetails"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/card_bg"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="30dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/tvDetailsImdbRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:drawableLeft="@drawable/ic_star"
+                    android:fontFamily="@font/rubik"
+                    android:text="8.8"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/tvDetailsRottenTomatoes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/rubik"
+                    android:text="88%"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/tvDetailsMetacritic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/colorBlack"
+                    android:fontFamily="@font/rubik"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="88"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20dp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvDetailsSeason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeRatings"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/rubik"
+                android:gravity="center_horizontal"
                 android:text="Seasons"
                 android:textColor="@color/colorBlack"
-                android:textSize="18dp" />
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/seasonRecyclerView"
@@ -170,24 +223,19 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvDetailsSeason" />
 
-            <View
-                android:id="@+id/view4"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/seasonRecyclerView"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/colorGrey" />
-
             <TextView
                 android:id="@+id/tvDetailsCast"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/view4"
-                android:fontFamily="@font/keepcalm"
-                android:text="Cast"
+                android:layout_below="@id/seasonRecyclerView"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/rubik"
+                android:gravity="center_horizontal"
+                android:text="Starring"
                 android:textColor="@color/colorBlack"
-                android:textSize="18dp" />
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/castRecyclerView"
@@ -195,19 +243,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvDetailsCast" />
 
-            <View
-                android:id="@+id/view5"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/castRecyclerView"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorGrey" />
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/view5"
-                android:layout_marginTop="10dp"
+                android:layout_below="@id/castRecyclerView"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/card_bg"
                 android:paddingStart="20dp"
                 android:paddingTop="10dp"

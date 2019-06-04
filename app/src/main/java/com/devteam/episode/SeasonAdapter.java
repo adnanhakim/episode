@@ -45,8 +45,8 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.ViewHolder
         final Season season = seasons.get(position);
 
         holder.tvTitle.setText(season.getSeasonTitle());
-        holder.tvDate.setText("Air date: " + season.getSeasonDate());
-        holder.tvEpisodes.setText("No of episodes: " + season.getSeasonEpisodes());
+        holder.tvDate.setText("Aired on " + season.getSeasonDate());
+        holder.tvEpisodes.setText(String.valueOf(season.getSeasonEpisodes()) + " episodes");
 
         Glide.with(context).load(season.getSeasonImageURL()).apply(requestOptions).into(holder.ivPoster);
 

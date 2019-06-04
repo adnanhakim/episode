@@ -33,7 +33,8 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/roboto"
             android:text="Aired on: Date"
-            android:textSize="16dp" />
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvSeasonEpisodes"
@@ -43,7 +44,8 @@
             android:layout_marginLeft="10dp"
             android:fontFamily="@font/roboto"
             android:text="No of episodes: 13"
-            android:textSize="16dp" />
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

@@ -58,7 +58,7 @@ public class DetailActivity extends AppCompatActivity {
     private final String BASE_URL = "https://api.themoviedb.org/3/tv/";
     private final String REMAINING_URL = "?api_key=" + API_KEY + "&language=en-US";
     private final String IMAGE_URL = "https://image.tmdb.org/t/p/w500";
-    private JsonObjectRequest detailsRequest, castRequest, externalIdsRequest;
+    private JsonObjectRequest detailsRequest, castRequest, externalIdsRequest, ratingsRequest;
     private RequestQueue requestQueue;
 
     // UI Elements
@@ -69,6 +69,7 @@ public class DetailActivity extends AppCompatActivity {
     private Typeface rubik;
     private TextView tvNetworks, tvOverview, tvStatus, tvGenres, tvRuntime;
     private TextView tvImdb, tvFacebook, tvInstagram, tvTwitter;
+    private TextView tvImdbRating, tvMetascore;
     private ImageView ivPoster, ivBackdrop;
     private RecyclerView seasonRecycler, castRecycler;
     private SeasonAdapter seasonAdapter;
@@ -105,9 +106,13 @@ public class DetailActivity extends AppCompatActivity {
 
         seasonList = new ArrayList<>();
         castList = new ArrayList<>();
-        getDetails(seriesId);
-        getCast(seriesId);
-        getExternalIds(seriesId);
+
+        Thread detailsThread = new DetailsThread(seriesId);
+        Thread castThread = new CastThread(seriesId);
+        Thread externalIdThread = new ExternalIdThread(seriesId);
+        detailsThread.start();
+        externalIdThread.start();
+        castThread.start();
 
         if (isFavourited == true) {
             ibFavourites.setImageResource(R.drawable.ic_favorite);
@@ -115,7 +120,6 @@ public class DetailActivity extends AppCompatActivity {
             ibFavourites.setImageResource(R.drawable.ic_not_favorite);
         }
 
-        // For favourites
         ibFavourites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,6 +186,8 @@ public class DetailActivity extends AppCompatActivity {
         ibFavourites = findViewById(R.id.ibDetailsFavourite);
         tvStatus = findViewById(R.id.tvDetailsStatus);
         tvOverview = findViewById(R.id.tvDetailsOverview);
+        tvImdbRating = findViewById(R.id.tvDetailsImdbRating);
+        tvMetascore = findViewById(R.id.tvDetailsMetacritic);
         tvGenres = findViewById(R.id.tvDetailsGenres);
         tvRuntime = findViewById(R.id.tvDetailsRuntime);
         tvImdb = findViewById(R.id.tvDetailsImdb);
@@ -197,7 +203,7 @@ public class DetailActivity extends AppCompatActivity {
         // Initialize typefaces
         rubik = ResourcesCompat.getFont(this, R.font.rubik_regular);
 
-        // Initialize Volley
+        // Initialize Volley Request Queue
         requestQueue = Volley.newRequestQueue(this);
 
         relativeDetails.setFocusable(false);
@@ -211,138 +217,153 @@ public class DetailActivity extends AppCompatActivity {
         collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorGold));
     }
 
-    // UI Variables
-    private String backdropURL, posterURL, networks = "", overview, status, genres = "", runtime;
-    int tvId;
+    private String backdropURL, posterURL;
 
-    private void getDetails(final int seriesId) {
-        tvId = seriesId;
-        String URL = BASE_URL + seriesId + REMAINING_URL;
-        Log.d(TAG, "getDetails: Requesting details for URL: " + URL);
-        detailsRequest = new JsonObjectRequest(URL, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    Log.d(TAG, "onResponse: Details found");
-                    backdropURL = IMAGE_URL + response.getString("backdrop_path");
-                    posterURL = IMAGE_URL + response.getString("poster_path");
-                    overview = response.getString("overview");
-                    status = response.getString("status");
+    class DetailsThread extends Thread {
 
-                    // To get runtime
-                    JSONArray runtimeArray = response.getJSONArray("episode_run_time");
-                    runtime = runtimeArray.get(0) + " minutes";
+        String networks = "", overview, status, genres = "", runtime;
+        int seriesId;
 
-                    // To get networks
-                    JSONArray networkArray = response.getJSONArray("networks");
-                    for (int i = 0; i < networkArray.length(); i++) {
-                        JSONObject networkObject = networkArray.getJSONObject(i);
-                        if (i == 0) {
-                            networks = networks + networkObject.getString("name");
-                        } else {
-                            networks = networks + ", " + networkObject.getString("name");
+        DetailsThread(int seriesId) {
+            this.seriesId = seriesId;
+        }
+
+        public void run() {
+            String URL = BASE_URL + seriesId + REMAINING_URL;
+            Log.d(TAG, "getDetails: Requesting details...");
+            detailsRequest = new JsonObjectRequest(URL, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        Log.d(TAG, "onResponse: Details found");
+                        backdropURL = IMAGE_URL + response.getString("backdrop_path");
+                        posterURL = IMAGE_URL + response.getString("poster_path");
+                        overview = response.getString("overview");
+                        status = response.getString("status");
+
+                        // To get runtime
+                        JSONArray runtimeArray = response.getJSONArray("episode_run_time");
+                        runtime = runtimeArray.get(0) + " minutes";
+
+                        // To get networks
+                        JSONArray networkArray = response.getJSONArray("networks");
+                        for (int i = 0; i < networkArray.length(); i++) {
+                            JSONObject networkObject = networkArray.getJSONObject(i);
+                            if (i == 0) {
+                                networks = networks + networkObject.getString("name");
+                            } else {
+                                networks = networks + ", " + networkObject.getString("name");
+                            }
                         }
-                    }
 
-                    // To get genres
-                    JSONArray genreArray = response.getJSONArray("genres");
-                    for (int i = 0; i < genreArray.length(); i++) {
-                        JSONObject genreObject = genreArray.getJSONObject(i);
-                        if (i == 0) {
-                            genres = genres + genreObject.getString("name");
-                        } else {
-                            genres = genres + ", " + genreObject.getString("name");
+                        // To get genres
+                        JSONArray genreArray = response.getJSONArray("genres");
+                        for (int i = 0; i < genreArray.length(); i++) {
+                            JSONObject genreObject = genreArray.getJSONObject(i);
+                            if (i == 0) {
+                                genres = genres + genreObject.getString("name");
+                            } else {
+                                genres = genres + ", " + genreObject.getString("name");
+                            }
                         }
-                    }
 
-                    // To get season details
-                    JSONArray seasons = response.getJSONArray("seasons");
-                    for (int i = 0; i < seasons.length(); i++) {
-                        JSONObject object = seasons.getJSONObject(i);
-                        int id = object.getInt("id");
-                        int episodes = object.getInt("episode_count");
-                        String title = object.getString("name");
-                        String date = object.getString("air_date");
-                        String imageURL = IMAGE_URL + object.getString("poster_path");
-                        int seasonNo = object.getInt("season_number");
-                        Season season = new Season(tvId, id, episodes, title, formatDate(date), imageURL, seasonNo);
-                        seasonList.add(season);
-                    }
+                        // To get season details
+                        JSONArray seasons = response.getJSONArray("seasons");
+                        for (int i = 0; i < seasons.length(); i++) {
+                            JSONObject object = seasons.getJSONObject(i);
+                            int id = object.getInt("id");
+                            int episodes = object.getInt("episode_count");
+                            String title = object.getString("name");
+                            String date = object.getString("air_date");
+                            String imageURL = IMAGE_URL + object.getString("poster_path");
+                            int seasonNo = object.getInt("season_number");
+                            Season season = new Season(seriesId, id, episodes, title, formatDate(date), imageURL, seasonNo);
+                            seasonList.add(season);
+                        }
 
-                } catch (JSONException e) {
-                    Log.e(TAG, "onResponse: Exception: " + e.getMessage());
+                    } catch (JSONException e) {
+                        Log.e(TAG, "onResponse: Exception: " + e.getMessage());
+                    }
+                    fillDetails();
+                    setUpSeasonRecyclerView();
                 }
-                fillDetails();
-                setUpSeasonRecyclerView();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "onErrorResponse: Error: " + error.toString());
-            }
-        });
-
-        requestQueue.add(detailsRequest);
-    }
-
-    private void setUpSeasonRecyclerView() {
-        Log.d(TAG, "setUpSeasonRecyclerView: There are " + seasonList.size() + " seasons");
-        seasonAdapter = new SeasonAdapter(seasonList, DetailActivity.this);
-        seasonRecycler.setAdapter(seasonAdapter);
-        seasonRecycler.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-    private void fillDetails() {
-        tvNetworks.setText(networks);
-        tvOverview.setText(overview);
-        tvStatus.setText(status);
-        tvGenres.setText(genres);
-        tvRuntime.setText(runtime);
-
-        RequestOptions option = new RequestOptions().centerCrop();
-        Glide.with(DetailActivity.this).load(backdropURL).apply(option).into(ivBackdrop);
-
-        relativeLayout.setVisibility(View.VISIBLE);
-    }
-
-    private void getCast(int seriesId) {
-        tvId = seriesId;
-        String url = "https://api.themoviedb.org/3/tv/" + seriesId + "/credits?api_key=" + API_KEY + "&language=en-US";
-        Log.d(TAG, "getCast: Requesting cast details...");
-        castRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    Log.d(TAG, "onResponse: Got cast");
-                    JSONArray castArray = response.getJSONArray("cast");
-                    for (int i = 0; i < castArray.length(); i++) {
-                        JSONObject castObject = castArray.getJSONObject(i);
-                        String name = castObject.getString("name");
-                        String character = castObject.getString("character");
-                        String imageURL = IMAGE_URL + castObject.getString("profile_path");
-                        Cast cast = new Cast(name, character, imageURL);
-                        castList.add(cast);
-                    }
-                } catch (JSONException e) {
-                    Log.e(TAG, "onResponse: JSONException: " + e.getMessage());
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d(TAG, "onErrorResponse: Error: " + error.toString());
                 }
-                setUpCastRecyclerView();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "onErrorResponse: Cast not received: " + error.toString());
-            }
-        });
-        requestQueue.add(castRequest);
+            });
+
+            requestQueue.add(detailsRequest);
+        }
+
+        private void fillDetails() {
+            tvNetworks.setText(networks);
+            tvOverview.setText(overview);
+            tvStatus.setText(status);
+            tvGenres.setText(genres);
+            tvRuntime.setText(runtime);
+
+            RequestOptions option = new RequestOptions().centerCrop();
+            Glide.with(DetailActivity.this).load(backdropURL).apply(option).into(ivBackdrop);
+
+            relativeLayout.setVisibility(View.VISIBLE);
+        }
+
+        private void setUpSeasonRecyclerView() {
+            Log.d(TAG, "setUpSeasonRecyclerView: There are " + seasonList.size() + " seasons");
+            seasonAdapter = new SeasonAdapter(seasonList, DetailActivity.this);
+            seasonRecycler.setAdapter(seasonAdapter);
+            seasonRecycler.setLayoutManager(new LinearLayoutManager(DetailActivity.this));
+        }
     }
 
-    private void setUpCastRecyclerView() {
-        Log.d(TAG, "setUpCastRecyclerView: There are " + castList.size() + " casts");
-        castAdapter = new CastAdapter(castList, DetailActivity.this);
-        castRecycler.setAdapter(castAdapter);
-        castRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-        castRecycler.setHasFixedSize(true);
+    class CastThread extends Thread {
+
+        int seriesId;
+
+        CastThread(int seriesId) {
+            this.seriesId = seriesId;
+        }
+
+        public void run() {
+            String url = "https://api.themoviedb.org/3/tv/" + seriesId + "/credits?api_key=" + API_KEY + "&language=en-US";
+            Log.d(TAG, "getCast: Requesting cast details...");
+            castRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        Log.d(TAG, "onResponse: Got cast");
+                        JSONArray castArray = response.getJSONArray("cast");
+                        for (int i = 0; i < castArray.length(); i++) {
+                            JSONObject castObject = castArray.getJSONObject(i);
+                            String name = castObject.getString("name");
+                            String character = castObject.getString("character");
+                            String imageURL = IMAGE_URL + castObject.getString("profile_path");
+                            Cast cast = new Cast(name, character, imageURL);
+                            castList.add(cast);
+                        }
+                    } catch (JSONException e) {
+                        Log.e(TAG, "onResponse: JSONException: " + e.getMessage());
+                    }
+                    setUpCastRecyclerView();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e(TAG, "onErrorResponse: Cast not received: " + error.toString());
+                }
+            });
+            requestQueue.add(castRequest);
+        }
+
+        private void setUpCastRecyclerView() {
+            Log.d(TAG, "setUpCastRecyclerView: There are " + castList.size() + " casts");
+            castAdapter = new CastAdapter(castList, DetailActivity.this);
+            castRecycler.setAdapter(castAdapter);
+            castRecycler.setLayoutManager(new LinearLayoutManager(DetailActivity.this, RecyclerView.HORIZONTAL, false));
+            castRecycler.setHasFixedSize(true);
+        }
     }
 
     // External ids
@@ -352,96 +373,109 @@ public class DetailActivity extends AppCompatActivity {
     String INSTAGRAM_URL = "https://www.instagram.com/";
     String TWITTER_URL = "https://twitter.com/";
 
-    private void getExternalIds(int seriesId) {
-        Log.d(TAG, "getExternalIds: Requesting external ids...");
-        String url = BASE_URL + seriesId + "/external_ids" + REMAINING_URL;
-        externalIdsRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    Log.d(TAG, "onResponse: Got external ids");
-                    imdbId = response.getString("imdb_id");
-                    facebookId = response.getString("facebook_id");
-                    instagramId = response.getString("instagram_id");
-                    twitterId = response.getString("twitter_id");
-                } catch (JSONException e) {
-                    e.printStackTrace();
+    class ExternalIdThread extends Thread {
+
+        int seriesId;
+
+        public ExternalIdThread(int seriesId) {
+            this.seriesId = seriesId;
+        }
+
+        public void run() {
+            Log.d(TAG, "getExternalIds: Requesting external ids...");
+            String url = BASE_URL + seriesId + "/external_ids" + REMAINING_URL;
+            externalIdsRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        Log.d(TAG, "onResponse: Got external ids");
+                        imdbId = response.getString("imdb_id");
+                        facebookId = response.getString("facebook_id");
+                        instagramId = response.getString("instagram_id");
+                        twitterId = response.getString("twitter_id");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    setExternalIds();
                 }
-                setExternalIds();
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e(TAG, "onErrorResponse: Error: " + error.toString());
+                }
+            });
+            requestQueue.add(externalIdsRequest);
+        }
+
+        private void setExternalIds() {
+            // IMDb
+            if (!imdbId.equals(null)) {
+                // Get Ratings
+                Thread getRatings = new RatingsThread(imdbId);
+                getRatings.start();
+                final String url = IMDB_URL + imdbId;
+                tvImdb.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
+                });
+            } else {
+                tvImdb.setVisibility(View.GONE);
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "onErrorResponse: Error: " + error.toString());
+
+            // Facebook
+            if (!facebookId.equals(null)) {
+                final String url = checkForFacebookUrl(DetailActivity.this) + facebookId;
+                tvFacebook.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
+                });
+            } else {
+                tvFacebook.setVisibility(View.GONE);
             }
-        });
-        requestQueue.add(externalIdsRequest);
-    }
 
-    private void setExternalIds() {
-        // IMDb
-        if (!imdbId.equals(null)) {
-            final String url = IMDB_URL + imdbId;
-            tvImdb.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    startActivity(i);
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                }
-            });
-        } else {
-            tvImdb.setVisibility(View.GONE);
-        }
+            // Instagram
+            if (!instagramId.equals(null)) {
+                final String url = INSTAGRAM_URL + instagramId;
+                tvInstagram.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
+                });
+            } else {
+                Log.d(TAG, "setExternalIds: Entered here");
+                tvInstagram.setVisibility(View.GONE);
+            }
 
-        // Facebook
-        if (!facebookId.equals(null)) {
-            final String url = checkForFacebookUrl(this) + facebookId;
-            tvFacebook.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    startActivity(i);
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                }
-            });
-        } else {
-            tvFacebook.setVisibility(View.GONE);
-        }
-
-        // Instagram
-        if (!instagramId.equals(null)) {
-            final String url = INSTAGRAM_URL + instagramId;
-            tvInstagram.setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    startActivity(i);
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                }
-            });
-        } else {
-            tvInstagram.setVisibility(View.GONE);
-        }
-
-        // Twitter
-        if (!twitterId.equals(null)) {
-            final String url = TWITTER_URL + twitterId;
-            tvTwitter.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    startActivity(i);
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                }
-            });
-        } else {
-            tvTwitter.setVisibility(View.GONE);
+            // Twitter
+            if (!twitterId.equals(null)) {
+                final String url = TWITTER_URL + twitterId;
+                tvTwitter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
+                });
+            } else {
+                tvTwitter.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -469,16 +503,56 @@ public class DetailActivity extends AppCompatActivity {
             boolean activated = packageManager.getApplicationInfo("com.facebook.katana", 0).enabled;
 
             if (activated) {
-                if(versionCode >= 3002850)
+                if (versionCode >= 3002850)
                     return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
                 else
                     return "fb://page/";
-            }
-            else
+            } else
                 return FACEBOOK_URL;
 
         } catch (PackageManager.NameNotFoundException e) {
             return FACEBOOK_URL;
+        }
+    }
+
+    // Ratings Thread
+    class RatingsThread extends Thread {
+
+        String imdbId;
+        String url = "http://www.omdbapi.com/?i={}&apikey=f080a952";
+
+        RatingsThread(String imdbId) {
+            this.imdbId = imdbId;
+            this.url = this.url.replace("{}", imdbId);
+        }
+
+        public void run() {
+            Log.d(TAG, "run: Getting ratings from omdb...");
+            ratingsRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Log.d(TAG, "onResponse: Got ratings");
+                    try {
+                        String imdbRating = response.getString("imdbRating");
+                        String imdbVotes = response.getString("imdbVotes");
+                        String Metascore = response.getString("Metascore");
+                        setRatings(imdbRating, imdbVotes, Metascore);
+                    } catch (JSONException e) {
+                        Log.d(TAG, "onResponse: Exception: " + e.getMessage());
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d(TAG, "onErrorResponse: Error in getting ratings: " + error.getMessage());
+                }
+            });
+            requestQueue.add(ratingsRequest);
+        }
+
+        public void setRatings(String imdbRating, String imdbVotes, String Metascore) {
+            tvImdbRating.setText(imdbRating);
+            tvMetascore.setText(Metascore);
         }
     }
 

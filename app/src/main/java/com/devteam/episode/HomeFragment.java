@@ -98,7 +98,10 @@ public class HomeFragment extends Fragment {
         tvHomeNoFavs = view.findViewById(R.id.tvHomeNoFavourite);
 
         // To set visibility at startup
-        tvHomeNoFavs.setVisibility(View.VISIBLE);
+        if(SplashScreenActivity.favouritesList.size() == 0)
+            tvHomeNoFavs.setVisibility(View.VISIBLE);
+        else
+            tvHomeNoFavs.setVisibility(View.INVISIBLE);
     }
 
     private void getJSONRequest() {
@@ -182,7 +185,6 @@ public class HomeFragment extends Fragment {
                         Log.e(TAG, "onResponse: Exception: " + e.getMessage());
                     }
                     setUpLastRecyclerView();
-                    //setUpNextRecyclerView();
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -193,6 +195,7 @@ public class HomeFragment extends Fragment {
             requestQueue.add(homeRequest);
         }
     }
+
 
     private void setUpLastRecyclerView() {
         Log.d(TAG, "setUpLastRecyclerView: There are " + lastHomeList.size() + " seasons");
@@ -231,16 +234,11 @@ public class HomeFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             tvNextEpisode.setFocusable(true);
         }
+        Log.d(TAG, "setUpNextRecyclerView: " + nextHomeList.size() + " " + lastHomeList.size());
         if (nextHomeList.size() != 0) {
             homeNextRelative.setVisibility(View.VISIBLE);
-            tvHomeNoFavs.setVisibility(View.INVISIBLE);
         } else {
             homeNextRelative.setVisibility(View.GONE);
-            if (lastHomeList.size() == 0) {
-                tvHomeNoFavs.setVisibility(View.VISIBLE);
-            } else {
-                tvHomeNoFavs.setVisibility(View.INVISIBLE);
-            }
         }
         homeNextRelative.requestFocus();
     }

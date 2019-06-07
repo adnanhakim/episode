@@ -12,10 +12,13 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -56,6 +59,10 @@ public class RegisterActivity extends AppCompatActivity {
     private RelativeLayout relativeLogin, relativeRegister;
     private TextInputLayout tilLoginEmail, tilLoginPassword, tilRegisterName, tilRegisterEmail, tilRegisterPassword;
     private Button btnLogin, btnRegister, btnLoginInstead, btnRegisterInstead;
+    private ImageView ivDisplayPic;
+
+    public static String profilePicUrl = "https://firebasestorage.googleapis.com/v0/b/episode-f826b.appspot.com/o/ProfileDp%2Fdp_compass.png?alt=media&token=61064a9c-35d1-440d-a8b5-6468bcee68c7";
+    private RequestOptions requestOptions;
 
     // Google Sign In
     private SignInButton googleSignIn;
@@ -191,6 +198,15 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        // <----------------- Profile Picture Selector --------------------->
+        requestOptions = new RequestOptions().centerCrop();
+        imageRefresh();
+        ivDisplayPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this, ProfileSelectorActivity.class));
+            }
+        });
 
         // <----------------- Google Sign In --------------------->
         mAuth = FirebaseAuth.getInstance();
@@ -231,6 +247,7 @@ public class RegisterActivity extends AppCompatActivity {
         tilRegisterPassword = findViewById(R.id.tilRegisterPassword);
         btnRegister = findViewById(R.id.btnRegister);
         btnLoginInstead = findViewById(R.id.btnLoginInstead);
+        ivDisplayPic = findViewById(R.id.ivRegisterDp);
 
         // Google Sign-in
         googleSignIn = findViewById(R.id.btnGoogleSignIn);
@@ -329,7 +346,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void saveName(String name, String uid) {
-        User user = new User(name, null, false);
+        User user = new User(name, profilePicUrl, false);
         databaseReference.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -340,6 +357,16 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void imageRefresh() {
+        Glide.with(RegisterActivity.this).load(profilePicUrl).apply(requestOptions).into(ivDisplayPic);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        imageRefresh();
     }
 
     // <---------- Google Sign In -------------->

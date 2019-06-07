@@ -1,5 +1,6 @@
 package com.devteam.episode;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,10 +37,19 @@ public class ProfileDpAdapter extends RecyclerView.Adapter<ProfileDpAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         // Bind image here
         Log.d("Adapter: ", "onBindViewHolder: " + profileDpList.get(position).getImageUrl());
         Glide.with(context).load(profileDpList.get(position).getImageUrl()).apply(requestOptions).into(holder.ivProfileDp);
+
+        holder.ivProfileDp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Rewrite global profile dp variable
+                RegisterActivity.profilePicUrl = profileDpList.get(position).getImageUrl();
+                ((Activity)context).finish();
+            }
+        });
     }
 
     @Override

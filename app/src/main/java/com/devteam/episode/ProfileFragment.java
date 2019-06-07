@@ -82,7 +82,9 @@ public class ProfileFragment extends Fragment {
 
         googleSignInAccount = GoogleSignIn.getLastSignedInAccount(getActivity());
         if (googleSignInAccount != null) {
-            Glide.with(getContext()).load(googleSignInAccount.getPhotoUrl()).apply(requestOptions).into(ivProfileDp);
+            //Glide.with(getContext()).load(googleSignInAccount.getPhotoUrl()).apply(requestOptions).into(ivProfileDp);
+            //Glide.with(getContext()).load("https://firebasestorage.googleapis.com/v0/b/episode-f826b.appspot.com/o/ProfileDp%2Fdp_card.png?alt=media&token=8111276b-31a0-4c5f-8b4e-5118411a9543").apply(requestOptions).into(ivProfileDp);
+            //Glide.with(getContext()).load(user.getImageURL()).apply(requestOptions).into(ivProfileDp);
         }
 
         // To make the image view circular
@@ -152,6 +154,7 @@ public class ProfileFragment extends Fragment {
                 user = dataSnapshot.getValue(User.class);
                 tvProfileName.setText(user.getName());
                 tvProfileEmail.setText(email);
+                Glide.with(getContext()).load(user.getImageURL()).apply(requestOptions).into(ivProfileDp);
                 Log.d(TAG, "onDataChange: User image url: " + user.getImageURL());
                 tvProfileName.setVisibility(View.VISIBLE);
                 tvProfileEmail.setVisibility(View.VISIBLE);

@@ -54,7 +54,7 @@ import java.util.List;
 public class DetailActivity extends AppCompatActivity {
 
     // URL
-    public static final String API_KEY = "7f1c5b6bcdc0417095c1df13c485f647";
+    public static final String API_KEY = BuildConfig.API_KEY;
     private final String BASE_URL = "https://api.themoviedb.org/3/tv/";
     private final String REMAINING_URL = "?api_key=" + API_KEY + "&language=en-US";
     private final String IMAGE_URL = "https://image.tmdb.org/t/p/w500";

@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     // URL
-    public static final String API_KEY = "7f1c5b6bcdc0417095c1df13c485f647";
+    public static final String API_KEY = BuildConfig.API_KEY;
 
     // UI Elements
     public static BottomNavigationView bottomNavigationView;

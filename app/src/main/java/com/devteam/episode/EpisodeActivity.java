@@ -36,7 +36,7 @@ public class EpisodeActivity extends AppCompatActivity {
 
     //https://api.themoviedb.org/3/tv/69050/season/1?api_key=7f1c5b6bcdc0417095c1df13c485f647&language=en-US
     private final String BASE_URL = "https://api.themoviedb.org/3/tv/";
-    private final String REMAINING_URL = "?api_key=7f1c5b6bcdc0417095c1df13c485f647&language=en-US";
+    private final String REMAINING_URL = "?api_key=" + BuildConfig.API_KEY + "&language=en-US";
     private final String IMAGE_URL = "https://image.tmdb.org/t/p/w500";
     private String seasonTitle, URL;
     private int tvId, seasonNo, episodeNo;

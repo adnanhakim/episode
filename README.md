@@ -13,6 +13,8 @@ The users can be registered via Google Sign-in which provides them a home showca
 1. Google Sign-in enabled
 1. Data provided by [TMDb](https://www.themoviedb.org)
 
+**TMDB Api Key required and add it to variable `API_KEY`**
+
 ## Developers
 
 > Adnan Hakim
@@ -21,7 +23,7 @@ The users can be registered via Google Sign-in which provides them a home showca
 > Arsh Shaikh
 > [github.com/arshshaikh06](https://github.com/arshshaikh06)
 
-## License
+## MIT LICENSE
 
 > Copyright (c) 2018 Adnan Hakim
 >

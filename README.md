@@ -13,7 +13,9 @@ The users can be registered via Google Sign-in which provides them a home showca
 1. Google Sign-in enabled
 1. Data provided by [TMDb](https://www.themoviedb.org)
 
-**TMDB Api Key required and add it to variable `API_KEY`**
+## Build
+
+- TMDb Api Key required and add it to variable `API_KEY` in `MainActivity.java`, `HomeFragment.java`, `TrendingFragment.java`, `DetailActivity.java` and `EpisodeActivity.java`
 
 ## Developers
 
@@ -25,7 +27,7 @@ The users can be registered via Google Sign-in which provides them a home showca
 
 ## MIT LICENSE
 
-> Copyright (c) 2018 Adnan Hakim
+> Copyright (c) 2019 Adnan Hakim
 >
 > Permission is hereby granted, free of charge, to any person obtaining a copy
 > of this software and associated documentation files (the "Software"), to deal

@@ -36,9 +36,8 @@ import androidx.recyclerview.widget.RecyclerView;
 public class HomeFragment extends Fragment {
 
     // URL
-    //private String URL = "https://api.themoviedb.org/3/trending/tv/day?api_key=7f1c5b6bcdc0417095c1df13c485f647";
     private final String BASE_URL = "https://api.themoviedb.org/3/tv/";
-    private final String REMAINING_URL = "?api_key=7f1c5b6bcdc0417095c1df13c485f647&language=en-US";
+    private final String REMAINING_URL = "?api_key=" + BuildConfig.API_KEY + "&language=en-US";
     private final String IMAGE_URL = "https://image.tmdb.org/t/p/w500";
     private JsonObjectRequest homeRequest;
     private RequestQueue requestQueue;

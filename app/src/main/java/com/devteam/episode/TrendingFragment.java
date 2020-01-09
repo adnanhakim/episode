@@ -42,7 +42,7 @@ import static android.graphics.Color.parseColor;
 public class TrendingFragment extends Fragment {
 
     // URL
-    private String URL = "https://api.themoviedb.org/3/trending/tv/day?api_key=7f1c5b6bcdc0417095c1df13c485f647";
+    private String URL = "https://api.themoviedb.org/3/trending/tv/day?api_key=" + BuildConfig.API_KEY;
     private final String IMAGE_URL = "https://image.tmdb.org/t/p/w500";
     private JsonObjectRequest request, searchRequest;
     private RequestQueue requestQueue;
@@ -242,12 +242,9 @@ public class TrendingFragment extends Fragment {
 
     private void searchShow(String newText) {
         // Search query
-        // https://api.themoviedb.org/3/search/tv?api_key=7f1c5b6bcdc0417095c1df13c485f647&language=en-US&query=The%20flash&page=1
-        // Base url + /search/movie?api_key= + api key + &query= + query + &page=1
-        // Every space must be replaced by %20
         searchItems = new ArrayList<>();
         String query = newText.replace(" ", "%20");
-        String url = "https://api.themoviedb.org/3/search/tv?api_key=7f1c5b6bcdc0417095c1df13c485f647&language=en-US&query="
+        String url = "https://api.themoviedb.org/3/search/tv?api_key="+ BuildConfig.API_KEY +"&language=en-US&query="
                 + query + "&page=1";
 
         searchRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
